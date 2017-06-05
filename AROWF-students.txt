@@ -1,0 +1,137 @@
+:: StoryTitle
+AROWF 3
+
+:: UserScript[script]
+
+
+:: UserStylesheet[stylesheet]
+
+
+:: Start
+**You visit https://tools.wmflabs.org/arowf/answer to check on some
+article to review.
+This is what you see,**
+   
+<div class="container">
+    
+  <form autocomplete="off" action="/arowf/answer" method=post>
+  
+ 
+      <h4 clear=all>Question:</h4 clear=all>
+      The article <a target="_blank" href="https://en.wikipedia.org/wiki/Social_behavior">Social behavior</a> was edited by a student editor.</br>The diff corresponding to the edit is displayed below. Has it been correctly edited?<br/><a target="_blank" style="float:right;" href="https://en.wikipedia.org/w/index.php?diff=prev&pageid=1967733&oldid=688983120">https://en.wikipedia.org/w/index.php?diff=prev&pageid=1967733&oldid=688983120</a><iframe src="https://en.wikipedia.org/w/index.php?diff=prev&pageid=1967733&oldid=688983120" style="height: 40%; width: 100%">[Can not display <a target="_blank" href="https://en.wikipedia.org/w/index.php?diff=prev&pageid=1967733&oldid=688983120">https://en.wikipedia.org/w/index.php?diff=prev&pageid=1967733&oldid=688983120</a> inline as an iframe here.]</iframe>
+  <!--     <h4 clear=all>Your answer:</h4 clear=all>
+      <textarea name=answer style="width: 80%; height: 15%;" required></textarea>
+      <br/>
+      <h4 clear=all>Optionally add a pertinent web page:</h4 clear=all>
+      <input id=iframeurl type=text name=iframeurl placeholder="Optional URL"
+             style="width: 70%;" />
+      <input type=button value=Preview onclick="LoadIframe(); return False;" />
+      <button type=submit name=response value=a>Answer</button>
+      <input type=hidden name=record value=000000183 />
+  
+  </form>
+ <iframe id=iframeobj name=iframeobj 
+          style="display: none; height: 40%; width: 100%;"></iframe>
+-->
+  </div>
+
+
+[[**Find another source on "Social Behaviours" to verify all the changes that were made.** ->Step 1]]
+
+[[ **Delete all the changes the student made.** ->End1]]
+
+[[ **Try to contact the student and verify the changes.** ->End0]]
+
+
+
+:: Step 1
+When looking for an appropriate source of information, what will you do?
+
+[[**Use my memory to verify the changes that the student made.** ->End2]]
+
+[[**Use a physical text book to verify the information.** ->End3]]
+
+[[**Find an online  encyclopedia source on this topic.** ->Step 2]]
+
+:: End0
+This would not be very reliable and a better approach can be taken.
+
+[[**Go Back.** ->Start]]
+
+:: End1
+It would be more fruitful to first check whether the changes made were correct. 
+
+[[**Go back.** ->Start]]
+
+
+:: Step 2
+What would be an appropriate source of information online for you?
+
+[[**A research paper or journal on the topic.** ->Step 3]]
+
+[[**An online forum like reddit.** ->End4]]
+
+[[**Utilize the same source as the student to verify the information.** ->End5]]
+
+:: End2
+Always have a citeable source so which can be verified by others.
+
+[[**Go back.** ->Step 1]]
+
+
+:: End3
+An online source would be better as it can be more easily verified by others.
+
+[[**Go back.** ->Step 1]]
+
+:: End4
+This forum could be highly opinionated and can not be relied upon.
+
+[[**Go back.** ->Step 2]] 
+
+:: End5
+This source will give the same information as before. Its best to find another source to verify it.
+
+[[**Go back.** ->Step 2]]
+
+:: Step 3
+If the information in the source you have used doesn't match the changes made by the student, what will you do?
+
+[[**Find another source online.** ->Step 4]]
+
+[[**Trust the source originally used.** ->End6]]
+
+[[**Trust the source that you found.** ->End7]]
+
+
+:: End6
+Since you have 2 conflicting sources of information it would be best to find more to verify which is the correct one.
+
+[[**Go back.** ->Step 3]] 
+
+:: Step 4
+Once you have found a third source which matches the information provided by either the student's source or the one you have found first, what will you do?
+
+[[**Cite the sources used and either verify or add new changes to the article.** ->Step 5]]
+
+[[**Cite the sources and let the next person add the changes.** ->End8]]
+
+[[**Make the necessary changes and leave everything else.** ->End9]]
+
+:: End7
+While this information could be correct, it would be better to find another source to collaborate the information.
+
+[[**Go back.** ->Step 3]] 
+
+:: Step 5
+You have successfully added your answer and cited your sources! Now someone else will verify what you have done. If the person agrees with you then an editor will look into the changes proposed.
+
+:: End8
+You need to add your answer so that someone else can verify what your opinion on the correct answer.
+
+[[**Go back** ->Step 4]] 
+
+:: End9
+Its always best to cite the sources used so that someone else can verify what you've edited more easily.
+
+[[**Go back.** ->Step 4]]
