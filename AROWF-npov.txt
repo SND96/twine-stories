@@ -1,0 +1,122 @@
+:: StoryTitle
+AROWF 4
+
+:: UserScript[script]
+
+
+:: UserStylesheet[stylesheet]
+
+
+:: Start
+**You visit https://tools.wmflabs.org/arowf/answer to check on some
+article to review.
+This is what you see,**
+
+
+<div class="container">
+    
+  <form autocomplete="off" action="/arowf/answer" method=post>
+  
+ <!--   <h3 clear=all>Please answer this question.</h3 clear=all>
+    <p><a href="http://mediawiki.org/wiki/Accuracy_review/docs/answer" target="_blank">Help doc</a> -->
+      <h4 clear=all>Question:</h4 clear=all>
+      The article <a target="_blank" href="https://en.wikipedia.org/wiki/Andrew_Bolt">Andrew Bolt</a> is in <a target="_blank" href = "https://en.wikipedia.org/wiki/Category:All_NPOV_disputes">Category:All_NPOV_disputes</a>. How would you resolve it?<br/><a target="_blank" style="float:right;" href="https://en.wikipedia.org/wiki/Andrew_Bolt">https://en.wikipedia.org/wiki/Andrew_Bolt</a><iframe src="https://en.wikipedia.org/wiki/Andrew_Bolt" style="height: 40%; width: 100%;">[Can not display <a target="_blank" href="https://en.wikipedia.org/wiki/Andrew_Bolt">https://en.wikipedia.org/wiki/Andrew_Bolt</a> inline as an iframe here.]</iframe>
+      <h4 clear=all>Your answer:</h4 clear=all>
+    <!--  <textarea name=answer style="width: 80%; height: 15%;" required></textarea>
+      <br/>
+      <h4 clear=all>Optionally add a pertinent web page:</h4 clear=all>
+      <input id=iframeurl type=text name=iframeurl placeholder="Optional URL"
+             style="width: 70%;" />
+      <input type=button value=Preview onclick="LoadIframe(); return False;" />
+      <button type=submit name=response value=a>Answer</button>
+      <input type=hidden name=record value=000000337 />
+  
+  </form>
+  <iframe id=iframeobj name=iframeobj 
+          style="display: none; height: 40%; width: 100%;"></iframe>
+-->
+  </div>
+
+
+[[**Just identify the part that is highly opinionated. ** ->Step 1]]
+
+[[ **Directly delete the parts which seem highly opinionated.** ->End0]]
+
+[[ **Leave it as it is because it seems to be a correct opinion.** ->End1]]
+
+
+
+
+
+:: End1
+You can probably do better than that!
+
+[[**Go back** ->Start]]
+
+:: Step 1
+After you identify the part which violates Wikipedia's Neutral Point of View policy, what will you do?
+
+[[ **Add my own opinion to the article.** ->End 2]]
+
+[[ **Rewrite the part from a neutral point of view using my memory as reference.**->End 3]]
+
+[[ **Find a reliable online source about the article. **->Step 2]]
+
+:: End 2
+Including an opinion violates Wikipedia's policies which is what the article is doing right now!
+
+[[**Go back **->Step 1]] 
+
+:: End 3
+You should always add sources when possible! Memory isn't the best thing to rely on.
+
+[[**Go back **->Step 1]] 
+
+:: Step 2
+What would be reliable sources for you?
+
+[[**My parents are never wrong! **->End 4]]
+
+[[**My friends on Facebook are the most reliable.** ->End 5]]
+
+[[**Online articles and pages would be perfect.** ->Step 3]]
+
+
+:: End 4
+Your sources should always be verifiable by someone else. Your parents don't count!
+
+[[**Go back** ->Step 2]] 
+
+:: End 5
+Wikipedia articles should always be reliable, published sources. Facebook is not the way.
+
+[[**Go back** ->Step 2]] 
+
+:: Step 3
+Once you've found the information, how would you answer the question trying to resolve the Neutral Point of View dispute?
+
+[[**Delete the part which can't be resolved.** ->End 6]]
+
+[[**Rewrite the article making at as neutral as possible.** ->Step 4]]
+
+[[**Just cite the sources and let someone else edit the article.** ->End 7]]
+
+
+
+:: End 7
+You need to add your answer so that someone else can verify what your opinion on the correct answer.
+
+[[**Go back** ->Step 3]] 
+
+:: End 6
+If the dispute can't be resolved, its always best to cite the sources used as well!
+
+[[**Go back** ->Step 3]]
+
+:: Step 4
+You have successfully added your answer and cited your sources! Now someone else will verify what you have done. If the person agrees with you then an editor will look into the changes proposed.
+
+:: End0
+It would be better to rewrite the part so that it is more accurate for future readers.
+
+[[**Go back.** ->Start]] 
