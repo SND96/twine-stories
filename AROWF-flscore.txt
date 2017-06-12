@@ -1,0 +1,117 @@
+:: StoryTitle
+AROWF 5
+
+:: UserScript[script]
+
+
+:: UserStylesheet[stylesheet]
+
+
+:: Start
+**You visit https://tools.wmflabs.org/arowf/answer to check on some
+article to review.
+This is what you see,**
+
+  <div class="container">
+
+  <form autocomplete="off" action="/arowf/answer" method=post>
+
+    <h3 clear=all>Please answer this question.</h3 clear=all>
+    <p><a href="http://mediawiki.org/wiki/Accuracy_review/docs/answer" target="_blank">Help doc</a>
+      <h4 clear=all>Question:</h4 clear=all>
+      The article <a target="_blank" href="https://en.wikipedia.org/wiki/Election_Commission_of_India">Election Commission of India</a> is too wordy with a median <a target="_blank" href = "https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests#Flesch_reading_ease">Flesch-Kincaid readability score</a> of 58.48.</br>How would you rewrite it to be easier to read?<br/><a target="_blank" style="float:right;" href="https://en.wikipedia.org/wiki/Election_Commission_of_India">https://en.wikipedia.org/wiki/Election_Commission_of_India</a><iframe src="https://en.wikipedia.org/wiki/Election_Commission_of_India" style="height: 40%; width: 100%">[Can not display <a target="_blank" href="https://en.wikipedia.org/wiki/Election_Commission_of_India">https://en.wikipedia.org/wiki/Election_Commission_of_India</a> inline as an iframe here.]</iframe>
+	  <!--
+      <h4 clear=all>Your answer:</h4 clear=all>
+      <textarea name=answer style="width: 80%; height: 15%;" required></textarea>
+      <br/>
+      <h4 clear=all>Optionally add a pertinent web page:</h4 clear=all>
+      <input id=iframeurl type=text name=iframeurl placeholder="Optional URL"
+             style="width: 70%;" />
+      <input type=button value=Preview onclick="LoadIframe(); return False;" />
+      <button type=submit name=response value=a>Answer</button>
+      <input type=hidden name=record value=000000231 />
+
+  </form>
+  <iframe id=iframeobj name=iframeobj
+          style="display: none; height: 40%; width: 100%;"></iframe>
+-->
+  </div>
+
+[[**First read up about Flesch-Kincaid readability score.** ->Step 1]]
+
+[[**Delete a paragraph so that it becomes more readable.** ->End1]]
+
+[[**Rewrite a paragraph but it make it more detailed.** ->End0]]
+
+:: Step 1
+This is the correct step. href = "https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests#Flesch_reading_ease">Flesch-Kincaid readability score</a>
+
+After reading through the article, what will your next step be?
+
+[[**I will rewrite the article by making it less wordy.** ->Step 2]]
+
+[[**I will add more words so that it is more easily understandable.** ->End 2]]
+
+[[**Delete a paragraph to increase the Flesch-Kincaid readability score.** ->End 3]]
+
+
+:: End1
+This could delete valuable information in the article.
+
+[[**Go back.** ->Start]]
+
+:: End0
+Without knowing exactly what Flesch-Kincaid readability score is, you might not imporve the article.
+
+[[**Go back.** ->Start]]
+
+:: Step 2
+How would you go go about rewriting the article?
+
+[[**Replace difficult words with smaller synonyms.** ->Step 3]]
+
+[[**Take a simple paragraph and try to make it more comprehensive with bigger words.** ->End 4]]
+
+[[**Remove words which seem too difficult from all the sentences.** ->End 5]]
+
+:: End 2
+Adding more words would just make the article ven more wordy than it already is.
+
+[[**Go back.**->Step 1]]
+
+:: End 3
+While deleting a paragraph would help, it would be better that it is rewritten so that information is not lost.
+
+[[**Go back.** ->Step 1]]
+
+:: Step 3
+ What should be the Flesch-Kincaid score that you should be aiming for after you have finished editing.
+
+ [[**Varies depending on the article.** ->Step 4]]
+
+ [[**Decrease by 20 always.** ->End 6]]
+
+ [[**Increase by 20 always.** ->End 7]]
+
+:: End 4
+Adding larger words would just make the article more difficult to read.
+
+[[**Go back.** ->Step 2]]
+
+:: End 5
+Replacing a word with its more easily understandable synonym is a better path.
+
+[[**Go back.** ->Step 2]]
+
+:: Step 4
+This is correct. You should be careful not to lose too many details while increasing the readability.
+
+:: End 6
+This is ideal although you should be careful of making an article, like something related to science, not detailed enough.
+
+[[**Go back.** ->Step 3]]
+
+:: End 7
+You should never try to increase the readability score.
+
+[[**Go back.** ->Step 3]]
