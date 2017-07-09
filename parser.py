@@ -1,15 +1,15 @@
-
-def make_option_file(ccline, fname,next_node,num_line):
+#function to make the html file
+def make_option_file(ccline, fname,next_node,num_line,statement):
     f = open('templates/'+fname+'.html','w')
     message =   """ 
             <html> 
                 <body> 
-                <p>Hi! This is a node in a Twee story. Do you want to....</p>
+                <p>"""+statement+"""</p>
                 <form action="http://localhost:5000/next"  method = "POST">
                 """
     for i in range(num_line):
         message = message+"""   <p>"""+ccline[i]+""" 
-                    <button type = "submit"  value=\""""+next_node[i]+"""\">Submit</button> 
+                    <button name="option" type = "submit"  value=\""""+next_node[i]+"""\">Submit</button> 
                     """
     message = message + """       
             </form>
@@ -20,25 +20,33 @@ def make_option_file(ccline, fname,next_node,num_line):
 
 
 with open('AROWF-recently.txt', 'r') as f:
-    done = {}
     num_line = 0
     fname ="Start"
-    start = 0
-    first = 0
+    #Variables used to signal the start of the parsing
+    start = 0    
+    begin = 0
+    #Storing the options and the next node
     next_node = [""]*3
     ccline = [""]*3
-    begin = 0
+
+    #For storing the question statement
+    question = 0 
+    statement = ""
     for line in f.readlines():
         alpha = 0
-        
+        if(question):
+            statement = line
+            question = 0
+
         if line[:8] == ":: Start":
             start = 1
             begin = 1
+            question = 1
 
         elif (line[0] == ':' and start == 1) :
-                       
+            question = 1                           
             begin = 0
-            make_option_file(ccline,fname,next_node,num_line)
+            make_option_file(ccline,fname,next_node,num_line,statement)
             num_line = 0
             next_node = [""]*3
             ccline = [""]*3
@@ -50,10 +58,9 @@ with open('AROWF-recently.txt', 'r') as f:
                 if(alpha == 1 and line[i].isspace() == 0 ):
                     fname += line[i]
             begin = 1
-        print(fname)
         if(start!=1 and begin!=1):
             continue
- 
+        
         if line[0]!='[':
             continue
 
@@ -83,7 +90,7 @@ with open('AROWF-recently.txt', 'r') as f:
             
 
     num_line -= 1
-    make_option_file(ccline,fname,next_node,num_line)
+    make_option_file(ccline,fname,next_node,num_line,statement)
 
 
 
