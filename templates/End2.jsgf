@@ -1,0 +1,3 @@
+#JSGF V1.0;
+grammar choices;
+public <choice> = sil [g ow b ae k ] sil;
