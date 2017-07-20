@@ -1,5 +1,5 @@
 (function(window) {
-    var AUDIO_RECORDER_WORKER = 'js/audioRecorderWorker.js';
+     var AUDIO_RECORDER_WORKER = "/static/js/audioRecorder.js";
     var AudioRecorder = function(source, cfg) {
 	this.consumers = [];
 	var config = cfg || {};
@@ -66,4 +66,4 @@
 	this.node.connect(this.context.destination);
     };
     window.AudioRecorder = AudioRecorder;
-})(window);
+});
