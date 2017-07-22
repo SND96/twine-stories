@@ -1,0 +1,513 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"S",
+				"StatusBar"
+			],
+			[
+				"List",
+				"ListView"
+			],
+			[
+				"text",
+				"Text"
+			],
+			[
+				"PB_825",
+				"PB_8255_1"
+			],
+			[
+				"PC_",
+				"PC_8255_1"
+			],
+			[
+				"waves",
+				"waves-light"
+			],
+			[
+				"ca",
+				"callback"
+			],
+			[
+				"st",
+				"stdout"
+			],
+			[
+				"cou",
+				"countX"
+			],
+			[
+				"coun",
+				"countD"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 354.0,
+		"last_filter": "insta",
+		"selected_items":
+		[
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"install pac",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 575.0
+	},
+	"console":
+	{
+		"height": 164.0,
+		"history":
+		[
+			"ls"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/sahith/Desktop/Flask_app/templates/main.js",
+		"/Users/sahith/Desktop/Flask_app/static/js/audioRecorder.js",
+		"/Users/sahith/Desktop/Fbase/App.js",
+		"/Users/sahith/Desktop/Fbase/index.ios.js",
+		"/Users/sahith/Desktop/UserLogin/index.ios.js",
+		"/Users/sahith/Desktop/UserLogin/index.android.js",
+		"/Users/sahith/Desktop/UserLogin/includes/views/home.js",
+		"/Users/sahith/Desktop/pump/index.ios.js",
+		"/Users/sahith/Downloads/pa_flask_app (2).py",
+		"/Users/sahith/Desktop/twine-stories/flask_app.py",
+		"/Users/sahith/env/login.html",
+		"/Users/sahith/Downloads/hmpaiyf/hmpaiyf-align.jsgf",
+		"/Users/sahith/Desktop/snowflake/src/components/LoginRender.js",
+		"/Users/sahith/Desktop/snowflake/src/components/LoginForm.js",
+		"/Users/sahith/Desktop/Fbase/Components/StatusBar.js",
+		"/Users/sahith/Desktop/Fbase/Components/ListItem.js",
+		"/Users/sahith/Desktop/Fbase/Components/ActionButton.js",
+		"/Users/sahith/Desktop/Fbase/styles.js",
+		"/Users/sahith/Desktop/StatusBar.js",
+		"/Users/sahith/Desktop/ListItem.js",
+		"/Users/sahith/Desktop/Fbase/ActionButton.js",
+		"/Users/sahith/Desktop/Fbase/sytles.js",
+		"/Users/sahith/Desktop/Processing/ill live in beijing and ill be a teacher-align.jsgf",
+		"/Users/sahith/Desktop/Phrases/voice_tag_sentence.csv",
+		"/Users/sahith/Downloads/voice_tag_sentence.csv",
+		"/Users/sahith/Downloads/testwords/which.csv",
+		"/Users/sahith/Desktop/Sahith-Blog/config.toml",
+		"/Users/sahith/Desktop/Sahith-Blog/content/post/First-Post.md",
+		"/Users/sahith/Desktop/Sahith-Blog/layouts/index.html",
+		"/Users/sahith/Desktop/Sahith-Blog/content/post/good-to-great.md",
+		"/Users/sahith/Desktop/Sahith-Blog/layouts/partials/default_foot.html",
+		"/Users/sahith/Desktop/Sahith-Blog/layouts/_default/li.html",
+		"/Users/sahith/Desktop/Sahith-Blog/themes/hugo_theme_robust/layouts/index.html",
+		"/Users/sahith/Desktop/Sahith-Blog/layouts/_defaults/li.html",
+		"/Users/sahith/Desktop/Sahith-Blog/layouts/li.html",
+		"/Users/sahith/Downloads/voice_tag_word.csv",
+		"/Users/sahith/Downloads/58c904092ed9b60f70cc5c69 (1).sy3",
+		"/Users/sahith/Downloads/58c904092ed9b60f70cc5c69.sy3",
+		"/Users/sahith/Desktop/58c904092ed9b60f70cc5c69.sy3",
+		"/Users/sahith/Downloads/voice_detail.csv",
+		"/Users/sahith/Desktop/snowflake/src/snowflake.js",
+		"/Users/sahith/Downloads/dnn-per-word.txt",
+		"/Users/sahith/Desktop/pocketsphinx-scores/AROWF-recently.html",
+		"/Users/sahith/Desktop/pocketsphinx-scores/live.html",
+		"/Users/sahith/Desktop/sphinx4-5prealpha-src/sphinx4-data/src/main/resources/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict",
+		"/Users/sahith/firstpro/src/index.html",
+		"/Users/sahith/Desktop/cmusphinx.github.io/_posts/2017-06-07-call-sahith-blog-week-1.html",
+		"/Users/sahith/Desktop/snowflake/src/containers/Profile.js",
+		"/Users/sahith/Desktop/snowflake/src/containers/App.js",
+		"/Users/sahith/Desktop/snowflake/src/containers/Login.js",
+		"/Users/sahith/Desktop/snowflake/src/containers/Subview.js",
+		"/Users/sahith/Desktop/snowflake/src/containers/ForgotPassword.js",
+		"/Users/sahith/Desktop/ReactProject/Firebase-ReactNative/index.ios.js",
+		"/Users/sahith/Desktop/cmusphinx.github.io/_posts/2017-06-07-sahith-blog.html",
+		"/Users/sahith/Desktop/cmusphinx.github.io/_posts/2017-05-04-gsoc-2017-accepted-projects-announced.html",
+		"/Users/sahith/Desktop/twine-stories/AROWF-recently.txt",
+		"/Users/sahith/Desktop/twine-stories/AROWF-students.txt",
+		"/Users/sahith/Desktop/cmusphinx.github.io/_site/2017/05/gsoc-2017-accepted-projects-announced/index.html",
+		"/Users/sahith/Desktop/cmusphinx.github.io/_site/2017/05/gsoc-2017-accepted-projects-announced/untitled.html",
+		"/Users/sahith/Desktop/cmusphinx.github.io/_posts/2017-05-06-blog-post-sahith.html",
+		"/Users/sahith/Desktop/cmusphinx.github.io/_site/2017/06/sahith-blog/index.html",
+		"/Users/sahith/Desktop/klembot-snowman-2-943b614c649f/dist/snowman-2.0.0/format.js",
+		"/Users/sahith/Desktop/cc4.py",
+		"/Users/sahith/Desktop/cc2.cpp",
+		"/Users/sahith/Desktop/snowflake/src/lib/config.js",
+		"/Users/sahith/Desktop/snowflake/src/lib/config.example.js",
+		"/Users/sahith/Desktop/ReactProject/Snowflake/node_modules/react-native/local-cli/util/Config.js",
+		"/Users/sahith/Desktop/ReactProject/SplashWalls/index.ios.js",
+		"/Users/sahith/Desktop/webapp/live.html",
+		"/Users/sahith/Desktop/index.ios.js",
+		"/Users/sahith/Desktop/webapp/index.js",
+		"/ds",
+		"/AROWF.txt",
+		"/Users/sahith/Desktop/chef1.cpp",
+		"/untitled",
+		"/Users/sahith/Desktop/SubmitTask.js",
+		"/Users/sahith/Desktop/f2015A3PS192.m",
+		"/Users/sahith/Downloads/matlabsas-1.m",
+		"/Users/sahith/Desktop/MASM611/BIN/mr.asm",
+		"/Users/sahith/Desktop/MASM611/BIN/new.asm",
+		"/Users/sahith/Desktop/MASM611/BIN/prac.asm",
+		"/Users/sahith/Desktop/mup.asm",
+		"/Users/sahith/Desktop/test.asm",
+		"/Users/sahith/.ssh/prac.py",
+		"/Users/sahith/.ssh/id_rsa.pub",
+		"/Users/sahith/Desktop/mturk_hit.html",
+		"/Users/sahith/Desktop/projects/Deep-Learning-Papers-Reading-Roadmap-master/README.md",
+		"/Users/sahith/Desktop/webapp/app.html",
+		"/Users/sahith/Desktop/app.html",
+		"/Users/sahith/Desktop/mhit.html",
+		"/mhit.jtml",
+		"/Users/sahith/Desktop/MASM611/BIN/FILE1",
+		"/Users/sahith/Desktop/MASM611/BIN/me.asm",
+		"/Users/sahith/Desktop/syl22-00-pocketsphinx.js-6a457cd/webapp/js/recorder.js",
+		"/Users/sahith/Desktop/syl22-00-pocketsphinx.js-6a457cd/webapp/js/audioRecorder.js",
+		"/Users/sahith/Desktop/syl22-00-pocketsphinx.js-6a457cd/webapp/index.js",
+		"/Users/sahith/Desktop/syl22-00-pocketsphinx.js-6a457cd/webapp/live.html",
+		"/Users/sahith/Desktop/gym_tcp_api/cpp/test.cpp",
+		"/Users/sahith/Desktop/gym_tcp_api/cpp/example.cpp",
+		"/Users/sahith/Desktop/gym_tcp_api/cpp/messages.hpp",
+		"/Users/sahith/Desktop/gym_tcp_api/cpp/client.hpp",
+		"/Users/sahith/Desktop/syl22-00-pocketsphinx.js-6a457cd/webapp/js/filesaver.js",
+		"/Users/sahith/Desktop/syl22-00-pocketsphinx.js-6a457cd/webapp/wyn/live2.html",
+		"/Users/sahith/Desktop/syl22-00-pocketsphinx.js-6a457cd/webapp/js/audioRecorderWorker.js",
+		"/Users/sahith/Desktop/syl22-00-pocketsphinx.js-6a457cd/webapp/index.html",
+		"/Users/sahith/Desktop/syl22-00-pocketsphinx.js-6a457cd/webapp/wyn/phonemes.dict",
+		"/Users/sahith/Desktop/pocketsphinx/words.dict",
+		"/Users/sahith/Desktop/pocketsphinx/phonemes.dict",
+		"/Users/sahith/Desktop/syl22-00-pocketsphinx.js-6a457cd/webapp/js/pocketsphinx.js",
+		"/Users/sahith/Desktop/hello_ps.c",
+		"/Users/sahith/Desktop/root/tmva/tmva/inc/TMVA/DNN/DataLoader.h",
+		"/Users/sahith/Desktop/root/tutorials/tmva/TMVARegression.C",
+		"/Users/sahith/Desktop/erlport-0.9.8 2/README.rst",
+		"/Users/sahith/Desktop/pocketsphinx/with-align.jsgf",
+		"/Users/sahith/Desktop/with_neighbours.jsgf",
+		"/Users/sahith/Desktop/with_words.jsgf",
+		"/Users/sahith/Desktop/with-align.jsgf",
+		"/Users/sahith/Desktop/words.dict",
+		"/Users/sahith/Desktop/phonemes.dict",
+		"/Users/sahith/Desktop/8086/file.asm",
+		"/Users/sahith/Desktop/Git/Theano/theano/printing.py",
+		"/Users/sahith/new/ScotlandYardRL/agent.py",
+		"/Users/sahith/Desktop/ScotlandYardRL/agent.py",
+		"/Users/sahith/Desktop/mup.py",
+		"/mup.py",
+		"/Users/sahith/Desktop/ScotlandYardRL/q_l.py",
+		"/Users/sahith/sy/ScotlandYardGraph/game.py",
+		"/Users/sahith/sy/ScotlandYardRL/game.py"
+	],
+	"find":
+	{
+		"height": 26.0
+	},
+	"find_in_files":
+	{
+		"height": 158.0,
+		"where_history":
+		[
+			"/Users/sahith/Desktop/snowflake/src",
+			"/Users/sahith/Desktop/recdemo",
+			"/Users/sahith/Desktop/syl22-00-pocketsphinx.js-6a457cd/webapp",
+			"/Users/sahith/Desktop/gym_tcp_api",
+			"/Users/sahith/Desktop/syl22-00-pocketsphinx.js-6a457cd",
+			"",
+			"<open folders>",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"callbackManager",
+			"Worker",
+			"startBtn",
+			"js",
+			"materialize",
+			"button",
+			"navigator",
+			"resultymf",
+			"       if (recorder && recorder.start(id)) displayRecording(true)",
+			"displayRecording",
+			"Navigate to Subview",
+			"navigate",
+			"subview",
+			"05",
+			"8255_3",
+			"8253_3",
+			"delay",
+			"begin",
+			"ss",
+			"recording-indicator",
+			"playing-indicator",
+			"play",
+			"lime",
+			"amber",
+			"lime",
+			"darken",
+			"card",
+			"lighten",
+			"out",
+			"playback",
+			"id",
+			"();\n",
+			"startRecording",
+			"startBtn",
+			"3",
+			"displayRecord",
+			"recording-indi",
+			"display",
+			"recorded",
+			">\n",
+			"configure",
+			"Adobe Flas",
+			"fwre",
+			"<!",
+			"blob",
+			"grammars",
+			"grey",
+			"</h2>",
+			"silent",
+			"v",
+			"stringer",
+			"console.warn",
+			"document",
+			"Hyp",
+			"hyp",
+			"postMessage(",
+			"final",
+			"updatestatus",
+			"postRecognizer",
+			"n",
+			"current-status",
+			"recognizer.js",
+			"importSc",
+			"post",
+			"hyp",
+			"status",
+			"output",
+			"postMessage",
+			"output",
+			"hyp",
+			"log",
+			"console.warn",
+			"console.log",
+			"log",
+			"console",
+			"console.log",
+			"consolo.log",
+			"console.log",
+			"load",
+			"onmessage",
+			"postMessage",
+			"postRecognizerJob",
+			"init",
+			"data",
+			"hyp",
+			"initialize",
+			"output",
+			"Recognizer",
+			"recognizer",
+			"Recognizer",
+			"recognizer",
+			"Recognizer",
+			"recognizer",
+			"Recognizer",
+			"recognizer",
+			"Recognizer",
+			"recognizer",
+			"initialize",
+			"jquery",
+			"samplerate",
+			"sampleRate",
+			"node",
+			"(",
+			"initrecognizer",
+			"initialize",
+			">\n",
+			"recorder",
+			"Recorder",
+			"recorder",
+			"Recorder",
+			"recorder",
+			"Recorder",
+			"recorder",
+			"Recorder",
+			"recorder",
+			"Recorder",
+			"recorder",
+			"module",
+			"recognizer",
+			"load",
+			"lazy",
+			":\")",
+			"action_space",
+			"actionSpace",
+			"observationSpace",
+			"actionSample",
+			"actionspace",
+			"actionSample"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"orange",
+			"lime",
+			"yellow",
+			"console.dir",
+			"console.warn",
+			"alert",
+			"document.write",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 64.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "main.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Desktop/cmusphinx.github.io/_posts/2017-05-04-gsoc-2017-accepted-projects-announced.html"
+			],
+			[
+				"config.js",
+				"~/Desktop/snowflake/src/lib/config.example.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 354.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"AudioRecorder"
+			]
+		],
+		"width": 374.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 212.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

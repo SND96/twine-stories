@@ -5,11 +5,11 @@
 </p>
                 <form action="http://localhost:5000/next"  method = "POST">
                    <p>Change the word "recently" to reference the date of the event 
-                    <button name="option" type = "submit"  value="Step1">Submit</button> 
+                    <button name="option" id="option1" type = "submit"  value="Step1">Submit</button> 
                        <p>Delete the word "recently" and leave the rest as it it 
-                    <button name="option" type = "submit"  value="End1">Submit</button> 
+                    <button name="option" id="option2" type = "submit"  value="End1">Submit</button> 
                        <p>Delete the claim because it does not have a source 
-                    <button name="option" type = "submit"  value="End0">Submit</button> 
+                    <button name="option" id="option3" type = "submit"  value="End0">Submit</button> 
                            
             </form>
              
@@ -53,7 +53,8 @@
 </style>
 <body>
 <div class="container">
-<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/materialize.min.css')}}"  media="screen,projection"/>
+<link type="text/css" rel="stylesheet" href="static/css/materialize.min.css"  media="screen,projection"/>
+
 <div class="row">
 <div class="pad-top"></div>
 </div>
@@ -66,11 +67,9 @@
 </div>
 
 
-<h2>Pocketsphinx.js acoustic scores demo</h2>
     <!-- <h2></h2> -->
     <ul>
-      <li><p>This demo works on recent versions of Chrome and Firefox with the Web Audio API, make sure it works for you and actually records audio.</p></li>
-      <li><p>Click the first button to record and say "What's your name"</p></li>
+
       <li><p>Click again to stop the recording. Press the play button to replay the recording </p></li>
     </ul>
     <select id="grammars">Select</select>
@@ -124,8 +123,8 @@
           <div class="card brown lighten-4">
             <div class="card-content">
     <span class="card-title">Acoustic Scores</span>
-    <div id="resultymf"></div>
-    </div>
+<!--     <div id="resultymf"></div>
+ -->    </div>
           </div>
         </div>
     </div>
@@ -140,6 +139,7 @@
       var recognizer, recorder, callbackManager, audioContext, outputContainer,rec;
       // Only when both recorder and recognizer do we have a ready application
       var isRecorderReady = isRecognizerReady = false;
+      var choice="ONE"; //To hold the choice of the user
       // A convenience function to post a message to the recognizer and associate
       // a callback to its response
       function postRecognizerJob(message, callback) {
@@ -159,7 +159,10 @@
       };
       // To display the hypothesis sent by the recognizer
       function updateHyp(hyp) {
-        if (outputContainer) outputContainer.innerHTML = hyp;
+        if (outputContainer) 
+          {outputContainer.innerHTML = hyp;
+          }
+          choice = hyp;
       };
       // This updates the UI when the app might get ready
       // Only when both recorder and recognizer are ready do we enable the buttons
@@ -172,10 +175,6 @@
       };
       // A not-so-great recording indicator
      // A not-so-great recording indicator
-      function displayRecording(display) {
-        // if (display) document.getElementById('recording-indicator').innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-        // else document.getElementById('recording-indicator').innerHTML = "";
-      };
 
       var audioContext = new AudioContext(); 
       function startUserMedia(stream) {
@@ -205,6 +204,7 @@
       var check = function(){
         var id = document.getElementById('icon')
         var img = id.getAttribute('class')
+        
         if( img == "fa fa-microphone")
         {
           id.setAttribute("class","fa fa-stop");
@@ -213,7 +213,21 @@
         else
         {
           id.setAttribute("class","fa fa-microphone");
+          if(choice=="ONE")
+          {
+            document.getElementById("option1").click();
+          }
+          else if(choice=="TWO")
+          {
+            document.getElementById("option2").click();
+          }
+          else if(choice=="THREE")
+          {
+            document.getElementById("option3").click();
+          }
+
           stopRecording();
+         
           //document.getElementById('startBtn').checked = false;
         }
       }
@@ -228,6 +242,7 @@
         recorder && recorder.stop();
         rec && rec.stop();
         displayRecording(false);
+
     };
       
       var playback = function(e){
@@ -297,7 +312,7 @@
         outputContainer = document.getElementById("output");
         updateStatus("Initializing web audio and speech recognizer, waiting for approval to access the microphone");
         callbackManager = new CallbackManager();
-        spawnWorker("{{url_for('static', filename='js/recorder.js')}}", function(worker) {
+        spawnWorker("static/js/recognizer.js", function(worker) {
             // This is the onmessage function, once the worker is fully loaded
             worker.onmessage = function(e) {
                 // This is the case when we have a callback id to be called
@@ -310,12 +325,12 @@
                 // This is a case when the recognizer has a new hypothesis
                 if (e.data.hasOwnProperty('hyp')) {
                   var newHyp = e.data.hyp;
-                  if (e.data.hasOwnProperty('final') &&  e.data.final) newHyp = "Final: " + newHyp;
+                  if (e.data.hasOwnProperty('final') &&  e.data.final) newHyp = String(newHyp);
                   updateHyp(newHyp);
                 }
                 if (e.data.hasOwnProperty('stringer')) {
                   var newStringer = e.data.stringer;
-                  newStringer = "Final: " + newStringer;
+                  newStringer =  String(newStringer);
                   if(e.data.hasOwnProperty('final')) 
                     { var finalString = [];
                       var i =0;
@@ -344,7 +359,7 @@
                         finalString += newStringer[i];
                         
                       }
-                      document.getElementById('resultymf').innerHTML += "<br/>" + String(finalString) + '\n';
+                      // document.getElementById('resultymf').innerHTML += "<br/>" + String(finalString) + '\n';
                 }
                 }
                 // This is the case when we have an error
@@ -383,9 +398,13 @@
        // This follows the CMU dictionary format
       var wordList = [["ONE", "W AH N"], ["TWO", "T UW"], ["THREE", "TH R IY"], ["FOUR", "F AO R"], ["FIVE", "F AY V"], ["SIX", "S IH K S"], ["SEVEN", "S EH V AH N"], ["EIGHT", "EY T"], ["NINE", "N AY N"], ["ZERO", "Z IH R OW"], ["NEW-YORK", "N UW Y AO R K"], ["NEW-YORK-CITY", "N UW Y AO R K S IH T IY"], ["PARIS", "P AE R IH S"] , ["PARIS(2)", "P EH R IH S"], ["SHANGHAI", "SH AE NG HH AY"], ["SAN-FRANCISCO", "S AE N F R AE N S IH S K OW"], ["LONDON", "L AH N D AH N"], ["BERLIN", "B ER L IH N"], ["SUCKS", "S AH K S"], ["ROCKS", "R AA K S"], ["IS", "IH Z"], ["NOT", "N AA T"], ["GOOD", "G IH D"], ["GOOD(2)", "G UH D"], ["GREAT", "G R EY T"], ["WINDOWS", "W IH N D OW Z"], ["LINUX", "L IH N AH K S"], ["UNIX", "Y UW N IH K S"], ["MAC", "M AE K"], ["AND", "AE N D"], ["AND(2)", "AH N D"], ["O", "OW"], ["S", "EH S"], ["X", "EH K S"],["name", "N EY M"],["sil",  "SIL"],["whats",  "W AH T S"],["your","Y UH R"]];
       // This grammar recognizes digits
-
+      var grammarDigits = {numStates: 2, start: 0, end: 1, transitions: [{from: 0, to: 1, word: "ONE"},{from: 0, to: 1, word: "TWO"},{from: 0, to: 1, word: "THREE"},{from: 0, to: 1, word: "FOUR"},{from: 0, to: 1, word: "FIVE"},{from: 0, to: 1, word: "SIX"},{from: 0, to: 1, word: "SEVEN"},{from: 0, to: 1, word: "EIGHT"},{from: 0, to: 1, word: "NINE"},{from: 0, to: 1, word: "ZERO"}]};
+      // This grammar recognizes a few cities names
+      var grammarCities = {numStates: 1, start: 0, end: 0, transitions: [{from: 0, to: 0, word: "NEW-YORK"}, {from: 0, to: 0, word: "NEW-YORK-CITY"}, {from: 0, to: 0, word: "PARIS"}, {from: 0, to: 0, word: "SHANGHAI"}, {from: 0, to: 0, word: "SAN-FRANCISCO"}, {from: 0, to: 0, word: "LONDON"}, {from: 0, to: 0, word: "BERLIN"}]};
+      // This is to play with beloved or belated OSes
+      var grammarOses = {numStates: 7, start: 0, end: 6, transitions: [{from: 0, to: 1, word: "WINDOWS"}, {from: 0, to: 1, word: "LINUX"}, {from: 0, to: 1, word: "UNIX"}, {from: 1, to: 2, word: "IS"}, {from: 2, to: 2, word: "NOT"}, {from: 2, to: 6, word: "GOOD"}, {from: 2, to: 6, word: "GREAT"}, {from: 1, to: 6, word: "ROCKS"}, {from: 1, to: 6, word: "SUCKS"}, {from: 0, to: 4, word: "MAC"}, {from: 4, to: 5, word: "O"}, {from: 5, to: 3, word: "S"}, {from: 3, to: 1, word: "X"}, {from: 6, to: 0, word: "AND"}]};
       var grammarWsn = {numStates:3, start:0, end: 2, transitions:[{from: 0, to: 1, word:"whats"},{from: 1, to:2, word:"your"},{from:2, to:2, word:"name"} ] };
-      var grammars = [{title: "OSes", g: grammarOses}, {title: "Digits", g: grammarDigits}, {title: "Cities", g: grammarCities}, {title: "What's your name?", g:grammarWsn}];
+      var grammars = [{title: "OSes", g: grammarOses}, {title: "Digits", g: grammarDigits}];
       var grammarIds = [];
     </script>
     <script >
@@ -412,18 +431,20 @@
     </script>
     <!-- These are the two JavaScript files you must load in the HTML,
     The recognizer is loaded through a Web Worker -->
-    <script src="{{url_for('static', filename='js/audioRecorder.js')}}"></script>
-    <script src="{{url_for('static', filename='js/callbackManager.js')}}"></script>
-    <script src="{{url_for('static', filename='js/audioRecorderWorker.js')}}"></script>
-    <script src="{{url_for('static', filename='js/recorder.js')}}"></script>
-    <script src="{{url_for('static', filename='js/recognizer.js')}}"></script>
-    <script type="text/javascript" src="{{url_for('static', filename='js/materialize.min.js')}}"></script>
-    <script src="{{url_for('static', filename='js/audioRecorder.js')}}"></script>
+
+    <!-- These are the two JavaScript files you must load in the HTML,
+    // The recognizer is loaded through a Web Worker -->
+     <script src="static/js/audioRecorder.js"></script>
+     <script src="static/js/callbackManager.js"></script>
+     <script src="static/js/audioRecorderWorker.js"></script>
+     <script src="static/js/recorder.js"></script>
+     <script src="static/js/recognizer.js"></script>
+     <script src="static/js/materialize.min.js"></script>
 
 
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-   
-    <script src="https://use.fontawesome.com/03f8396175.js"></script>
+     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+     <script src="https://use.fontawesome.com/03f8396175.js"></script>
   </body>
 </html>
 
