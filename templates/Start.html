@@ -9,9 +9,10 @@
                        <p>Delete the word "recently" and leave the rest as it it 
                     <button name="option" id="option2" type = "submit"  value="End1">Submit</button> 
                        <p>Delete the claim because it does not have a source 
-                    <button name="option" id="option3" type = "submit"  value="End0">Submit</button>            
+                    <button name="option" id="option3" type = "submit"  value="End0">Submit</button> 
+                           
             </form>
-<style>
+        <style>
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -379,12 +380,12 @@
 
        // This is the list of words that need to be added to the recognizer
        // This follows the CMU dictionary format
-      var wordList = [["ONE", "W AH N"], ["TWO", "T UW"], ["THREE", "TH R IY"], ["FOUR", "F AO R"], ["FIVE", "F AY V"], ["SIX", "S IH K S"], ["SEVEN", "S EH V AH N"], ["EIGHT", "EY T"], ["NINE", "N AY N"], ["ZERO", "Z IH R OW"]];
-      // This grammar recognizes digits
-      var grammarDigits = {numStates: 2, start: 0, end: 1, transitions: [{from: 0, to: 1, word: "ONE"},{from: 0, to: 1, word: "TWO"},{from: 0, to: 1, word: "THREE"},{from: 0, to: 1, word: "FOUR"},{from: 0, to: 1, word: "FIVE"},{from: 0, to: 1, word: "SIX"},{from: 0, to: 1, word: "SEVEN"},{from: 0, to: 1, word: "EIGHT"},{from: 0, to: 1, word: "NINE"},{from: 0, to: 1, word: "ZERO"}]};      
 
 
-      var grammars = [ {title: "Digits", g: grammarDigits}];
+    var wordList = [["change", "CH EY N JH"],["the", "DH AH"],["word", "W ER D"],["recently", "R IY S AH N T L IY"],["to", "T UW"],["reference", "R EH F ER AH N S"],["date", "D EY T"],["of", "AH V"],["event", "IH V EH N T"],["delete", "D IH L IY T"],["and", "AH N D"],["leave", "L IY V"],["rest", "R EH S T"],["as", "AE Z"],["it", "IH T"],["claim", "K L EY M"],["because", "B IH K AO Z"],["does", "D AH Z"],["not", "N AA T"],["have", "HH AE V"],["a", "AH"],["source", "S AO R S"]];
+
+var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"change"},{from: 1, to:2, word:"the"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"to"},{from: 4, to:5, word:"to"},{from: 4, to:5, word:"to"},{from: 5, to:6, word:"reference"},{from: 5, to:6, word:"reference"},{from: 6, to:7, word:"the"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"date"},{from: 8, to:9, word:"of"},{from: 9, to:10, word:"the"},{from: 9, to:10, word:"the"},{from: 10, to:11, word:"event"},{from: 10, to:11, word:"event"},{from: 0, to:1, word:"delete"},{from: 1, to:2, word:"the"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"and"},{from: 4, to:5, word:"and"},{from: 5, to:6, word:"leave"},{from: 6, to:7, word:"the"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"rest"},{from: 8, to:9, word:"as"},{from: 8, to:9, word:"as"},{from: 9, to:10, word:"it"},{from: 10, to:11, word:"it"},{from: 0, to:1, word:"delete"},{from: 1, to:2, word:"the"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"claim"},{from: 3, to:4, word:"because"},{from: 3, to:4, word:"because"},{from: 3, to:4, word:"because"},{from: 4, to:5, word:"it"},{from: 5, to:6, word:"does"},{from: 5, to:6, word:"does"},{from: 6, to:7, word:"not"},{from: 7, to:8, word:"have"},{from: 8, to:9, word:"a"},{from: 8, to:9, word:"a"},{from: 9, to:10, word:"source"}]};
+          var grammars = [ {title: "Choices", g: grammarChoices}];
       var grammarIds = [];
     </script>
     <script >
@@ -428,4 +429,5 @@
   </body>
 </html>
 
-        
+
+    

@@ -5,9 +5,425 @@
 </p>
                 <form action="http://localhost:5000/next"  method = "POST">
                    <p>Go back 
-                    <button name="option" type = "submit"  value="Step3">Submit</button> 
+                    <button name="option" id="option1" type = "submit"  value="Step3">Submit</button> 
                            
             </form>
-                 </body>
-            </html>
+        <style>
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: blue; /* Fallback color */
+    background-color: blue; /* Black w/ opacity */
+}
+.modal-content {
+    background-color: yellow;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #333;
+    width: 80%;
+}
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+<body>
+<div class="container">
+<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/materialize.min.css')}}"  media="screen,projection"/>
+
+<div class="row">
+<div class="pad-top"></div>
+</div>
+<div class="row"  style="text-align: center;">
+        <div class="col s12 m12">
+          <div class="card orange lighten-5">
+            <div class="card-content">
+<div class="row">
+<div class="col s3 offset-s9">
+</div>
+
+
+    <!-- <h2></h2> -->
+    <ul>
+
+      <li><p>Click again to stop the recording. Press the play button to replay the recording </p></li>
+    </ul>
+    <select id="grammars">Select</select>
+    <audio controls="controls"></audio>
+    <span id="recording-indicator" ></span>
+    <a style="display: inline;">Press to: Record/Stop </a>
+    <button class="waves-light btn-floating" id="startBtn" style= ><i class="fa fa-microphone" aria-hidden="true" id="icon"></i>
+</button>
+
+
+
+          <span id="playing-indicator" ></span>
+         <h10> <a style="display: inline;">Play </a></h10>
+      <button class="waves-light btn-floating" id="play" title="Play" ><i class="fa fa-play" aria-hidden="true"></i></button>
+      <a style="display: inline;">Evaluate </a>    
+      <button class="waves-light btn-floating" id="eval" ><i class="fa fa-question" aria-hidden="true"></i></button>
+      
+
+          <a style="display: inline;">Say in phrase </a>
+       <button class="waves-light btn-floating"  id="phrase" onclick="window.location='https://docs.google.com/document/d/1gBc-yf4y8OLW7Pky278H_3FOXMHCNCxfvKMHplmimmU/edit#'"" ><i class="fa fa-link" aria-hidden="true" id="icon"></i>
+       </button>
+       <a style="display: inline;"></a>
+      
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Output</h2>
+  </div>
+</div>
+<div class="row"  style="text-align: center;">
+        <div class="col s10 m10 offset-s1 offset-m1">
+          <div class="card brown lighten-4">
+            <div class="card-content">
+           <span class="card-title">Recognition Output</span>
+            <div id="output" style="height:150px;overflow:auto;" >
+            </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <span class="card-title">Status</span>
+    <div id="current-status">Loading page</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+         
+    <script>
+      // These will be initialized later
+      var recognizer, recorder, callbackManager, audioContext, outputContainer,rec;
+      // Only when both recorder and recognizer do we have a ready application
+      var isRecorderReady = isRecognizerReady = false;
+      var choice="ONE"; //To hold the choice of the user
+      // A convenience function to post a message to the recognizer and associate
+      // a callback to its response
+      function postRecognizerJob(message, callback) {
+        var msg = message || {}; 
+        if (callbackManager) msg.callbackId = callbackManager.add(callback);
+        if (recognizer) recognizer.postMessage(msg);
+      };
+    //This function initializes an instance of the recorder
+    //it posts a message right away and calls onReady when it
+    //is ready so that onmessage can be properly set
+      function spawnWorker(workerURL, onReady) {
+          recognizer = new Worker(workerURL);
+          recognizer.onmessage = function(event) {
+            onReady(recognizer);
+          };
+          recognizer.postMessage('');
+      };
+      // To display the hypothesis sent by the recognizer
+      function updateHyp(hyp) {
+        if (outputContainer) 
+          {outputContainer.innerHTML = hyp;
+          }
+          choice = hyp;
+      };
+      // This updates the UI when the app might get ready
+      // Only when both recorder and recognizer are ready do we enable the buttons
+      function updateUI() {
+        if (isRecorderReady && isRecognizerReady) startBtn.disabled = false;
+      };
+      // This is just a logging window where we display the  
+      function updateStatus(newStatus) {
+        document.getElementById('current-status').innerHTML += "<br/>" + newStatus;
+      };
+      // A not-so-great recording indicator
+     // A not-so-great recording indicator
+
+      var audioContext = new AudioContext(); 
+      function startUserMedia(stream) {
+        var input = audioContext.createMediaStreamSource(stream);
+        // Firefox hack https://support.mozilla.org/en-US/questions/984179
+        window.firefox_audio_hack = input;
+        var audioRecorderConfig = {errorCallback: function(x) {updateStatus("Error from recorder: " + x);}};
+        recorder = new AudioRecorder(input, audioRecorderConfig);
+        rec = new Recorder(input);
+        // If a recognizer is ready, we pass it to the recorder
+        if (recognizer) recorder.consumers = [recognizer];
+        isRecorderReady = true;
+        updateUI();
+        updateStatus("Audio recorder ready");
+      };
+          
+  var playbackRecorderAudio = function (recorder, context) {
+    recorder.getBuffer(function (buffers) {
+      var source = context.createBufferSource();
+      source.buffer = context.createBuffer(1, buffers[0].length, 44100);
+      source.buffer.getChannelData(0).set(buffers[0]);
+      source.connect(context.destination);
+
+      source.start(0);
+    });
+  }
+      var check = function(){
+        var id = document.getElementById('icon')
+        var img = id.getAttribute('class')
         
+        if( img == "fa fa-microphone")
+        {
+          id.setAttribute("class","fa fa-stop");
+          startRecording();
+        }
+        else
+        {
+          id.setAttribute("class","fa fa-microphone");
+          if(choice=="ONE")
+          {
+            document.getElementById("option1").click();
+          }
+          else if(choice=="TWO")
+          {
+            document.getElementById("option2").click();
+          }
+          else if(choice=="THREE")
+          {
+            document.getElementById("option3").click();
+          }
+
+          stopRecording();
+         
+          //document.getElementById('startBtn').checked = false;
+        }
+      }
+      // This starts recording. We first need to get the id of the grammar to use
+       function startRecording() {
+        var id = document.getElementById('grammars').value;
+        if (recorder && recorder.start(id)) displayRecording(true)
+        rec && rec.record();
+      };
+      // Stops recording
+         function stopRecording() {
+        recorder && recorder.stop();
+        rec && rec.stop();
+        displayRecording(false);
+
+    };
+      
+      var playback = function(e){
+          playbackRecorderAudio(rec, audioContext);
+      }
+      // Called once the recognizer is ready
+      // We then add the grammars to the input select tag and update the UI
+      var recognizerReady = function() {
+           updateGrammars();
+           isRecognizerReady = true;
+           updateUI();
+           updateStatus("Recognizer ready");
+      };
+      // We get the grammars defined below and fill in the input select tag
+      var updateGrammars = function() {
+        var selectTag = document.getElementById('grammars');
+        for (var i = 0 ; i < grammarIds.length ; i++) {
+            var newElt = document.createElement('option');
+            newElt.value=grammarIds[i].id;
+            newElt.innerHTML = grammarIds[i].title;
+            selectTag.appendChild(newElt);
+        }
+      };
+      // This adds a grammar from the grammars array
+      // We add them one by one and call it again as
+      // a callback.
+      // Once we are done adding all grammars, we can call
+      // recognizerReady()
+      var feedGrammar = function(g, index, id) {
+        if (id && (grammarIds.length > 0)) grammarIds[0].id = id.id;
+        if (index < g.length) {
+          grammarIds.unshift({title: g[index].title})
+    postRecognizerJob({command: 'addGrammar', data: g[index].g},
+                             function(id) {feedGrammar(grammars, index + 1, {id:id});});
+        } else {
+          recognizerReady();
+        }
+      };
+      // This adds words to the recognizer. When it calls back, we add grammars
+      var feedWords = function(words) {
+           postRecognizerJob({command: 'addWords', data: words},
+                        function() {feedGrammar(grammars, 0);});
+      };
+      // This initializes the recognizer. When it calls back, we add words
+      var initRecognizer = function() {
+          // You can pass parameters to the recognizer, such as : {command: 'initialize', data: [["-hmm", "my_model"], ["-fwdflat", "no"]]}
+         
+          postRecognizerJob({command: 'initialize',// data: [["-hmm", "my_model"], ["-fwdflat", "no"]]}
+                             //callbackId: id,
+                                data: [  //["-jsgf", "wyn-align.jsgf"],
+                              // ["-dict", "phonemes.dict"],
+                               //  //["-hmm","my_model"],
+                                ["-backtrace", "yes"],
+                               ["-fsgusefiller","yes"],
+                                ["-bestpath","yes"]
+                                                              ]
+                             },
+                             
+                            function(id) {
+                                        if (recorder) recorder.consumers = [recognizer];
+                                        feedWords(wordList);}
+                                        );
+      };
+      // When the page is loaded, we spawn a new recognizer worker and call getUserMedia to
+      // request access to the microphone
+      window.onload = function() {
+        outputContainer = document.getElementById("output");
+        updateStatus("Initializing web audio and speech recognizer, waiting for approval to access the microphone");
+        callbackManager = new CallbackManager();
+        spawnWorker("static/js/recognizer.js", function(worker) {
+            // This is the onmessage function, once the worker is fully loaded
+            worker.onmessage = function(e) {
+                // This is the case when we have a callback id to be called
+                if (e.data.hasOwnProperty('id')) {
+                  var clb = callbackManager.get(e.data['id']);
+                  var data = {};
+                  if ( e.data.hasOwnProperty('data')) data = e.data.data;
+                  if(clb) clb(data);
+                }
+                // This is a case when the recognizer has a new hypothesis
+                if (e.data.hasOwnProperty('hyp')) {
+                  var newHyp = e.data.hyp;
+                  if (e.data.hasOwnProperty('final') &&  e.data.final) newHyp = String(newHyp);
+                  updateHyp(newHyp);
+                }
+                if (e.data.hasOwnProperty('stringer')) {
+                  var newStringer = e.data.stringer;
+                  newStringer =  String(newStringer);
+                  if(e.data.hasOwnProperty('final')) 
+                    { var finalString = [];
+                      var i =0;
+                      var word =[];
+                      while(word!=["word"] && i<600)
+                      {
+                        if(String(newStringer[i])==" " || String(newStringer[i])==",")
+                         { word =[];
+                         }
+                        else
+                         { //console.log(word);
+                          word += newStringer[i];
+                        }
+                        i++;
+                      }
+                      finalString = "word";
+                      for(;String(newStringer[i])!="\v";i++)
+                      { if(String(newStringer[i]) == ",")
+                        { finalString += "<br/>";
+                          continue;
+                        }
+                        if(String(newStringer[i])== " ")
+                        {
+                          finalString += "&nbsp;"
+                        }
+                        finalString += newStringer[i];
+                        
+                      }
+                      // document.getElementById('resultymf').innerHTML += "<br/>" + String(finalString) + '\n';
+                }
+                }
+                // This is the case when we have an error
+                if (e.data.hasOwnProperty('status') && (e.data.status == "error")) {
+                  updateStatus("Error in " + e.data.command + " with code " + e.data.code);
+                }
+            };
+            // Once the worker is fully loaded, we can call the initialize function
+            initRecognizer();
+        });
+        // The following is to initialize Web Audio
+        try {
+          window.AudioContext = window.AudioContext || window.webkitAudioContext;
+          navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+          window.URL = window.URL || window.webkitURL;
+          audioContext = new AudioContext();
+        } catch (e) {
+          updateStatus("Error initializing Web Audio browser");
+        }
+        if (navigator.getUserMedia) navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
+                                        updateStatus("No live audio input in this browser");
+                                    });
+        else updateStatus("No web audio support in this browser");
+      // Wiring JavaScript to the UI
+      var startBtn = document.getElementById('startBtn');
+      //var stopBtn = document.getElementById('stopBtn');
+      startBtn.disabled = true;
+      startBtn.onclick = check;
+ 
+      play.onclick = playback;
+
+      //stopBtn.onclick
+      };
+
+       // This is the list of words that need to be added to the recognizer
+       // This follows the CMU dictionary format
+
+
+    var wordList = [["go", "G OW"],["back", "B AE K"]];
+
+var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"go"},{from: 1, to:2, word:"back"}]};
+          var grammars = [ {title: "Choices", g: grammarChoices}];
+      var grammarIds = [];
+    </script>
+    <script >
+            // Get the modal
+  var modal = document.getElementById('myModal');
+// Get the button that opens the modal
+  var btn = document.getElementById("eval");
+// Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+// When the user clicks the button, open the modal 
+  btn.onclick = function() {
+    modal.style.display = "block";
+}
+// When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+    }
+}
+    </script>
+    <!-- These are the two JavaScript files you must load in the HTML,
+    The recognizer is loaded through a Web Worker -->
+
+    <!-- These are the two JavaScript files you must load in the HTML,
+    // The recognizer is loaded through a Web Worker -->
+     <script src="{{url_for('static', filename='js/audioRecorder.js')}}"></script>
+     <script src="{{url_for('static', filename='js/callbackManager.js')}}"></script>
+     <script src="{{url_for('static', filename='js/audioRecorderWorker.js')}}"></script>
+     <script src="{{url_for('static', filename='js/recorder.js')}}"></script>
+     <script src="{{url_for('static', filename='js/recognizer.js')}}"></script>
+     <script src="{{url_for('static', filename='js/materialize.min.js')}}"></script>
+
+
+     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+     <script src="https://use.fontawesome.com/03f8396175.js"></script>
+  </body>
+</html>
+
+
+    

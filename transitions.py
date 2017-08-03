@@ -1,4 +1,5 @@
 from re import compile
+from collections import Counter
 
 regexp = compile(r'\(.*\)')
 CMUDICT = {}
@@ -29,7 +30,8 @@ def make_jsgf_file(ccline, fname,num_line):
     f = open('templates/'+fname+'.txt','w')
     message=''
     message1 = 'var wordList = ['
-    message2 = 'var grammarDigits = {numStates: 15, start: 0, end: 14, transitions: ['
+    message2 = 'var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: ['
+    wordList = []
     for i in range(num_line):
         state = 0
         words = punct.sub('', ccline[i].strip().lower()).split()
@@ -38,8 +40,11 @@ def make_jsgf_file(ccline, fname,num_line):
                 # print(word)
                 prons = CMUDICT[word]
                 for pron in prons:
-                    message1 += "[\""+word+"\", \""+pron + "\"],"
-                    message2 += "{from: "+str(state)+", to:" +str(state+1) +", word:\"" +word+"\"}," 
+                    if(word not in wordList):
+                        message1 += "[\""+word+"\", \""+str.upper(pron) + "\"], "
+                        wordList += word
+                    message2 += "{from: "+str(state)+", to:" +str(state+1) +", word:\"" +word+"\"},"
+                    break 
                     # f.write(message)
             
             except:
