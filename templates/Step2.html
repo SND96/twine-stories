@@ -197,19 +197,18 @@
         else
         {
           id.setAttribute("class","fa fa-microphone");
-          if(choice=="ONE")
-          {
-            document.getElementById("option1").click();
-          }
-          else if(choice=="TWO")
-          {
-            document.getElementById("option2").click();
-          }
-          else if(choice=="THREE")
-          {
-            document.getElementById("option3").click();
-          }
-
+          if(choice=="an online blogger who has talked about this event in detail")
+              {
+                document.getElementById("option1").click();
+              }
+elif(choice=="my online friends on facebook give reliable information")
+              {
+                document.getElementById("option2").click();
+              }
+elif(choice=="a reputed news organizations web page")
+              {
+                document.getElementById("option3").click();
+              }
           stopRecording();
          
           //document.getElementById('startBtn').checked = false;
@@ -382,9 +381,11 @@
        // This follows the CMU dictionary format
 
 
-    var wordList = [["an", "AE N"],["an", "AH N"],["online", "AO N L AY N"],["blogger", "B L AO G ER"],["who", "HH UW"],["has", "HH AE Z"],["has", "HH AH Z"],["talked", "T AO K T"],["about", "AH B AW T"],["this", "DH IH S"],["event", "IH V EH N T"],["event", "IY V EH N T"],["in", "IH N"],["detail", "D IH T EY L"],["detail", "D IY T EY L"],["my", "M AY"],["online", "AO N L AY N"],["friends", "F R EH N D Z"],["friends", "F R EH N Z"],["on", "AA N"],["on", "AO N"],["facebook", "F EY S B UH K"],["give", "G IH V"],["reliable", "R IH L AY AH B AH L"],["reliable", "R IY L AY AH B AH L"],["information", "IH N F ER M EY SH AH N"],["information", "IH N F AO R M EY SH AH N"],["a", "AH"],["a", "EY"],["reputed", "R IH P Y UW T IH D"],["reputed", "R IY P Y UW T IH D"],["news", "N UW Z"],["news", "N Y UW Z"],["organizations", "AO R G AH N AH Z EY SH AH N Z"],["web", "W EH B"],["page", "P EY JH"]];
+    var wordList = [["an", "AE N"], ["online", "AO N L AY N"], ["blogger", "B L AO G ER"], ["who", "HH UW"], ["has", "HH AE Z"], ["talked", "T AO K T"], ["about", "AH B AW T"], ["this", "DH IH S"], ["event", "IH V EH N T"], ["in", "IH N"], ["detail", "D IH T EY L"], ["my", "M AY"], ["online", "AO N L AY N"], ["friends", "F R EH N D Z"], ["on", "AA N"], ["facebook", "F EY S B UH K"], ["give", "G IH V"], ["reliable", "R IH L AY AH B AH L"], ["information", "IH N F ER M EY SH AH N"], ["reputed", "R IH P Y UW T IH D"], ["news", "N UW Z"], ["organizations", "AO R G AH N AH Z EY SH AH N Z"], ["web", "W EH B"], ["page", "P EY JH"],];
 
-var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"an"},{from: 0, to:1, word:"an"},{from: 1, to:2, word:"online"},{from: 2, to:3, word:"blogger"},{from: 3, to:4, word:"who"},{from: 4, to:5, word:"has"},{from: 4, to:5, word:"has"},{from: 5, to:6, word:"talked"},{from: 6, to:7, word:"about"},{from: 7, to:8, word:"this"},{from: 8, to:9, word:"event"},{from: 8, to:9, word:"event"},{from: 9, to:10, word:"in"},{from: 10, to:11, word:"detail"},{from: 10, to:11, word:"detail"},{from: 0, to:1, word:"my"},{from: 1, to:2, word:"online"},{from: 2, to:3, word:"friends"},{from: 2, to:3, word:"friends"},{from: 3, to:4, word:"on"},{from: 3, to:4, word:"on"},{from: 4, to:5, word:"facebook"},{from: 5, to:6, word:"give"},{from: 6, to:7, word:"reliable"},{from: 6, to:7, word:"reliable"},{from: 7, to:8, word:"information"},{from: 7, to:8, word:"information"},{from: 0, to:1, word:"a"},{from: 0, to:1, word:"a"},{from: 1, to:2, word:"reputed"},{from: 1, to:2, word:"reputed"},{from: 2, to:3, word:"news"},{from: 2, to:3, word:"news"},{from: 3, to:4, word:"organizations"},{from: 4, to:5, word:"web"},{from: 5, to:6, word:"page"}]};
+var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"an"},{from: 1, to:2, word:"online"},{from: 2, to:3, word:"blogger"},{from: 3, to:4, word:"who"},{from: 4, to:5, word:"has"},{from: 5, to:6, word:"talked"},{from: 6, to:7, word:"about"},{from: 7, to:8, word:"this"},{from: 8, to:9, word:"event"},{from: 9, to:10, word:"in"},{from: 10, to:11, word:"detail"},{from: 0, to:1, word:"my"},{from: 1, to:2, word:"online"},{from: 2, to:3, word:"friends"},{from: 3, to:4, word:"on"},{from: 4, to:5, word:"facebook"},{from: 5, to:6, word:"give"},{from: 6, to:7, word:"reliable"},{from: 7, to:8, word:"information"},{from: 0, to:1, word:"a"},{from: 1, to:2, word:"reputed"},{from: 2, to:3, word:"news"},{from: 3, to:4, word:"organizations"},{from: 4, to:5, word:"web"},{from: 5, to:6, word:"page"}]};
+
+
           var grammars = [ {title: "Choices", g: grammarChoices}];
       var grammarIds = [];
     </script>

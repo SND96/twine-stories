@@ -28,13 +28,35 @@ punct = compile(r'[,.?!]')
 def make_jsgf_file(ccline, fname,num_line):
     # print(fname)
     f = open('templates/'+fname+'.txt','w')
+    f1 = open('templates/'+fname+'-options.txt','w')
     message=''
     message1 = 'var wordList = ['
     message2 = 'var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: ['
+    message3 = ''
     wordList = []
+    choice_num = 0
     for i in range(num_line):
         state = 0
-        words = punct.sub('', ccline[i].strip().lower()).split()
+        sentence = punct.sub('',ccline[i].strip().lower())
+        words = sentence.split()
+        if(i == 0):
+            message3 += '''if(choice=="'''+sentence+'''")
+              {
+                document.getElementById("option1").click();
+              }\n'''
+        elif(i == 1):
+            message3 += '''elif(choice=="'''+sentence+'''")
+              {
+                document.getElementById("option2").click();
+              }\n'''
+        else:
+            message3 += '''elif(choice=="'''+sentence+'''")
+              {
+                document.getElementById("option3").click();
+              }'''
+             
+        # print(sentence)
+
         for word in words:
             try:
                 # print(word)
@@ -55,10 +77,11 @@ def make_jsgf_file(ccline, fname,num_line):
     message1 = message1[:-1]
     message1 += '];\n\n'
     message2 = message2[:-1]
-    message2 += ']};'
+    message2 += ']};\n\n'
 
     f.write(message1)
     f.write(message2)
+    f1.write(message3)
 
 
 with open('AROWF-recently.txt', 'r') as f:

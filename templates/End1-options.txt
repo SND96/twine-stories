@@ -1,0 +1,4 @@
+if(choice=="go back")
+              {
+                document.getElementById("option1").click();
+              }

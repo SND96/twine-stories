@@ -193,18 +193,10 @@
         else
         {
           id.setAttribute("class","fa fa-microphone");
-          if(choice=="ONE")
-          {
-            document.getElementById("option1").click();
-          }
-          else if(choice=="TWO")
-          {
-            document.getElementById("option2").click();
-          }
-          else if(choice=="THREE")
-          {
-            document.getElementById("option3").click();
-          }
+          if(choice=="go back")
+              {
+                document.getElementById("option1").click();
+              }
 
           stopRecording();
          
@@ -378,9 +370,11 @@
        // This follows the CMU dictionary format
 
 
-    var wordList = [["go", "G OW"],["back", "B AE K"]];
+    var wordList = [["go", "G OW"], ["back", "B AE K"],];
 
 var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"go"},{from: 1, to:2, word:"back"}]};
+
+
           var grammars = [ {title: "Choices", g: grammarChoices}];
       var grammarIds = [];
     </script>

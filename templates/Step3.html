@@ -197,19 +197,18 @@
         else
         {
           id.setAttribute("class","fa fa-microphone");
-          if(choice=="ONE")
-          {
-            document.getElementById("option1").click();
-          }
-          else if(choice=="TWO")
-          {
-            document.getElementById("option2").click();
-          }
-          else if(choice=="THREE")
-          {
-            document.getElementById("option3").click();
-          }
-
+          if(choice=="replace the word recently with the date and touch nothing else")
+              {
+                document.getElementById("option1").click();
+              }
+elif(choice=="replace the word recently with the date and cite the source used")
+              {
+                document.getElementById("option2").click();
+              }
+elif(choice=="cite the source that can be used and let someone else replace recently")
+              {
+                document.getElementById("option3").click();
+              }
           stopRecording();
          
           //document.getElementById('startBtn').checked = false;
@@ -382,9 +381,11 @@
        // This follows the CMU dictionary format
 
 
-    var wordList = [["replace", "R IY P L EY S"],["replace", "ER P L EY S"],["the", "DH AH"],["the", "DH IY"],["word", "W ER D"],["recently", "R IY S AH N T L IY"],["recently", "R IY S AH N L IY"],["with", "W IH DH"],["with", "W IH TH"],["the", "DH AH"],["the", "DH IY"],["date", "D EY T"],["and", "AH N D"],["and", "AE N D"],["touch", "T AH CH"],["nothing", "N AH TH IH NG"],["else", "EH L S"],["replace", "R IY P L EY S"],["replace", "ER P L EY S"],["the", "DH AH"],["the", "DH IY"],["word", "W ER D"],["recently", "R IY S AH N T L IY"],["recently", "R IY S AH N L IY"],["with", "W IH DH"],["with", "W IH TH"],["the", "DH AH"],["the", "DH IY"],["date", "D EY T"],["and", "AH N D"],["and", "AE N D"],["cite", "S AY T"],["the", "DH AH"],["the", "DH IY"],["source", "S AO R S"],["used", "Y UW Z D"],["cite", "S AY T"],["the", "DH AH"],["the", "DH IY"],["source", "S AO R S"],["that", "DH AE T"],["that", "DH AH T"],["can", "K AE N"],["can", "K AH N"],["be", "B IY"],["used", "Y UW Z D"],["and", "AH N D"],["and", "AE N D"],["let", "L EH T"],["someone", "S AH M W AH N"],["else", "EH L S"],["replace", "R IY P L EY S"],["replace", "ER P L EY S"],["recently", "R IY S AH N T L IY"],["recently", "R IY S AH N L IY"]];
+    var wordList = [["replace", "R IY P L EY S"], ["the", "DH AH"], ["word", "W ER D"], ["recently", "R IY S AH N T L IY"], ["with", "W IH DH"], ["the", "DH AH"], ["date", "D EY T"], ["and", "AH N D"], ["touch", "T AH CH"], ["nothing", "N AH TH IH NG"], ["else", "EH L S"], ["replace", "R IY P L EY S"], ["the", "DH AH"], ["word", "W ER D"], ["recently", "R IY S AH N T L IY"], ["with", "W IH DH"], ["the", "DH AH"], ["date", "D EY T"], ["and", "AH N D"], ["cite", "S AY T"], ["the", "DH AH"], ["source", "S AO R S"], ["used", "Y UW Z D"], ["cite", "S AY T"], ["the", "DH AH"], ["source", "S AO R S"], ["that", "DH AE T"], ["can", "K AE N"], ["be", "B IY"], ["used", "Y UW Z D"], ["and", "AH N D"], ["let", "L EH T"], ["someone", "S AH M W AH N"], ["else", "EH L S"], ["replace", "R IY P L EY S"], ["recently", "R IY S AH N T L IY"],];
 
-var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"replace"},{from: 0, to:1, word:"replace"},{from: 1, to:2, word:"the"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"with"},{from: 4, to:5, word:"with"},{from: 5, to:6, word:"the"},{from: 5, to:6, word:"the"},{from: 6, to:7, word:"date"},{from: 7, to:8, word:"and"},{from: 7, to:8, word:"and"},{from: 8, to:9, word:"touch"},{from: 9, to:10, word:"nothing"},{from: 10, to:11, word:"else"},{from: 0, to:1, word:"replace"},{from: 0, to:1, word:"replace"},{from: 1, to:2, word:"the"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"with"},{from: 4, to:5, word:"with"},{from: 5, to:6, word:"the"},{from: 5, to:6, word:"the"},{from: 6, to:7, word:"date"},{from: 7, to:8, word:"and"},{from: 7, to:8, word:"and"},{from: 8, to:9, word:"cite"},{from: 9, to:10, word:"the"},{from: 9, to:10, word:"the"},{from: 10, to:11, word:"source"},{from: 11, to:12, word:"used"},{from: 0, to:1, word:"cite"},{from: 1, to:2, word:"the"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"source"},{from: 3, to:4, word:"that"},{from: 3, to:4, word:"that"},{from: 4, to:5, word:"can"},{from: 4, to:5, word:"can"},{from: 5, to:6, word:"be"},{from: 6, to:7, word:"used"},{from: 7, to:8, word:"and"},{from: 7, to:8, word:"and"},{from: 8, to:9, word:"let"},{from: 9, to:10, word:"someone"},{from: 10, to:11, word:"else"},{from: 11, to:12, word:"replace"},{from: 11, to:12, word:"replace"},{from: 12, to:13, word:"recently"},{from: 12, to:13, word:"recently"}]};
+var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"replace"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"with"},{from: 5, to:6, word:"the"},{from: 6, to:7, word:"date"},{from: 7, to:8, word:"and"},{from: 8, to:9, word:"touch"},{from: 9, to:10, word:"nothing"},{from: 10, to:11, word:"else"},{from: 0, to:1, word:"replace"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"with"},{from: 5, to:6, word:"the"},{from: 6, to:7, word:"date"},{from: 7, to:8, word:"and"},{from: 8, to:9, word:"cite"},{from: 9, to:10, word:"the"},{from: 10, to:11, word:"source"},{from: 11, to:12, word:"used"},{from: 0, to:1, word:"cite"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"source"},{from: 3, to:4, word:"that"},{from: 4, to:5, word:"can"},{from: 5, to:6, word:"be"},{from: 6, to:7, word:"used"},{from: 7, to:8, word:"and"},{from: 8, to:9, word:"let"},{from: 9, to:10, word:"someone"},{from: 10, to:11, word:"else"},{from: 11, to:12, word:"replace"},{from: 12, to:13, word:"recently"}]};
+
+
           var grammars = [ {title: "Choices", g: grammarChoices}];
       var grammarIds = [];
     </script>

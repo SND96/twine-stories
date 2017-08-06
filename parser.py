@@ -2,6 +2,7 @@
 def make_option_file(ccline, fname,next_node,num_line,statement):
     f1 = open('templates/'+fname+'.html','w')
     f2 = open('templates/'+fname+'.txt','r')
+    f3 = open('templates/'+fname+'-options.txt','r')
     # string1 = """\\v"""
     message =   """ 
             <html> 
@@ -202,19 +203,10 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
         else
         {
           id.setAttribute("class","fa fa-microphone");
-          if(choice=="ONE")
-          {
-            document.getElementById("option1").click();
-          }
-          else if(choice=="TWO")
-          {
-            document.getElementById("option2").click();
-          }
-          else if(choice=="THREE")
-          {
-            document.getElementById("option3").click();
-          }
-
+          """
+    options = f3.read()
+    message += options
+    message += """
           stopRecording();
          
           //document.getElementById('startBtn').checked = false;

@@ -1,0 +1,12 @@
+if(choice=="an online blogger who has talked about this event in detail")
+              {
+                document.getElementById("option1").click();
+              }
+elif(choice=="my online friends on facebook give reliable information")
+              {
+                document.getElementById("option2").click();
+              }
+elif(choice=="a reputed news organizations web page")
+              {
+                document.getElementById("option3").click();
+              }

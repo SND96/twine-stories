@@ -1,0 +1,12 @@
+if(choice=="change the word recently to reference the date of the event")
+              {
+                document.getElementById("option1").click();
+              }
+elif(choice=="delete the word recently and leave the rest as it it")
+              {
+                document.getElementById("option2").click();
+              }
+elif(choice=="delete the claim because it does not have a source")
+              {
+                document.getElementById("option3").click();
+              }

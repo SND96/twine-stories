@@ -1,0 +1,12 @@
+if(choice=="use my memory of the event for the date it occurred")
+              {
+                document.getElementById("option1").click();
+              }
+elif(choice=="go through my old newspapers to find the particular event")
+              {
+                document.getElementById("option2").click();
+              }
+elif(choice=="search for an online source that refers to the particular event")
+              {
+                document.getElementById("option3").click();
+              }
