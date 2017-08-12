@@ -55,16 +55,20 @@ def make_jsgf_file(ccline, fname,num_line):
                 document.getElementById("option3").click();
               }'''
              
-        # print(sentence)
+        
 
         for word in words:
             try:
                 # print(word)
                 prons = CMUDICT[word]
+
                 for pron in prons:
+                    # print (wordList)
                     if(word not in wordList):
+                        # print(word)
                         message1 += "[\""+word+"\", \""+str.upper(pron) + "\"], "
-                        wordList += word
+                        wordList = wordList+ [word]
+                        # print((wordList))
                     message2 += "{from: "+str(state)+", to:" +str(state+1) +", word:\"" +word+"\"},"
                     break 
                     # f.write(message)
