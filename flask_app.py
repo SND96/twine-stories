@@ -21,12 +21,6 @@ def  next():
 		make_file(form)
 
 		return render_template('page.html')
-        # return redirect(url_for('options',next_node=form))
-
-@app.route('/options/<next_node>')
-def options(next_node):
-    return render_template(next_node+'.html')
-
 
 if __name__ == '__main__':
    app.run(debug = True)

@@ -110,7 +110,7 @@ def make_option_files(node):
             # print(line)
             # print(question)
             if(line == question):
-                print(line)
+                # print(line)
                 start = 1
 
             elif(start != 1):
@@ -119,7 +119,7 @@ def make_option_files(node):
             if line[0]!='[':
               continue
 
-            print("Starting")
+            # print("Starting")
             length = len(line)
 
             for i in range (length):

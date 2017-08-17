@@ -1,12 +1,12 @@
-if(choice=="an online blogger who has talked about this event in detail")
+if(choice=="change the word recently to reference the date of the event")
               {
                 document.getElementById("option1").click();
               }
-elif(choice=="my online friends on facebook give reliable information")
+elif(choice=="delete the word recently and leave the rest as it it")
               {
                 document.getElementById("option2").click();
               }
-elif(choice=="a reputed news organizations web page")
+elif(choice=="delete the claim because it does not have a source")
               {
                 document.getElementById("option3").click();
               }

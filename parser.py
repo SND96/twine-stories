@@ -18,45 +18,9 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
             </form>
         """
 
-    message= message + """<style>
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: blue; /* Fallback color */
-    background-color: blue; /* Black w/ opacity */
-}
-.modal-content {
-    background-color: yellow;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #333;
-    width: 80%;
-}
-/* The Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-}
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-</style>
-<body>
+    message= message + """<body>
 <div class="container">
-<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/materialize.min.css')}}"  media="screen,projection"/>
+
 
 <div class="row">
 <div class="pad-top"></div>
@@ -75,7 +39,6 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
 
       <li><p>Click again to stop the recording. Press the play button to replay the recording </p></li>
     </ul>
-    <select id="grammars">Select</select>
     <audio controls="controls"></audio>
     <span id="recording-indicator" ></span>
     <a style="display: inline;">Press to: Record/Stop </a>
@@ -87,42 +50,8 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
           <span id="playing-indicator" ></span>
          <h10> <a style="display: inline;">Play </a></h10>
       <button class="waves-light btn-floating" id="play" title="Play" ><i class="fa fa-play" aria-hidden="true"></i></button>
-      <a style="display: inline;">Evaluate </a>    
+      <a style="display: inline;">Submit </a>    
       <button class="waves-light btn-floating" id="eval" ><i class="fa fa-question" aria-hidden="true"></i></button>
-      
-
-          <a style="display: inline;">Say in phrase </a>
-       <button class="waves-light btn-floating"  id="phrase" onclick="window.location='https://docs.google.com/document/d/1gBc-yf4y8OLW7Pky278H_3FOXMHCNCxfvKMHplmimmU/edit#'"" ><i class="fa fa-link" aria-hidden="true" id="icon"></i>
-       </button>
-       <a style="display: inline;"></a>
-      
-<!-- The Modal -->
-<div id="myModal" class="modal">
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Output</h2>
-  </div>
-</div>
-<div class="row"  style="text-align: center;">
-        <div class="col s10 m10 offset-s1 offset-m1">
-          <div class="card brown lighten-4">
-            <div class="card-content">
-           <span class="card-title">Recognition Output</span>
-            <div id="output" style="height:150px;overflow:auto;" >
-            </div>
-            </div>
-          </div>
-        </div>
-    </div>
-    <span class="card-title">Status</span>
-    <div id="current-status">Loading page</div>
-
-</div>
-</div>
-</div>
-</div>
-</div>
          
     <script>
       // These will be initialized later
@@ -419,7 +348,6 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
      <script src="{{url_for('static', filename='js/audioRecorderWorker.js')}}"></script>
      <script src="{{url_for('static', filename='js/recorder.js')}}"></script>
      <script src="{{url_for('static', filename='js/recognizer.js')}}"></script>
-     <script src="{{url_for('static', filename='js/materialize.min.js')}}"></script>
 
 
      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -444,22 +372,24 @@ def make_file(node):
       #Storing the options and the next node
       next_node = [""]*3
       ccline = [""]*3
-      question = ":: "+node+"\n"
-
+      node = ":: "+node+"\n"
+      question = 0
 
       #For storing the question statement
       statement = ""
       for line in f.readlines():
           alpha = 0
-          # if(question):
-          #     statement = line
-          #     question = 0
+          if(question):
+              statement += line
+              # question = 0
+  
 
           if(line[0] == ":" and start == 1):
             break
 
-          if(line == question):
+          if(line == node):
             start = 1
+            question = 1
 
           elif(start!=1):
             continue
@@ -490,8 +420,11 @@ def make_file(node):
           if line[0]!='[':
               continue
 
+          question = 0
+
+          statement = statement[:statement.rfind('\n')]
           length = len(line)
-          print(line)
+          # print(line)
           alpha = 0
           nodes = 0
           initial = 0
@@ -518,7 +451,7 @@ def make_file(node):
                   initial = 1
           num_line += 1            
       
-      print(next_node)
+      # print(next_node)
       # print(num_line)
       make_option_file(ccline,fname,next_node,num_line,statement)
 

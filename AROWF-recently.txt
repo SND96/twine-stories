@@ -16,7 +16,6 @@ This is what you see,**
 
 <div class="container">
 
-  <form autocomplete="off" action="/arowf/answer" method=post>
 
 
  <!--  <p><a href="http://mediawiki.org/wiki/Accuracy_review/docs/answer" target="_blank">Help doc</a> -->

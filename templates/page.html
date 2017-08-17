@@ -1,55 +1,45 @@
  
             <html> 
                 <body> 
-                <p></p>
+                <p>**You visit https://tools.wmflabs.org/arowf/answer to check on some
+article to review.
+This is what you see,**
+
+
+<div class="container">
+
+
+
+ <!--  <p><a href="http://mediawiki.org/wiki/Accuracy_review/docs/answer" target="_blank">Help doc</a> -->
+      <h4 clear=all>Question:</h4 clear=all>
+      The article <a target="_blank" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">DJ Felli Fel</a> has the word 'recently' inserted in 2008-01-05. Is it still correctly used? The context is:</br><i>radio DJ for L.A.'s Power 106, record producer, and a recording artist <b>recently</b> signed to So So Def/Island Urban Music. He is also a member of The Heavy</i></br><a target="_blank" style="float:right;" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">https://en.wikipedia.org/wiki/DJ_Felli_Fel</a><iframe src="https://en.wikipedia.org/wiki/DJ_Felli_Fel" style="height: 40%; width: 100%;">[Can not display <a target="_blank" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">https://en.wikipedia.org/wiki/DJ_Felli_Fel</a> inline as an iframe here.]</iframe>
+      <h4 clear=all>How would you proceed:</h4 clear=all>
+     <!-- <textarea name=answer style="width: 80%; height: 15%;" required></textarea>
+      <br/>
+      <h4 clear=all>Optionally add a pertinent web page:</h4 clear=all>
+      <input id=iframeurl type=text name=iframeurl placeholder="Optional URL"
+             style="width: 70%;" />
+      <input type=button value=Preview onclick="LoadIframe(); return False;" />
+      <button type=submit name=response value=a>Answer</button>
+      <input type=hidden name=record value=000000491 />
+
+  </form>
+  <iframe id=iframeobj name=iframeobj
+          style="display: none; height: 40%; width: 100%;"></iframe>
+-->
+  </div></p>
                 <form action="http://localhost:5000/next"  method = "POST">
-                   <p>An online blogger who has talked about this event in detail 
-                    <button name="option" id="option1" type = "submit"  value="End 4">Go</button> 
-                       <p>My online friends on Facebook give reliable information 
-                    <button name="option" id="option2" type = "submit"  value="End 5">Go</button> 
-                       <p>A reputed news organizations web page 
-                    <button name="option" id="option3" type = "submit"  value="Step 3">Go</button> 
+                   <p>Change the word "recently" to reference the date of the event 
+                    <button name="option" id="option1" type = "submit"  value="Step 1">Go</button> 
+                       <p>Delete the word "recently" and leave the rest as it it 
+                    <button name="option" id="option2" type = "submit"  value="End1">Go</button> 
+                       <p>Delete the claim because it does not have a source 
+                    <button name="option" id="option3" type = "submit"  value="End0">Go</button> 
                            
             </form>
-        <style>
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: blue; /* Fallback color */
-    background-color: blue; /* Black w/ opacity */
-}
-.modal-content {
-    background-color: yellow;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #333;
-    width: 80%;
-}
-/* The Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-}
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-</style>
-<body>
+        <body>
 <div class="container">
-<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/materialize.min.css')}}"  media="screen,projection"/>
+
 
 <div class="row">
 <div class="pad-top"></div>
@@ -68,7 +58,6 @@
 
       <li><p>Click again to stop the recording. Press the play button to replay the recording </p></li>
     </ul>
-    <select id="grammars">Select</select>
     <audio controls="controls"></audio>
     <span id="recording-indicator" ></span>
     <a style="display: inline;">Press to: Record/Stop </a>
@@ -80,42 +69,8 @@
           <span id="playing-indicator" ></span>
          <h10> <a style="display: inline;">Play </a></h10>
       <button class="waves-light btn-floating" id="play" title="Play" ><i class="fa fa-play" aria-hidden="true"></i></button>
-      <a style="display: inline;">Evaluate </a>    
+      <a style="display: inline;">Submit </a>    
       <button class="waves-light btn-floating" id="eval" ><i class="fa fa-question" aria-hidden="true"></i></button>
-      
-
-          <a style="display: inline;">Say in phrase </a>
-       <button class="waves-light btn-floating"  id="phrase" onclick="window.location='https://docs.google.com/document/d/1gBc-yf4y8OLW7Pky278H_3FOXMHCNCxfvKMHplmimmU/edit#'"" ><i class="fa fa-link" aria-hidden="true" id="icon"></i>
-       </button>
-       <a style="display: inline;"></a>
-      
-<!-- The Modal -->
-<div id="myModal" class="modal">
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Output</h2>
-  </div>
-</div>
-<div class="row"  style="text-align: center;">
-        <div class="col s10 m10 offset-s1 offset-m1">
-          <div class="card brown lighten-4">
-            <div class="card-content">
-           <span class="card-title">Recognition Output</span>
-            <div id="output" style="height:150px;overflow:auto;" >
-            </div>
-            </div>
-          </div>
-        </div>
-    </div>
-    <span class="card-title">Status</span>
-    <div id="current-status">Loading page</div>
-
-</div>
-</div>
-</div>
-</div>
-</div>
          
     <script>
       // These will be initialized later
@@ -196,15 +151,15 @@
         else
         {
           id.setAttribute("class","fa fa-microphone");
-          if(choice=="an online blogger who has talked about this event in detail")
+          if(choice=="change the word recently to reference the date of the event")
               {
                 document.getElementById("option1").click();
               }
-elif(choice=="my online friends on facebook give reliable information")
+elif(choice=="delete the word recently and leave the rest as it it")
               {
                 document.getElementById("option2").click();
               }
-elif(choice=="a reputed news organizations web page")
+elif(choice=="delete the claim because it does not have a source")
               {
                 document.getElementById("option3").click();
               }
@@ -380,9 +335,9 @@ elif(choice=="a reputed news organizations web page")
        // This follows the CMU dictionary format
 
 
-    var wordList = [["an", "AE N"], ["online", "AO N L AY N"], ["blogger", "B L AO G ER"], ["who", "HH UW"], ["has", "HH AE Z"], ["talked", "T AO K T"], ["about", "AH B AW T"], ["this", "DH IH S"], ["event", "IH V EH N T"], ["in", "IH N"], ["detail", "D IH T EY L"], ["my", "M AY"], ["friends", "F R EH N D Z"], ["on", "AA N"], ["facebook", "F EY S B UH K"], ["give", "G IH V"], ["reliable", "R IH L AY AH B AH L"], ["information", "IH N F ER M EY SH AH N"], ["a", "AH"], ["reputed", "R IH P Y UW T IH D"], ["news", "N UW Z"], ["organizations", "AO R G AH N AH Z EY SH AH N Z"], ["web", "W EH B"], ["page", "P EY JH"],];
+    var wordList = [["change", "CH EY N JH"], ["the", "DH AH"], ["word", "W ER D"], ["recently", "R IY S AH N T L IY"], ["to", "T UW"], ["reference", "R EH F ER AH N S"], ["date", "D EY T"], ["of", "AH V"], ["event", "IH V EH N T"], ["delete", "D IH L IY T"], ["and", "AH N D"], ["leave", "L IY V"], ["rest", "R EH S T"], ["as", "AE Z"], ["it", "IH T"], ["claim", "K L EY M"], ["because", "B IH K AO Z"], ["does", "D AH Z"], ["not", "N AA T"], ["have", "HH AE V"], ["a", "AH"], ["source", "S AO R S"],];
 
-var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"an"},{from: 1, to:2, word:"online"},{from: 2, to:3, word:"blogger"},{from: 3, to:4, word:"who"},{from: 4, to:5, word:"has"},{from: 5, to:6, word:"talked"},{from: 6, to:7, word:"about"},{from: 7, to:8, word:"this"},{from: 8, to:9, word:"event"},{from: 9, to:10, word:"in"},{from: 10, to:11, word:"detail"},{from: 0, to:1, word:"my"},{from: 1, to:2, word:"online"},{from: 2, to:3, word:"friends"},{from: 3, to:4, word:"on"},{from: 4, to:5, word:"facebook"},{from: 5, to:6, word:"give"},{from: 6, to:7, word:"reliable"},{from: 7, to:8, word:"information"},{from: 0, to:1, word:"a"},{from: 1, to:2, word:"reputed"},{from: 2, to:3, word:"news"},{from: 3, to:4, word:"organizations"},{from: 4, to:5, word:"web"},{from: 5, to:6, word:"page"}]};
+var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"change"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"to"},{from: 5, to:6, word:"reference"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"date"},{from: 8, to:9, word:"of"},{from: 9, to:10, word:"the"},{from: 10, to:11, word:"event"},{from: 0, to:1, word:"delete"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"and"},{from: 5, to:6, word:"leave"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"rest"},{from: 8, to:9, word:"as"},{from: 9, to:10, word:"it"},{from: 10, to:11, word:"it"},{from: 0, to:1, word:"delete"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"claim"},{from: 3, to:4, word:"because"},{from: 4, to:5, word:"it"},{from: 5, to:6, word:"does"},{from: 6, to:7, word:"not"},{from: 7, to:8, word:"have"},{from: 8, to:9, word:"a"},{from: 9, to:10, word:"source"}]};
 
 
           var grammars = [ {title: "Choices", g: grammarChoices}];
@@ -420,7 +375,6 @@ var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, 
      <script src="{{url_for('static', filename='js/audioRecorderWorker.js')}}"></script>
      <script src="{{url_for('static', filename='js/recorder.js')}}"></script>
      <script src="{{url_for('static', filename='js/recognizer.js')}}"></script>
-     <script src="{{url_for('static', filename='js/materialize.min.js')}}"></script>
 
 
      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
