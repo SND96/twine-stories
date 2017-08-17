@@ -1,24 +1,17 @@
-#function to make the html file
-def make_option_file(ccline, fname,next_node,num_line,statement):
-    f1 = open('templates/page.html','w')
-    f2 = open('templates/page.txt','r')
-    f3 = open('templates/page-options.txt','r')
-    # string1 = """\\v"""
-    message =   """ 
+ 
             <html> 
                 <body> 
-                <p>"""+statement+"""</p>
+                <p></p>
                 <form action="http://localhost:5000/next"  method = "POST">
-                """
-    for i in range(num_line):
-        message = message+"""   <p>"""+ccline[i]+""" 
-                    <button name="option" id="option"""+str(i+1)+"""" type = "submit"  value=\""""+next_node[i]+"""\">Go</button> 
-                    """
-    message = message + """       
+                   <p>An online blogger who has talked about this event in detail 
+                    <button name="option" id="option1" type = "submit"  value="End 4">Go</button> 
+                       <p>My online friends on Facebook give reliable information 
+                    <button name="option" id="option2" type = "submit"  value="End 5">Go</button> 
+                       <p>A reputed news organizations web page 
+                    <button name="option" id="option3" type = "submit"  value="Step 3">Go</button> 
+                           
             </form>
-        """
-
-    message= message + """<style>
+        <style>
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -203,10 +196,18 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
         else
         {
           id.setAttribute("class","fa fa-microphone");
-          """
-    options = f3.read()
-    message += options
-    message += """
+          if(choice=="an online blogger who has talked about this event in detail")
+              {
+                document.getElementById("option1").click();
+              }
+elif(choice=="my online friends on facebook give reliable information")
+              {
+                document.getElementById("option2").click();
+              }
+elif(choice=="a reputed news organizations web page")
+              {
+                document.getElementById("option3").click();
+              }
           stopRecording();
          
           //document.getElementById('startBtn').checked = false;
@@ -328,7 +329,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
                         i++;
                       }
                       finalString = "word";
-                      for(;String(newStringer[i])!="\\v";i++)
+                      for(;String(newStringer[i])!="\v";i++)
                       { if(String(newStringer[i]) == ",")
                         { finalString += "<br/>";
                           continue;
@@ -340,7 +341,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
                         finalString += newStringer[i];
                         
                       }
-                      // document.getElementById('resultymf').innerHTML += "<br/>" + String(finalString) + '\\n';
+                      // document.getElementById('resultymf').innerHTML += "<br/>" + String(finalString) + '\n';
                 }
                 }
                 // This is the case when we have an error
@@ -379,11 +380,11 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
        // This follows the CMU dictionary format
 
 
-    """
+    var wordList = [["an", "AE N"], ["online", "AO N L AY N"], ["blogger", "B L AO G ER"], ["who", "HH UW"], ["has", "HH AE Z"], ["talked", "T AO K T"], ["about", "AH B AW T"], ["this", "DH IH S"], ["event", "IH V EH N T"], ["in", "IH N"], ["detail", "D IH T EY L"], ["my", "M AY"], ["friends", "F R EH N D Z"], ["on", "AA N"], ["facebook", "F EY S B UH K"], ["give", "G IH V"], ["reliable", "R IH L AY AH B AH L"], ["information", "IH N F ER M EY SH AH N"], ["a", "AH"], ["reputed", "R IH P Y UW T IH D"], ["news", "N UW Z"], ["organizations", "AO R G AH N AH Z EY SH AH N Z"], ["web", "W EH B"], ["page", "P EY JH"],];
 
-    grammars = f2.read()
-    message += grammars
-    message += """
+var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"an"},{from: 1, to:2, word:"online"},{from: 2, to:3, word:"blogger"},{from: 3, to:4, word:"who"},{from: 4, to:5, word:"has"},{from: 5, to:6, word:"talked"},{from: 6, to:7, word:"about"},{from: 7, to:8, word:"this"},{from: 8, to:9, word:"event"},{from: 9, to:10, word:"in"},{from: 10, to:11, word:"detail"},{from: 0, to:1, word:"my"},{from: 1, to:2, word:"online"},{from: 2, to:3, word:"friends"},{from: 3, to:4, word:"on"},{from: 4, to:5, word:"facebook"},{from: 5, to:6, word:"give"},{from: 6, to:7, word:"reliable"},{from: 7, to:8, word:"information"},{from: 0, to:1, word:"a"},{from: 1, to:2, word:"reputed"},{from: 2, to:3, word:"news"},{from: 3, to:4, word:"organizations"},{from: 4, to:5, word:"web"},{from: 5, to:6, word:"page"}]};
+
+
           var grammars = [ {title: "Choices", g: grammarChoices}];
       var grammarIds = [];
     </script>
@@ -429,102 +430,4 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
 </html>
 
 
-    """
-
-
-    f1.write(message)
-
-def make_file(node):
-  with open('AROWF-recently.txt', 'r') as f:
-      num_line = 0
-      fname ="Start"
-      #Variables used to signal the start of the parsing
-      start = 0    
-      begin = 0
-      #Storing the options and the next node
-      next_node = [""]*3
-      ccline = [""]*3
-      question = ":: "+node+"\n"
-
-
-      #For storing the question statement
-      statement = ""
-      for line in f.readlines():
-          alpha = 0
-          # if(question):
-          #     statement = line
-          #     question = 0
-
-          if(line[0] == ":" and start == 1):
-            break
-
-          if(line == question):
-            start = 1
-
-          elif(start!=1):
-            continue
-
-          # if line[:8] == ":: Start":
-          #     start = 1
-          #     begin = 1
-          #     question = 1
-
-          # elif (line[0] == ':' and start == 1) :
-          #     question = 1                           
-          #     begin = 0
-          #     make_option_file(ccline,fname,next_node,num_line,statement)
-          #     num_line = 0
-          #     next_node = [""]*3
-          #     ccline = [""]*3
-          #     fname=""
-          #     for i in range (len(line)):
-          #         if(line[i].isalpha()):
-          #             alpha = 1
-                      
-          #         if(alpha == 1 and line[i].isspace() == 0 ):
-          #             fname += line[i]
-          #     begin = 1
-          # if(start!=1 and begin!=1):
-          #     continue
-          
-          if line[0]!='[':
-              continue
-
-          length = len(line)
-          print(line)
-          alpha = 0
-          nodes = 0
-          initial = 0
-          for i in range (length):
-              if (line[i] == '.'):
-                  nodes = i
-                  break
-              if line[i].isalpha():
-                  alpha = 1
-              if (alpha):
-                  ccline[num_line] += line[i]
-
-
-          for i in range (nodes,length):
-              if(line[i] == ']'):
-                  break
-              if(initial == 2):
-                  next_node[num_line] += line[i]
-
-              if(initial==1 and line[i].isspace()==0):
-                  next_node[num_line] += line[i]
-                  initial = 2
-              if(line[i] == '>'):
-                  initial = 1
-          num_line += 1            
-      
-      print(next_node)
-      # print(num_line)
-      make_option_file(ccline,fname,next_node,num_line,statement)
-
-# make_file("Step 1")
-
-
-
-
-
+    

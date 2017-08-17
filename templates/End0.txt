@@ -1,4 +1,0 @@
-var wordList = ];
-
-var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: ]};
-
