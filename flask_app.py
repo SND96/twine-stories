@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def Start():
-    return render_template('Start.html')
+    return render_template('page.html')
 
 @app.route('/next', methods =['POST'])
 def  next():
