@@ -27,8 +27,8 @@ punct = compile(r'[,.?!]')
 #function to make the jsgf file
 def make_jsgf_file(ccline, fname,num_line):
     # print(fname)
-    f = open('templates/'+fname+'.txt','w')
-    f1 = open('templates/'+fname+'-options.txt','w')
+    f = open('templates/page.txt','w')
+    f1 = open('templates/page-options.txt','w')
     message=''
     message1 = 'var wordList = ['
     message2 = 'var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: ['
@@ -87,70 +87,55 @@ def make_jsgf_file(ccline, fname,num_line):
     f.write(message2)
     f1.write(message3)
 
+def make_option_files(node):
+    with open('AROWF-recently.txt', 'r') as f:
+        num_line = 0
+        fname ="Start"
+        #Variables used to signal the start of the parsing
+        start = 0    
+        begin = 0
+        #Storing the options and the next node
+        next_node = [""]*3
+        ccline = [""]*3
 
-with open('AROWF-recently.txt', 'r') as f:
-    num_line = 0
-    fname ="Start"
-    #Variables used to signal the start of the parsing
-    start = 0    
-    begin = 0
-    #Storing the options and the next node
-    next_node = [""]*3
-    ccline = [""]*3
+        #For storing the question statement
+        question = ":: "+node+"\n"
+        statement = ""
+        for line in f.readlines():
+            alpha = 0
 
-    #For storing the question statement
-    question = 0 
-    statement = ""
-    for line in f.readlines():
-        alpha = 0
-        if(question):
-            statement = line
-            question = 0
 
-        if line[:8] == ":: Start":
-            start = 1
-            begin = 1
-            question = 1
-
-        elif (line[0] == ':' and start == 1) :
-            question = 1                           
-            begin = 0
-            make_jsgf_file(ccline,fname,num_line)
-            num_line = 0
-            next_node = [""]*3
-            ccline = [""]*3
-            fname=""
-            for i in range (len(line)):
-                if(line[i].isalpha()):
-                    alpha = 1
-                    
-                if(alpha == 1 and line[i].isspace() == 0 ):
-                    fname += line[i]
-            begin = 1
-        if(start!=1 and begin!=1):
-            continue
-        
-        if line[0]!='[':
-            continue
-
-        length = len(line)
-        alpha = 0
-        node = 0
-        initial = 0
-        for i in range (length):
-            #check = isalpha(line[i])
-            if (line[i] == '.'):
+            if(line[0] == ":" and start == 1):
                 break
-            if ((line[i].isalpha()) or (line[i].isspace())):
-                ccline[num_line]+=line[i]
+            # print(line)
+            # print(question)
+            if(line == question):
+                # print(line)
+                start = 1
+
+            elif(start != 1):
+                continue
+
+            if line[0]!='[':
+              continue
+
+            # print("Starting")
+            length = len(line)
+
+            for i in range (length):
+                #check = isalpha(line[i])
+                if (line[i] == '.'):
+                    break
+                if ((line[i].isalpha()) or (line[i].isspace())):
+                    ccline[num_line]+=line[i]
 
 
         # print(next_node)
-        num_line += 1            
-            
+            num_line += 1            
+                
+        make_jsgf_file(ccline,fname,num_line)
 
-    num_line -= 1
-    make_jsgf_file(ccline,fname,num_line)
+# make_option_files("Step 1")
 
 
     

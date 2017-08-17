@@ -1,3 +1,0 @@
-#JSGF V1.0;
-grammar choices;
-public <choice> = sil [[r iy p l ey s|er p l ey s] [dh ah|dh iy] w er d [r iy s ah n t l iy|r iy s ah n l iy] [w ih dh|w ih th] [dh ah|dh iy] d ey t [ah n d|ae n d] t ah ch n ah th ih ng eh l s |[r iy p l ey s|er p l ey s] [dh ah|dh iy] w er d [r iy s ah n t l iy|r iy s ah n l iy] [w ih dh|w ih th] [dh ah|dh iy] d ey t [ah n d|ae n d] s ay t [dh ah|dh iy] s ao r s y uw z d |s ay t [dh ah|dh iy] s ao r s [dh ae t|dh ah t] [k ae n|k ah n] b iy y uw z d [ah n d|ae n d] l eh t s ah m w ah n eh l s [r iy p l ey s|er p l ey s] [r iy s ah n t l iy|r iy s ah n l iy] ] sil;
