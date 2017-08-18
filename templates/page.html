@@ -30,16 +30,16 @@ This is what you see,**
   </div></p>
                 <form action="http://localhost:5000/next"  method = "POST">
                    <p>Change the word "recently" to reference the date of the event 
-                    <button name="option" id="option1" type = "submit"  value="Step 1">Go</button> 
+                    <button name="option" id="option1" type = "submit"  value="Step 1">Submit</button> 
                        <p>Delete the word "recently" and leave the rest as it it 
-                    <button name="option" id="option2" type = "submit"  value="End1">Go</button> 
+                    <button name="option" id="option2" type = "submit"  value="End1">Submit</button> 
                        <p>Delete the claim because it does not have a source 
-                    <button name="option" id="option3" type = "submit"  value="End0">Go</button> 
+                    <button name="option" id="option3" type = "submit"  value="End0">Submit</button> 
                            
             </form>
         <body>
 <div class="container">
-
+<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/materialize.min.css')}}"  media="screen,projection"/>
 
 <div class="row">
 <div class="pad-top"></div>
@@ -58,19 +58,49 @@ This is what you see,**
 
       <li><p>Click again to stop the recording. Press the play button to replay the recording </p></li>
     </ul>
+    <select id="grammars">Select</select>
     <audio controls="controls"></audio>
     <span id="recording-indicator" ></span>
     <a style="display: inline;">Press to: Record/Stop </a>
-    <button class="waves-light btn-floating" id="startBtn" style= ><i class="fa fa-microphone" aria-hidden="true" id="icon"></i>
+    <button id="startBtn" style= ><i class="fa fa-microphone" aria-hidden="true" id="icon"></i>
 </button>
-
-
 
           <span id="playing-indicator" ></span>
          <h10> <a style="display: inline;">Play </a></h10>
-      <button class="waves-light btn-floating" id="play" title="Play" ><i class="fa fa-play" aria-hidden="true"></i></button>
-      <a style="display: inline;">Submit </a>    
-      <button class="waves-light btn-floating" id="eval" ><i class="fa fa-question" aria-hidden="true"></i></button>
+      <button id="play" title="Play" ><i class="fa fa-play" aria-hidden="true"></i></button>
+      <a style="display: inline;">Evaluate </a>    
+      <button id="eval" ><i class="fa fa-question" aria-hidden="true"></i></button>
+      
+
+          <a style="display: inline;">Say in phrase </a>
+      
+<!-- The Modal -->
+
+  <!-- Modal content -->
+ 
+    
+<div class="row"  style="text-align: center;">
+        <div class="col s10 m10 offset-s1 offset-m1">
+          <div class="card brown lighten-4">
+            <div class="card-content">
+           <span class="card-title">Recognition Output</span>
+            <div id="output" style="height:150px;overflow:auto;" >
+            </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <span class="card-title">Status</span>
+    <div id="current-status">Loading page</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
          
     <script>
       // These will be initialized later
@@ -128,6 +158,21 @@ This is what you see,**
         updateUI();
         updateStatus("Audio recorder ready");
       };
+            // This starts recording. We first need to get the id of the grammar to use
+       function startRecording() {
+        var id = document.getElementById('grammars').value;
+        if (recorder && recorder.start(id)) displayRecording(true)
+        rec && rec.record();
+      };
+
+      // Stops recording
+         function stopRecording() {
+         rec && rec.stop();
+         recorder && recorder.stop();
+          
+    };
+      
+
           
   var playbackRecorderAudio = function (recorder, context) {
     recorder.getBuffer(function (buffers) {
@@ -149,39 +194,26 @@ This is what you see,**
           startRecording();
         }
         else
-        {
+        { 
+
           id.setAttribute("class","fa fa-microphone");
-          if(choice=="change the word recently to reference the date of the event")
+                           if(choice=="change the word recently to reference the date of the event")
               {
                 document.getElementById("option1").click();
               }
-elif(choice=="delete the word recently and leave the rest as it it")
+else if(choice=="delete the word recently and leave the rest as it it")
               {
                 document.getElementById("option2").click();
               }
-elif(choice=="delete the claim because it does not have a source")
+else if(choice=="delete the claim because it does not have a source")
               {
                 document.getElementById("option3").click();
               }
-          stopRecording();
-         
-          //document.getElementById('startBtn').checked = false;
-        }
-      }
-      // This starts recording. We first need to get the id of the grammar to use
-       function startRecording() {
-        var id = document.getElementById('grammars').value;
-        if (recorder && recorder.start(id)) displayRecording(true)
-        rec && rec.record();
-      };
-      // Stops recording
-         function stopRecording() {
-        recorder && recorder.stop();
-        rec && rec.stop();
-        displayRecording(false);
 
-    };
-      
+          stopRecording();
+          document.getElementById('startBtn').checked = false;
+        }
+      };
       var playback = function(e){
           playbackRecorderAudio(rec, audioContext);
       }
@@ -229,7 +261,7 @@ elif(choice=="delete the claim because it does not have a source")
          
           postRecognizerJob({command: 'initialize',// data: [["-hmm", "my_model"], ["-fwdflat", "no"]]}
                              //callbackId: id,
-                                data: [  //["-jsgf", "wyn-align.jsgf"],
+                                data: [  //["-jsgf", "Start.jsgf"],
                               // ["-dict", "phonemes.dict"],
                                //  //["-hmm","my_model"],
                                 ["-backtrace", "yes"],
@@ -328,7 +360,6 @@ elif(choice=="delete the claim because it does not have a source")
  
       play.onclick = playback;
 
-      //stopBtn.onclick
       };
 
        // This is the list of words that need to be added to the recognizer
@@ -375,6 +406,7 @@ var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, 
      <script src="{{url_for('static', filename='js/audioRecorderWorker.js')}}"></script>
      <script src="{{url_for('static', filename='js/recorder.js')}}"></script>
      <script src="{{url_for('static', filename='js/recognizer.js')}}"></script>
+     <script src="{{url_for('static', filename='js/materialize.min.js')}}"></script>
 
 
      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

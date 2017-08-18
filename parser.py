@@ -12,7 +12,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
                 """
     for i in range(num_line):
         message = message+"""   <p>"""+ccline[i]+""" 
-                    <button name="option" id="option"""+str(i+1)+"""" type = "submit"  value=\""""+next_node[i]+"""\">Go</button> 
+                    <button name="option" id="option"""+str(i+1)+"""" type = "submit"  value=\""""+next_node[i]+"""\">Submit</button> 
                     """
     message = message + """       
             </form>
@@ -20,7 +20,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
 
     message= message + """<body>
 <div class="container">
-
+<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/materialize.min.css')}}"  media="screen,projection"/>
 
 <div class="row">
 <div class="pad-top"></div>
@@ -39,19 +39,49 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
 
       <li><p>Click again to stop the recording. Press the play button to replay the recording </p></li>
     </ul>
+    <select id="grammars">Select</select>
     <audio controls="controls"></audio>
     <span id="recording-indicator" ></span>
     <a style="display: inline;">Press to: Record/Stop </a>
-    <button class="waves-light btn-floating" id="startBtn" style= ><i class="fa fa-microphone" aria-hidden="true" id="icon"></i>
+    <button id="startBtn" style= ><i class="fa fa-microphone" aria-hidden="true" id="icon"></i>
 </button>
-
-
 
           <span id="playing-indicator" ></span>
          <h10> <a style="display: inline;">Play </a></h10>
-      <button class="waves-light btn-floating" id="play" title="Play" ><i class="fa fa-play" aria-hidden="true"></i></button>
-      <a style="display: inline;">Submit </a>    
-      <button class="waves-light btn-floating" id="eval" ><i class="fa fa-question" aria-hidden="true"></i></button>
+      <button id="play" title="Play" ><i class="fa fa-play" aria-hidden="true"></i></button>
+      <a style="display: inline;">Evaluate </a>    
+      <button id="eval" ><i class="fa fa-question" aria-hidden="true"></i></button>
+      
+
+          <a style="display: inline;">Say in phrase </a>
+      
+<!-- The Modal -->
+
+  <!-- Modal content -->
+ 
+    
+<div class="row"  style="text-align: center;">
+        <div class="col s10 m10 offset-s1 offset-m1">
+          <div class="card brown lighten-4">
+            <div class="card-content">
+           <span class="card-title">Recognition Output</span>
+            <div id="output" style="height:150px;overflow:auto;" >
+            </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <span class="card-title">Status</span>
+    <div id="current-status">Loading page</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
          
     <script>
       // These will be initialized later
@@ -109,6 +139,21 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
         updateUI();
         updateStatus("Audio recorder ready");
       };
+            // This starts recording. We first need to get the id of the grammar to use
+       function startRecording() {
+        var id = document.getElementById('grammars').value;
+        if (recorder && recorder.start(id)) displayRecording(true)
+        rec && rec.record();
+      };
+
+      // Stops recording
+         function stopRecording() {
+         rec && rec.stop();
+         recorder && recorder.stop();
+          
+    };
+      
+
           
   var playbackRecorderAudio = function (recorder, context) {
     recorder.getBuffer(function (buffers) {
@@ -130,31 +175,18 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
           startRecording();
         }
         else
-        {
+        { 
+
           id.setAttribute("class","fa fa-microphone");
-          """
+                           """
     options = f3.read()
     message += options
     message += """
-          stopRecording();
-         
-          //document.getElementById('startBtn').checked = false;
-        }
-      }
-      // This starts recording. We first need to get the id of the grammar to use
-       function startRecording() {
-        var id = document.getElementById('grammars').value;
-        if (recorder && recorder.start(id)) displayRecording(true)
-        rec && rec.record();
-      };
-      // Stops recording
-         function stopRecording() {
-        recorder && recorder.stop();
-        rec && rec.stop();
-        displayRecording(false);
 
-    };
-      
+          stopRecording();
+          document.getElementById('startBtn').checked = false;
+        }
+      };
       var playback = function(e){
           playbackRecorderAudio(rec, audioContext);
       }
@@ -202,7 +234,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
          
           postRecognizerJob({command: 'initialize',// data: [["-hmm", "my_model"], ["-fwdflat", "no"]]}
                              //callbackId: id,
-                                data: [  //["-jsgf", "wyn-align.jsgf"],
+                                data: [  //["-jsgf", "Start.jsgf"],
                               // ["-dict", "phonemes.dict"],
                                //  //["-hmm","my_model"],
                                 ["-backtrace", "yes"],
@@ -301,7 +333,6 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
  
       play.onclick = playback;
 
-      //stopBtn.onclick
       };
 
        // This is the list of words that need to be added to the recognizer
@@ -348,6 +379,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
      <script src="{{url_for('static', filename='js/audioRecorderWorker.js')}}"></script>
      <script src="{{url_for('static', filename='js/recorder.js')}}"></script>
      <script src="{{url_for('static', filename='js/recognizer.js')}}"></script>
+     <script src="{{url_for('static', filename='js/materialize.min.js')}}"></script>
 
 
      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -361,6 +393,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
 
 
     f1.write(message)
+
 
 def make_file(node):
   with open('AROWF-recently.txt', 'r') as f:
@@ -394,29 +427,6 @@ def make_file(node):
           elif(start!=1):
             continue
 
-          # if line[:8] == ":: Start":
-          #     start = 1
-          #     begin = 1
-          #     question = 1
-
-          # elif (line[0] == ':' and start == 1) :
-          #     question = 1                           
-          #     begin = 0
-          #     make_option_file(ccline,fname,next_node,num_line,statement)
-          #     num_line = 0
-          #     next_node = [""]*3
-          #     ccline = [""]*3
-          #     fname=""
-          #     for i in range (len(line)):
-          #         if(line[i].isalpha()):
-          #             alpha = 1
-                      
-          #         if(alpha == 1 and line[i].isspace() == 0 ):
-          #             fname += line[i]
-          #     begin = 1
-          # if(start!=1 and begin!=1):
-          #     continue
-          
           if line[0]!='[':
               continue
 
