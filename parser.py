@@ -3,7 +3,6 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
     f1 = open('templates/page.html','w')
     f2 = open('templates/page.txt','r')
     f3 = open('templates/page-options.txt','r')
-    # string1 = """\\v"""
     message =   """ 
             <html> 
                 <body> 
@@ -12,16 +11,17 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
                 """
     for i in range(num_line):
         message = message+"""   <p>"""+ccline[i]+""" 
-                    <button name="option" id="option"""+str(i+1)+"""" type = "submit"  value=\""""+next_node[i]+"""\">Submit</button> 
+                    <button name="option" id="option"""+str(i+1)+"""" type = "submit"  value=\""""+next_node[i]+"""\">Go</button> 
                     """
     message = message + """       
             </form>
         """
 
-    message= message + """<body>
+    message= message + """
+
+<body>
 <div class="container">
 <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/materialize.min.css')}}"  media="screen,projection"/>
-
 <div class="row">
 <div class="pad-top"></div>
 </div>
@@ -30,42 +30,45 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
           <div class="card orange lighten-5">
             <div class="card-content">
 <div class="row">
-<div class="col s3 offset-s9">
+<div class="col s1 offset-s9">
 </div>
 
 
-    <!-- <h2></h2> -->
-    <ul>
-
-      <li><p>Click again to stop the recording. Press the play button to replay the recording </p></li>
-    </ul>
     <select id="grammars">Select</select>
-    <audio controls="controls"></audio>
+ 
     <span id="recording-indicator" ></span>
     <a style="display: inline;">Press to: Record/Stop </a>
     <button id="startBtn" style= ><i class="fa fa-microphone" aria-hidden="true" id="icon"></i>
 </button>
 
+
+    
+
+<!--       <audio id="recordedAudio" controls="controls">
+      </audio><br/><br/> -->
           <span id="playing-indicator" ></span>
          <h10> <a style="display: inline;">Play </a></h10>
-      <button id="play" title="Play" ><i class="fa fa-play" aria-hidden="true"></i></button>
+      <button  id="play" title="Play" ><i class="fa fa-play" aria-hidden="true"></i></button>
       <a style="display: inline;">Evaluate </a>    
-      <button id="eval" ><i class="fa fa-question" aria-hidden="true"></i></button>
+      <button  id="eval" ><i class="fa fa-question" aria-hidden="true"></i></button>
       
 
-          <a style="display: inline;">Say in phrase </a>
+
+       <a style="display: inline;"></a>
       
 <!-- The Modal -->
-
+<div id="myModal" class="modal">
   <!-- Modal content -->
- 
-    
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Output</h2>
+  </div>
+</div>
 <div class="row"  style="text-align: center;">
         <div class="col s10 m10 offset-s1 offset-m1">
           <div class="card brown lighten-4">
             <div class="card-content">
-           <span class="card-title">Recognition Output</span>
-            <div id="output" style="height:150px;overflow:auto;" >
+            <div id="output" style="height:20px;overflow:auto;" >
             </div>
             </div>
           </div>
@@ -74,21 +77,24 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
     <span class="card-title">Status</span>
     <div id="current-status">Loading page</div>
 
+    <div id="resultymf"></div>
+    </div>
+          </div>
+        </div>
+    </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div>
-
-
          
     <script>
       // These will be initialized later
       var recognizer, recorder, callbackManager, audioContext, outputContainer,rec;
       // Only when both recorder and recognizer do we have a ready application
-      var isRecorderReady = isRecognizerReady = false;
       var choice="ONE"; //To hold the choice of the user
+
+      var isRecorderReady = isRecognizerReady = false;
       // A convenience function to post a message to the recognizer and associate
       // a callback to its response
       function postRecognizerJob(message, callback) {
@@ -108,10 +114,9 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
       };
       // To display the hypothesis sent by the recognizer
       function updateHyp(hyp) {
-        if (outputContainer) 
-          {outputContainer.innerHTML = hyp;
-          }
-          choice = hyp;
+        if (outputContainer) outputContainer.innerHTML = hyp;
+        choice = hyp;
+
       };
       // This updates the UI when the app might get ready
       // Only when both recorder and recognizer are ready do we enable the buttons
@@ -124,6 +129,10 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
       };
       // A not-so-great recording indicator
      // A not-so-great recording indicator
+      function displayRecording(display) {
+        // if (display) document.getElementById('recording-indicator').innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        // else document.getElementById('recording-indicator').innerHTML = "";
+      };
 
       var audioContext = new AudioContext(); 
       function startUserMedia(stream) {
@@ -139,21 +148,6 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
         updateUI();
         updateStatus("Audio recorder ready");
       };
-            // This starts recording. We first need to get the id of the grammar to use
-       function startRecording() {
-        var id = document.getElementById('grammars').value;
-        if (recorder && recorder.start(id)) displayRecording(true)
-        rec && rec.record();
-      };
-
-      // Stops recording
-         function stopRecording() {
-         rec && rec.stop();
-         recorder && recorder.stop();
-          
-    };
-      
-
           
   var playbackRecorderAudio = function (recorder, context) {
     recorder.getBuffer(function (buffers) {
@@ -168,25 +162,35 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
       var check = function(){
         var id = document.getElementById('icon')
         var img = id.getAttribute('class')
-        
         if( img == "fa fa-microphone")
         {
           id.setAttribute("class","fa fa-stop");
           startRecording();
         }
         else
-        { 
-
+        {
           id.setAttribute("class","fa fa-microphone");
-                           """
+                                    """
     options = f3.read()
     message += options
     message += """
-
           stopRecording();
-          document.getElementById('startBtn').checked = false;
+          //document.getElementById('startBtn').checked = false;
         }
+      }
+      // This starts recording. We first need to get the id of the grammar to use
+       function startRecording() {
+        var id = document.getElementById('grammars').value;
+        if (recorder && recorder.start(id)) displayRecording(true)
+        rec && rec.record();
       };
+      // Stops recording
+         function stopRecording() {
+        recorder && recorder.stop();
+        rec && rec.stop();
+        displayRecording(false);
+    };
+      
       var playback = function(e){
           playbackRecorderAudio(rec, audioContext);
       }
@@ -234,7 +238,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
          
           postRecognizerJob({command: 'initialize',// data: [["-hmm", "my_model"], ["-fwdflat", "no"]]}
                              //callbackId: id,
-                                data: [  //["-jsgf", "Start.jsgf"],
+                                data: [  //["-jsgf", "wyn-align.jsgf"],
                               // ["-dict", "phonemes.dict"],
                                //  //["-hmm","my_model"],
                                 ["-backtrace", "yes"],
@@ -267,12 +271,12 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
                 // This is a case when the recognizer has a new hypothesis
                 if (e.data.hasOwnProperty('hyp')) {
                   var newHyp = e.data.hyp;
-                  if (e.data.hasOwnProperty('final') &&  e.data.final) newHyp = String(newHyp);
+                  if (e.data.hasOwnProperty('final') &&  e.data.final) newHyp = "Final: " + newHyp;
                   updateHyp(newHyp);
                 }
                 if (e.data.hasOwnProperty('stringer')) {
                   var newStringer = e.data.stringer;
-                  newStringer =  String(newStringer);
+                  newStringer = "Final: " + newStringer;
                   if(e.data.hasOwnProperty('final')) 
                     { var finalString = [];
                       var i =0;
@@ -301,7 +305,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
                         finalString += newStringer[i];
                         
                       }
-                      // document.getElementById('resultymf').innerHTML += "<br/>" + String(finalString) + '\\n';
+                      
                 }
                 }
                 // This is the case when we have an error
@@ -333,12 +337,11 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
  
       play.onclick = playback;
 
+      //stopBtn.onclick
       };
 
        // This is the list of words that need to be added to the recognizer
        // This follows the CMU dictionary format
-
-
     """
 
     grammars = f2.read()
@@ -371,20 +374,15 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
     </script>
     <!-- These are the two JavaScript files you must load in the HTML,
     The recognizer is loaded through a Web Worker -->
-
-    <!-- These are the two JavaScript files you must load in the HTML,
-    // The recognizer is loaded through a Web Worker -->
-     <script src="{{url_for('static', filename='js/audioRecorder.js')}}"></script>
+<script src="{{url_for('static', filename='js/audioRecorder.js')}}"></script>
      <script src="{{url_for('static', filename='js/callbackManager.js')}}"></script>
      <script src="{{url_for('static', filename='js/audioRecorderWorker.js')}}"></script>
      <script src="{{url_for('static', filename='js/recorder.js')}}"></script>
      <script src="{{url_for('static', filename='js/recognizer.js')}}"></script>
      <script src="{{url_for('static', filename='js/materialize.min.js')}}"></script>
 
-
-     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-
-     <script src="https://use.fontawesome.com/03f8396175.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://use.fontawesome.com/03f8396175.js"></script>
   </body>
 </html>
 

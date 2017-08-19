@@ -30,17 +30,18 @@ This is what you see,**
   </div></p>
                 <form action="http://localhost:5000/next"  method = "POST">
                    <p>Change the word "recently" to reference the date of the event 
-                    <button name="option" id="option1" type = "submit"  value="Step 1">Submit</button> 
+                    <button name="option" id="option1" type = "submit"  value="Step 1">Go</button> 
                        <p>Delete the word "recently" and leave the rest as it it 
-                    <button name="option" id="option2" type = "submit"  value="End1">Submit</button> 
+                    <button name="option" id="option2" type = "submit"  value="End1">Go</button> 
                        <p>Delete the claim because it does not have a source 
-                    <button name="option" id="option3" type = "submit"  value="End0">Submit</button> 
+                    <button name="option" id="option3" type = "submit"  value="End0">Go</button> 
                            
             </form>
-        <body>
+        
+
+<body>
 <div class="container">
 <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/materialize.min.css')}}"  media="screen,projection"/>
-
 <div class="row">
 <div class="pad-top"></div>
 </div>
@@ -49,42 +50,45 @@ This is what you see,**
           <div class="card orange lighten-5">
             <div class="card-content">
 <div class="row">
-<div class="col s3 offset-s9">
+<div class="col s1 offset-s9">
 </div>
 
 
-    <!-- <h2></h2> -->
-    <ul>
-
-      <li><p>Click again to stop the recording. Press the play button to replay the recording </p></li>
-    </ul>
     <select id="grammars">Select</select>
-    <audio controls="controls"></audio>
+ 
     <span id="recording-indicator" ></span>
     <a style="display: inline;">Press to: Record/Stop </a>
     <button id="startBtn" style= ><i class="fa fa-microphone" aria-hidden="true" id="icon"></i>
 </button>
 
+
+    
+
+<!--       <audio id="recordedAudio" controls="controls">
+      </audio><br/><br/> -->
           <span id="playing-indicator" ></span>
          <h10> <a style="display: inline;">Play </a></h10>
-      <button id="play" title="Play" ><i class="fa fa-play" aria-hidden="true"></i></button>
+      <button  id="play" title="Play" ><i class="fa fa-play" aria-hidden="true"></i></button>
       <a style="display: inline;">Evaluate </a>    
-      <button id="eval" ><i class="fa fa-question" aria-hidden="true"></i></button>
+      <button  id="eval" ><i class="fa fa-question" aria-hidden="true"></i></button>
       
 
-          <a style="display: inline;">Say in phrase </a>
+
+       <a style="display: inline;"></a>
       
 <!-- The Modal -->
-
+<div id="myModal" class="modal">
   <!-- Modal content -->
- 
-    
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Output</h2>
+  </div>
+</div>
 <div class="row"  style="text-align: center;">
         <div class="col s10 m10 offset-s1 offset-m1">
           <div class="card brown lighten-4">
             <div class="card-content">
-           <span class="card-title">Recognition Output</span>
-            <div id="output" style="height:150px;overflow:auto;" >
+            <div id="output" style="height:20px;overflow:auto;" >
             </div>
             </div>
           </div>
@@ -93,21 +97,24 @@ This is what you see,**
     <span class="card-title">Status</span>
     <div id="current-status">Loading page</div>
 
+    <div id="resultymf"></div>
+    </div>
+          </div>
+        </div>
+    </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div>
-
-
          
     <script>
       // These will be initialized later
       var recognizer, recorder, callbackManager, audioContext, outputContainer,rec;
       // Only when both recorder and recognizer do we have a ready application
-      var isRecorderReady = isRecognizerReady = false;
       var choice="ONE"; //To hold the choice of the user
+
+      var isRecorderReady = isRecognizerReady = false;
       // A convenience function to post a message to the recognizer and associate
       // a callback to its response
       function postRecognizerJob(message, callback) {
@@ -127,10 +134,9 @@ This is what you see,**
       };
       // To display the hypothesis sent by the recognizer
       function updateHyp(hyp) {
-        if (outputContainer) 
-          {outputContainer.innerHTML = hyp;
-          }
-          choice = hyp;
+        if (outputContainer) outputContainer.innerHTML = hyp;
+        choice = hyp;
+
       };
       // This updates the UI when the app might get ready
       // Only when both recorder and recognizer are ready do we enable the buttons
@@ -143,6 +149,10 @@ This is what you see,**
       };
       // A not-so-great recording indicator
      // A not-so-great recording indicator
+      function displayRecording(display) {
+        // if (display) document.getElementById('recording-indicator').innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        // else document.getElementById('recording-indicator').innerHTML = "";
+      };
 
       var audioContext = new AudioContext(); 
       function startUserMedia(stream) {
@@ -158,21 +168,6 @@ This is what you see,**
         updateUI();
         updateStatus("Audio recorder ready");
       };
-            // This starts recording. We first need to get the id of the grammar to use
-       function startRecording() {
-        var id = document.getElementById('grammars').value;
-        if (recorder && recorder.start(id)) displayRecording(true)
-        rec && rec.record();
-      };
-
-      // Stops recording
-         function stopRecording() {
-         rec && rec.stop();
-         recorder && recorder.stop();
-          
-    };
-      
-
           
   var playbackRecorderAudio = function (recorder, context) {
     recorder.getBuffer(function (buffers) {
@@ -187,17 +182,15 @@ This is what you see,**
       var check = function(){
         var id = document.getElementById('icon')
         var img = id.getAttribute('class')
-        
         if( img == "fa fa-microphone")
         {
           id.setAttribute("class","fa fa-stop");
           startRecording();
         }
         else
-        { 
-
+        {
           id.setAttribute("class","fa fa-microphone");
-                           if(choice=="change the word recently to reference the date of the event")
+                                    if(choice=="change the word recently to reference the date of the event")
               {
                 document.getElementById("option1").click();
               }
@@ -209,11 +202,23 @@ else if(choice=="delete the claim because it does not have a source")
               {
                 document.getElementById("option3").click();
               }
-
           stopRecording();
-          document.getElementById('startBtn').checked = false;
+          //document.getElementById('startBtn').checked = false;
         }
+      }
+      // This starts recording. We first need to get the id of the grammar to use
+       function startRecording() {
+        var id = document.getElementById('grammars').value;
+        if (recorder && recorder.start(id)) displayRecording(true)
+        rec && rec.record();
       };
+      // Stops recording
+         function stopRecording() {
+        recorder && recorder.stop();
+        rec && rec.stop();
+        displayRecording(false);
+    };
+      
       var playback = function(e){
           playbackRecorderAudio(rec, audioContext);
       }
@@ -261,7 +266,7 @@ else if(choice=="delete the claim because it does not have a source")
          
           postRecognizerJob({command: 'initialize',// data: [["-hmm", "my_model"], ["-fwdflat", "no"]]}
                              //callbackId: id,
-                                data: [  //["-jsgf", "Start.jsgf"],
+                                data: [  //["-jsgf", "wyn-align.jsgf"],
                               // ["-dict", "phonemes.dict"],
                                //  //["-hmm","my_model"],
                                 ["-backtrace", "yes"],
@@ -294,12 +299,12 @@ else if(choice=="delete the claim because it does not have a source")
                 // This is a case when the recognizer has a new hypothesis
                 if (e.data.hasOwnProperty('hyp')) {
                   var newHyp = e.data.hyp;
-                  if (e.data.hasOwnProperty('final') &&  e.data.final) newHyp = String(newHyp);
+                  if (e.data.hasOwnProperty('final') &&  e.data.final) newHyp = "Final: " + newHyp;
                   updateHyp(newHyp);
                 }
                 if (e.data.hasOwnProperty('stringer')) {
                   var newStringer = e.data.stringer;
-                  newStringer =  String(newStringer);
+                  newStringer = "Final: " + newStringer;
                   if(e.data.hasOwnProperty('final')) 
                     { var finalString = [];
                       var i =0;
@@ -328,7 +333,7 @@ else if(choice=="delete the claim because it does not have a source")
                         finalString += newStringer[i];
                         
                       }
-                      // document.getElementById('resultymf').innerHTML += "<br/>" + String(finalString) + '\n';
+                      
                 }
                 }
                 // This is the case when we have an error
@@ -360,12 +365,11 @@ else if(choice=="delete the claim because it does not have a source")
  
       play.onclick = playback;
 
+      //stopBtn.onclick
       };
 
        // This is the list of words that need to be added to the recognizer
        // This follows the CMU dictionary format
-
-
     var wordList = [["change", "CH EY N JH"], ["the", "DH AH"], ["word", "W ER D"], ["recently", "R IY S AH N T L IY"], ["to", "T UW"], ["reference", "R EH F ER AH N S"], ["date", "D EY T"], ["of", "AH V"], ["event", "IH V EH N T"], ["delete", "D IH L IY T"], ["and", "AH N D"], ["leave", "L IY V"], ["rest", "R EH S T"], ["as", "AE Z"], ["it", "IH T"], ["claim", "K L EY M"], ["because", "B IH K AO Z"], ["does", "D AH Z"], ["not", "N AA T"], ["have", "HH AE V"], ["a", "AH"], ["source", "S AO R S"],];
 
 var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"change"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"to"},{from: 5, to:6, word:"reference"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"date"},{from: 8, to:9, word:"of"},{from: 9, to:10, word:"the"},{from: 10, to:11, word:"event"},{from: 0, to:1, word:"delete"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"and"},{from: 5, to:6, word:"leave"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"rest"},{from: 8, to:9, word:"as"},{from: 9, to:10, word:"it"},{from: 10, to:11, word:"it"},{from: 0, to:1, word:"delete"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"claim"},{from: 3, to:4, word:"because"},{from: 4, to:5, word:"it"},{from: 5, to:6, word:"does"},{from: 6, to:7, word:"not"},{from: 7, to:8, word:"have"},{from: 8, to:9, word:"a"},{from: 9, to:10, word:"source"}]};
@@ -398,20 +402,15 @@ var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, 
     </script>
     <!-- These are the two JavaScript files you must load in the HTML,
     The recognizer is loaded through a Web Worker -->
-
-    <!-- These are the two JavaScript files you must load in the HTML,
-    // The recognizer is loaded through a Web Worker -->
-     <script src="{{url_for('static', filename='js/audioRecorder.js')}}"></script>
+<script src="{{url_for('static', filename='js/audioRecorder.js')}}"></script>
      <script src="{{url_for('static', filename='js/callbackManager.js')}}"></script>
      <script src="{{url_for('static', filename='js/audioRecorderWorker.js')}}"></script>
      <script src="{{url_for('static', filename='js/recorder.js')}}"></script>
      <script src="{{url_for('static', filename='js/recognizer.js')}}"></script>
      <script src="{{url_for('static', filename='js/materialize.min.js')}}"></script>
 
-
-     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-
-     <script src="https://use.fontawesome.com/03f8396175.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://use.fontawesome.com/03f8396175.js"></script>
   </body>
 </html>
 
