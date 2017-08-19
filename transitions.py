@@ -92,7 +92,7 @@ def make_jsgf_file(ccline, fname,num_line):
             except:
                 print ( word )
             state+=1
-        message2
+        
 
     message1 = message1[:-1]
     message1 += '];\n\n'

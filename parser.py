@@ -57,13 +57,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
        <a style="display: inline;"></a>
       
 <!-- The Modal -->
-<div id="myModal" class="modal">
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Output</h2>
-  </div>
-</div>
+
 <div class="row"  style="text-align: center;">
         <div class="col s10 m10 offset-s1 offset-m1">
           <div class="card brown lighten-4">
@@ -115,7 +109,6 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
       // To display the hypothesis sent by the recognizer
       function updateHyp(hyp) {
         if (outputContainer) outputContainer.innerHTML = hyp;
-        choice = hyp;
 
       };
       // This updates the UI when the app might get ready
@@ -127,7 +120,6 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
       function updateStatus(newStatus) {
         document.getElementById('current-status').innerHTML += "<br/>" + newStatus;
       };
-      // A not-so-great recording indicator
      // A not-so-great recording indicator
       function displayRecording(display) {
         // if (display) document.getElementById('recording-indicator').innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -170,11 +162,9 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
         else
         {
           id.setAttribute("class","fa fa-microphone");
-                                    """
-    options = f3.read()
-    message += options
-    message += """
           stopRecording();
+
+                                   
           //document.getElementById('startBtn').checked = false;
         }
       }
@@ -186,9 +176,20 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
       };
       // Stops recording
          function stopRecording() {
+
         recorder && recorder.stop();
         rec && rec.stop();
         displayRecording(false);
+        updateHyp(choice);
+
+    };
+
+    var submit = function(){
+       """
+    options = f3.read()
+    message += options
+    message += """
+
     };
       
       var playback = function(e){
@@ -258,7 +259,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
         outputContainer = document.getElementById("output");
         updateStatus("Initializing web audio and speech recognizer, waiting for approval to access the microphone");
         callbackManager = new CallbackManager();
-        spawnWorker("static/js/recognizer.js", function(worker) {
+        spawnWorker("{{url_for('static', filename='js/recognizer.js')}}", function(worker) {
             // This is the onmessage function, once the worker is fully loaded
             worker.onmessage = function(e) {
                 // This is the case when we have a callback id to be called
@@ -271,44 +272,11 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
                 // This is a case when the recognizer has a new hypothesis
                 if (e.data.hasOwnProperty('hyp')) {
                   var newHyp = e.data.hyp;
-                  if (e.data.hasOwnProperty('final') &&  e.data.final) newHyp = "Final: " + newHyp;
-                  updateHyp(newHyp);
+                  if (e.data.hasOwnProperty('final') &&  e.data.final) newHyp =newHyp;
+                  choice = newHyp;
                 }
-                if (e.data.hasOwnProperty('stringer')) {
-                  var newStringer = e.data.stringer;
-                  newStringer = "Final: " + newStringer;
-                  if(e.data.hasOwnProperty('final')) 
-                    { var finalString = [];
-                      var i =0;
-                      var word =[];
-                      while(word!=["word"] && i<600)
-                      {
-                        if(String(newStringer[i])==" " || String(newStringer[i])==",")
-                         { word =[];
-                         }
-                        else
-                         { //console.log(word);
-                          word += newStringer[i];
-                        }
-                        i++;
-                      }
-                      finalString = "word";
-                      for(;String(newStringer[i])!="\\v";i++)
-                      { if(String(newStringer[i]) == ",")
-                        { finalString += "<br/>";
-                          continue;
-                        }
-                        if(String(newStringer[i])== " ")
-                        {
-                          finalString += "&nbsp;"
-                        }
-                        finalString += newStringer[i];
-                        
-                      }
-                      
-                }
-                }
-                // This is the case when we have an error
+  
+                  // This is the case when we have an error
                 if (e.data.hasOwnProperty('status') && (e.data.status == "error")) {
                   updateStatus("Error in " + e.data.command + " with code " + e.data.code);
                 }
@@ -331,7 +299,6 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
         else updateStatus("No web audio support in this browser");
       // Wiring JavaScript to the UI
       var startBtn = document.getElementById('startBtn');
-      //var stopBtn = document.getElementById('stopBtn');
       startBtn.disabled = true;
       startBtn.onclick = check;
  
@@ -351,26 +318,14 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
       var grammarIds = [];
     </script>
     <script >
-            // Get the modal
-  var modal = document.getElementById('myModal');
+
 // Get the button that opens the modal
-  var btn = document.getElementById("eval");
-// Get the <span> element that closes the modal
-  var span = document.getElementsByClassName("close")[0];
-// When the user clicks the button, open the modal 
-  btn.onclick = function() {
-    modal.style.display = "block";
-}
-// When the user clicks on <span> (x), close the modal
-  span.onclick = function() {
-    modal.style.display = "none";
-}
+  var evaluate = document.getElementById("eval");
+  evaluate.onclick = submit;
+
+
 // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function(event) {
-      if (event.target == modal) {
-          modal.style.display = "none";
-    }
-}
+  
     </script>
     <!-- These are the two JavaScript files you must load in the HTML,
     The recognizer is loaded through a Web Worker -->
@@ -388,10 +343,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
 
 
     """
-
-
     f1.write(message)
-
 
 def make_file(node):
   with open('AROWF-recently.txt', 'r') as f:
@@ -414,7 +366,6 @@ def make_file(node):
               statement += line
               # question = 0
   
-
           if(line[0] == ":" and start == 1):
             break
 
