@@ -41,7 +41,7 @@ This is what you see,**
 
 [[ **Delete the word "recently" and leave the rest as it it.** ->End1]]
 
-[[ **Delete the claim because it does not have a source.** ->End0]]
+[[ **Click for more pronunciation evaluation.** ->PronEval]]
 
 
 

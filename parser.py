@@ -88,7 +88,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
       var choice="ONE"; //To hold the choice of the user
 
       var isRecorderReady = isRecognizerReady = false;
-      var decode_word = "change the word";
+      var decode_word = "change the word recently";
       var outputSampleRate = 16000;
       var inSampleRate;
 

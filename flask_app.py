@@ -16,11 +16,16 @@ def Start():
 def  next():
 	if request.method == 'POST':
 		form = request.form['option']
-		print(form)
-		make_option_files(form)
-		make_file(form)
-
-		return render_template('page.html')
+		# Page for the pronunciation evaluation.
+		if(form == "PronEval"):
+			return render_template('PronEval.html')
+		# Page for inteligibility remediation information.
+		elif(form == "Info"):
+			return render_template('Info.html')
+		else:
+			make_option_files(form)
+			make_file(form)
+			return render_template('page.html')
 
 if __name__ == '__main__':
    app.run(debug = True)

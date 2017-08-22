@@ -8,8 +8,8 @@ if(choice=="change the word recently to reference the date of the event")
                // document.getElementById("option2").click();
                 decode_word = "delete the word recently and leave the rest as it it"
               }
-			else if(choice=="delete the claim because it does not have a source")
+			else if(choice=="click for more pronunciation evaluation")
               {
                 //document.getElementById("option3").click();
-                decode_word = "delete the claim because it does not have a source"
+                decode_word = "click for more pronunciation evaluation"
               }
