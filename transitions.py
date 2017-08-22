@@ -29,10 +29,12 @@ def make_jsgf_file(ccline, fname,num_line):
     # print(fname)
     f = open('templates/page.txt','w')
     f1 = open('templates/page-options.txt','w')
+    f2 = open('templates/page-statements.txt','w')
     message=''
     message1 = 'var wordList = ['
     message2 = 'var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: ['
     message3 = ''
+    message4 = ''
     wordList = []
     choice_num = 0
     for i in range(num_line):
@@ -42,17 +44,21 @@ def make_jsgf_file(ccline, fname,num_line):
         if(i == 0):
             message3 += '''if(choice=="'''+sentence+'''")
               {
-                document.getElementById("option1").click();
-              }\n'''
+                //document.getElementById("option1").click();
+                decode_word = "'''+sentence+'''"
+              }\n\t\t\t'''
+
         elif(i == 1):
             message3 += '''else if(choice=="'''+sentence+'''")
               {
-                document.getElementById("option2").click();
-              }\n'''
+               // document.getElementById("option2").click();
+                decode_word = "'''+sentence+'''"
+              }\n\t\t\t'''
         else:
             message3 += '''else if(choice=="'''+sentence+'''")
               {
-                document.getElementById("option3").click();
+                //document.getElementById("option3").click();
+                decode_word = "'''+sentence+'''"
               }'''
         # if(i == 0):
         #     message3 += '''if(choice=="ONE")
@@ -72,7 +78,7 @@ def make_jsgf_file(ccline, fname,num_line):
              
              
         
-
+        message4 += sentence +'\n'
         for word in words:
             try:
                 # print(word)
@@ -103,6 +109,7 @@ def make_jsgf_file(ccline, fname,num_line):
     f.write(message1)
     f.write(message2)
     f1.write(message3)
+    f2.write(message4)
 
 def make_option_files(node):
     with open('AROWF-recently.txt', 'r') as f:

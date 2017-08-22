@@ -1,12 +1,15 @@
 if(choice=="change the word recently to reference the date of the event")
               {
-                document.getElementById("option1").click();
+                //document.getElementById("option1").click();
+                decode_word = "change the word recently to reference the date of the event"
               }
-else if(choice=="delete the word recently and leave the rest as it it")
+			else if(choice=="delete the word recently and leave the rest as it it")
               {
-                document.getElementById("option2").click();
+               // document.getElementById("option2").click();
+                decode_word = "delete the word recently and leave the rest as it it"
               }
-else if(choice=="delete the claim because it does not have a source")
+			else if(choice=="delete the claim because it does not have a source")
               {
-                document.getElementById("option3").click();
+                //document.getElementById("option3").click();
+                decode_word = "delete the claim because it does not have a source"
               }

@@ -3,6 +3,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
     f1 = open('templates/page.html','w')
     f2 = open('templates/page.txt','r')
     f3 = open('templates/page-options.txt','r')
+    f4 = open('templates/page-statements.txt','r')
     message =   """ 
             <html> 
                 <body> 
@@ -18,10 +19,9 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
         """
 
     message= message + """
-
 <body>
 <div class="container">
-<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/materialize.min.css')}}"  media="screen,projection"/>
+<link type="text/css" rel="stylesheet" href="static/css/materialize.min.css"  media="screen,projection"/>
 <div class="row">
 <div class="pad-top"></div>
 </div>
@@ -89,6 +89,11 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
       var choice="ONE"; //To hold the choice of the user
 
       var isRecorderReady = isRecognizerReady = false;
+      var decode_word = "change the word";
+      var outputSampleRate = 16000;
+      var inSampleRate;
+
+
       // A convenience function to post a message to the recognizer and associate
       // a callback to its response
       function postRecognizerJob(message, callback) {
@@ -181,6 +186,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
         rec && rec.stop();
         displayRecording(false);
         updateHyp(choice);
+      
 
     };
 
@@ -191,6 +197,31 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
     message += """
 
     };
+
+    var feat = function(){
+      context = audioContext
+      var aud;
+      var i16_buf;
+      rec.getBuffer(function (buffers) {
+      var source = context.createBufferSource();
+      source.buffer = context.createBuffer(1, buffers[0].length, 44100);
+      source.buffer.getChannelData(0).set(buffers[0]);
+      source.connect(context.destination);
+      buf = source.buffer.getChannelData(0);
+      console.log(buf);
+      var i16 = format_audio(buf);
+      //console.log(i16);
+
+
+      postRecognizerJob({command: 'featex', data: {array: i16, word: decode_word}});
+
+    });
+      
+
+
+            
+      //recorder.featex(decode_word);
+    }
       
       var playback = function(e){
           playbackRecorderAudio(rec, audioContext);
@@ -233,6 +264,75 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
            postRecognizerJob({command: 'addWords', data: words},
                         function() {feedGrammar(grammars, 0);});
       };
+
+      function decode_buffer_align(decode_word, f32_arr) {
+        //var i16_buf = new Int16Array(f32_arr.buffer);
+        i16_buf = format_audio(f32_arr);
+        console.log(f32_arr);
+        console.log(i16_buf.length, i16_buf);
+
+        //postRecognizerJob({command: 'testprint'});
+        
+        
+        postRecognizerJob({command: 'lookupWord', data: decode_word},
+              function(cbdata) {
+                console.log(cbdata);
+                postRecognizerJob({command: 'featex', data: {array: i16_buf, word: decode_word}});
+                //postRecognizerJob({command: 'stopwordalign', data: {'stage': 0}});
+              });
+              
+            
+    }
+
+    function process_stage_1(hyp_seg) {
+      console.log(hyp_seg);
+      var framesc = 160;
+      for (var n = 1; n < hyp_seg.length - 1; n++) {
+        
+        // Extract tri-phone sub segment
+        var left = hyp_seg[n-1].word;
+        var leftn = hyp_seg[n-1].start;
+        var target = hyp_seg[n].word;
+        var right = hyp_seg[n+1].word;
+        var rightn = hyp_seg[n+1].end;
+        
+        var sil = Array.apply(null, Array(16000)).map(Number.prototype.valueOf,0);
+        var subseg = sil.concat(i16_buf.slice(leftn*framesc, rightn*framesc)).concat(sil);
+        
+      }
+    }
+      
+    function format_audio(inputArray){
+      // Convert the float samples to 16-bit integers
+        var output = new Int16Array(inputArray.length);
+        for (var i = 0; i < inputArray.length; i++){
+            var s = Math.max(-1, Math.min(1, inputArray[i]));
+            //output[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+            output[i] = s * 0xFFFF;
+        }
+        
+        // Downsample audio to 16k
+        console.log(inSampleRate, outputSampleRate);
+        var outputBufferLength = Math.floor(output.length * outputSampleRate / inSampleRate);
+        var result = new Int16Array(outputBufferLength);
+        var bin = 0,
+        num = 0,
+        indexIn = 0,
+        indexOut = 0;
+      while(indexIn < outputBufferLength) {
+          bin = 0;
+          num = 0;
+          while(indexOut < Math.min(output.length, (indexIn + 1) * inSampleRate / outputSampleRate)) {
+          bin += output[indexOut];
+          num += 1;
+          indexOut++;
+          }
+          result[indexIn] = bin / num;
+          indexIn++;
+      }
+        
+        return result;
+    }
       // This initializes the recognizer. When it calls back, we add words
       var initRecognizer = function() {
           // You can pass parameters to the recognizer, such as : {command: 'initialize', data: [["-hmm", "my_model"], ["-fwdflat", "no"]]}
@@ -259,9 +359,13 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
         outputContainer = document.getElementById("output");
         updateStatus("Initializing web audio and speech recognizer, waiting for approval to access the microphone");
         callbackManager = new CallbackManager();
-        spawnWorker("{{url_for('static', filename='js/recognizer.js')}}", function(worker) {
+        spawnWorker("static/js/recognizer.js", function(worker) {
             // This is the onmessage function, once the worker is fully loaded
             worker.onmessage = function(e) {
+                if (e.data.hasOwnProperty('feats')) {
+                    console.log("feats", e.data);
+                  }
+
                 // This is the case when we have a callback id to be called
                 if (e.data.hasOwnProperty('id')) {
                   var clb = callbackManager.get(e.data['id']);
@@ -274,6 +378,11 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
                   var newHyp = e.data.hyp;
                   if (e.data.hasOwnProperty('final') &&  e.data.final) newHyp =newHyp;
                   choice = newHyp;
+                  if(e.data.hasOwnProperty('data')){
+                    if(e.data.data.stage == 0){
+                      process_stage_1(e.data.hypseg);
+                    }
+                  }
                 }
   
                   // This is the case when we have an error
@@ -290,6 +399,8 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
           navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
           window.URL = window.URL || window.webkitURL;
           audioContext = new AudioContext();
+
+          inSampleRate = audioContext.sampleRate;
         } catch (e) {
           updateStatus("Error initializing Web Audio browser");
         }
@@ -321,7 +432,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
 
 // Get the button that opens the modal
   var evaluate = document.getElementById("eval");
-  evaluate.onclick = submit;
+  evaluate.onclick = feat;
 
 
 // When the user clicks anywhere outside of the modal, close it
@@ -329,20 +440,19 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
     </script>
     <!-- These are the two JavaScript files you must load in the HTML,
     The recognizer is loaded through a Web Worker -->
-<script src="{{url_for('static', filename='js/audioRecorder.js')}}"></script>
-     <script src="{{url_for('static', filename='js/callbackManager.js')}}"></script>
-     <script src="{{url_for('static', filename='js/audioRecorderWorker.js')}}"></script>
-     <script src="{{url_for('static', filename='js/recorder.js')}}"></script>
-     <script src="{{url_for('static', filename='js/recognizer.js')}}"></script>
-     <script src="{{url_for('static', filename='js/materialize.min.js')}}"></script>
+<script src="static/js/audioRecorder.js"></script>
+     <script src="static/js/callbackManager.js"></script>
+     <script src="static/js/audioRecorderWorker.js"></script>
+     <script src="static/js/recorder.js"></script>
+     <script src="static/js/recognizer.js"></script>
+     <script src="static/js/materialize.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://use.fontawesome.com/03f8396175.js"></script>
   </body>
 </html>
-
-
-    """
+"""
+    
     f1.write(message)
 
 def make_file(node):

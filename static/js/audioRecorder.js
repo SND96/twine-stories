@@ -18,6 +18,7 @@
 	    }
 	});
 	var recording = false;
+	var audio;
 	this.node.onaudioprocess = function(e) {
 	    if (!recording) return;
 	    worker.postMessage({
@@ -53,15 +54,24 @@
 	this.cancel = function() {
 	    this.stop();
 	};
+	this.featex = function(words){
+		var features = {array: audio, word: words}
+		this.consumers.forEach(function(consumer,y ,z){
+			consumer.postMessage({command: 'wordalign', data: features})
+		})
+	}
+
 	myClosure = this;
 	worker.onmessage = function(e) {
 	    if (e.data.error && (e.data.error == "silent")) errorCallback("silent");
 	    if ((e.data.command == 'newBuffer') && recording) {
+	    audio = e.data.data;
 		myClosure.consumers.forEach(function(consumer, y, z) {
                     consumer.postMessage({ command: 'process', data: e.data.data });
 		});
 	    }
 	};
+
 	source.connect(this.node);
 	this.node.connect(this.context.destination);
     };
