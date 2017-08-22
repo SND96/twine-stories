@@ -3,7 +3,6 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
     f1 = open('templates/page.html','w')
     f2 = open('templates/page.txt','r')
     f3 = open('templates/page-options.txt','r')
-    f4 = open('templates/page-statements.txt','r')
     message =   """ 
             <html> 
                 <body> 
