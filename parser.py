@@ -26,7 +26,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
 </div>
 <div class="row"  style="text-align: center;">
         <div class="col s12 m12">
-          <div class="card orange lighten-5">
+          <div>
             <div class="card-content">
 <div class="row">
 <div class="col s1 offset-s9">
@@ -67,8 +67,6 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
           </div>
         </div>
     </div>
-    <span class="card-title">Status</span>
-    <div id="current-status">Loading page</div>
 
     <div id="resultymf"></div>
     </div>
@@ -122,7 +120,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
       };
       // This is just a logging window where we display the  
       function updateStatus(newStatus) {
-        document.getElementById('current-status').innerHTML += "<br/>" + newStatus;
+        console.log("String: "+newStatus);
       };
      // A not-so-great recording indicator
       function displayRecording(display) {

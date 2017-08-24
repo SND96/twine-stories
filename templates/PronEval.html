@@ -20,7 +20,7 @@
 </div>
 <div class="row"  style="text-align: center;">
         <div class="col s12 m12">
-          <div class="card orange lighten-5">
+          <div>
             <div class="card-content">
 <div class="row">
 <div class="col s1 offset-s9">
@@ -29,12 +29,10 @@
 
     <select id="grammars">Select</select>
  
-    <span id="recording-indicator" ></span>
+
     <a style="display: inline;">Press to: Record/Stop </a>
     <button id="startBtn" style= ><i class="fa fa-microphone" aria-hidden="true" id="icon"></i>
 </button>
-
-
   
 <!--       <audio id="recordedAudio" controls="controls">
       </audio><br/><br/> -->
@@ -45,9 +43,6 @@
       <button  id="eval" ><i class="fa fa-question" aria-hidden="true"></i></button>
       
 
-
-       <a style="display: inline;"></a>
-      
 <!-- The Modal -->
 
 <div class="row"  style="text-align: center;">
@@ -59,10 +54,7 @@
             </div>
           </div>
         </div>
-    </div>
-    <span class="card-title">Status</span>
-    <div id="current-status">Loading page</div>
-
+    </div>    
     <div id="resultymf"></div>
     </div>
           </div>
@@ -81,7 +73,7 @@
       var choice="ONE"; //To hold the choice of the user
 
       var isRecorderReady = isRecognizerReady = false;
-      var decode_word = "we drank tea in the afternoon and wachted tv";
+      var decode_word = "drank";
       var outputSampleRate = 16000;
       var inSampleRate;
       // Intelligibility Score
@@ -115,7 +107,7 @@
       };
       // This is just a logging window where we display the  
       function updateStatus(newStatus) {
-        document.getElementById('current-status').innerHTML += "<br/>" + newStatus;
+        console.log("Status:" +newStatus)
       };
      // A not-so-great recording indicator
       function displayRecording(display) {
@@ -383,10 +375,6 @@
                     console.log("feats", e.data);
                     features = e.data;
                     features.word = decode_word;
-                    // features = {feat: e.data, word:decode_word}
-                    // words = JSON.stringify(e.data, {word: decode_word});
-                    // features = JSON.stringify(e.data + words;
-                    //console.log(JSON.stringify(features));
                     features = JSON.stringify(features);
                     
                     int_score = ajax_post('https://tools.wmflabs.org/proneval-gsoc17/pronserv', features);
