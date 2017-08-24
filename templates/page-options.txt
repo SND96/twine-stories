@@ -3,10 +3,10 @@ if(choice=="change the word recently to reference the date of the event")
                 //document.getElementById("option1").click();
                 decode_word = "change the word recently to reference the date of the event"
               }
-			else if(choice=="delete the word recently and leave the rest as it it")
+			else if(choice=="delete the word recently and leave the rest as it is")
               {
                // document.getElementById("option2").click();
-                decode_word = "delete the word recently and leave the rest as it it"
+                decode_word = "delete the word recently and leave the rest as it is"
               }
 			else if(choice=="click for more pronunciation evaluation")
               {
