@@ -35,8 +35,7 @@
 </button>
 
 
-    
-
+  
 <!--       <audio id="recordedAudio" controls="controls">
       </audio><br/><br/> -->
           <span id="playing-indicator" ></span>
@@ -82,12 +81,11 @@
       var choice="ONE"; //To hold the choice of the user
 
       var isRecorderReady = isRecognizerReady = false;
-      var decode_word = "we drank tea in the afternoon and watched tv";
+      var decode_word = "drank";
       var outputSampleRate = 16000;
       var inSampleRate;
-      // For AJAX calls
-      var xhttp = new XMLHttpRequest();
-
+      // Intelligibility Score
+      var int_score;
       // A convenience function to post a message to the recognizer and associate
       // a callback to its response
       function postRecognizerJob(message, callback) {
@@ -223,9 +221,24 @@
     });
       
 
-
-            
       //recorder.featex(decode_word);
+    }
+
+    function ajax_post(_url, features){
+      console.log(features);
+      $.ajax({
+        type: 'POST',
+        url: _url, 
+        //data: '{ "feats": [0.04615384712815285, 0.15078403055667877, 0.9285714030265808, 0.9750000238418579, 0.0615384615957737, 0.1498793512582779, 0.1666666716337204, 0.40625, 0.5384615659713745, 0.1136680319905281, 0.8571428656578064, 0.33125001192092896, 0.04615384712815285, 0.16024932265281677, 0.738095223903656, 0.42500001192092896, 0.07692307978868484, 0.14431020617485046, 0.976190447807312, 0.7562500238418579, 0.24475], "word": "because" }',
+         //data: '{ "feats": [0.04615384712815285, 0.14569181203842163,0.13846154510974884, 0.13181662559509277, 0.0923076942563057, 0.14237390458583832], "word":"because" }',
+        data: features,
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        success: function(score){
+          console.log(score);
+        }
+                        }
+        );
     }
       
       var playback = function(e){
@@ -368,9 +381,16 @@
             worker.onmessage = function(e) {
                 if (e.data.hasOwnProperty('feats')) {
                     console.log("feats", e.data);
-                    var features = {feats: e.data, word: decode_word };
-                    // xhttp.open("GET", 'https://tools.wmflabs.org/proneval-gsoc17/pronserv?', true);
-                    // xhttp.send();
+                    features = e.data;
+                    features.word = decode_word;
+                    // features = {feat: e.data, word:decode_word}
+                    // words = JSON.stringify(e.data, {word: decode_word});
+                    // features = JSON.stringify(e.data + words;
+                    //console.log(JSON.stringify(features));
+                    features = JSON.stringify(features);
+                    
+                    int_score = ajax_post('https://tools.wmflabs.org/proneval-gsoc17/pronserv', features);
+                                     
                   }
 
                 // This is the case when we have a callback id to be called
@@ -422,6 +442,9 @@
  
       play.onclick = playback;
 
+  // Get the button that opens the modal
+      var evaluate = document.getElementById("eval");
+      evaluate.onclick = feat;
       //stopBtn.onclick
       };
 
@@ -435,16 +458,6 @@ var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, 
           var grammars = [ {title: "Choices", g: grammarChoices}];
       var grammarIds = [];
     </script>
-    <script >
-
-// Get the button that opens the modal
-  var evaluate = document.getElementById("eval");
-  evaluate.onclick = feat;
-
-
-// When the user clicks anywhere outside of the modal, close it
-  
-    </script>
     <!-- These are the two JavaScript files you must load in the HTML,
     The recognizer is loaded through a Web Worker -->
 <script src="static/js/audioRecorder.js"></script>
@@ -454,7 +467,7 @@ var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, 
      <script src="static/js/recognizer.js"></script>
      <script src="static/js/materialize.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="https://use.fontawesome.com/03f8396175.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    
+<script src="https://use.fontawesome.com/03f8396175.js"></script>
   </body>
 </html>

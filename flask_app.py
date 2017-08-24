@@ -4,7 +4,15 @@ from flask import Flask, request, session, redirect, url_for, \
 from parser import make_file
 from transitions import make_option_files
 
+
+from numpy import asarray
+import json
+
+
+
+
 app = Flask(__name__)
+
 
 @app.route('/')
 def Start():
@@ -26,6 +34,7 @@ def  next():
 			make_option_files(form)
 			make_file(form)
 			return render_template('page.html')
+
 
 if __name__ == '__main__':
    app.run(debug = True)

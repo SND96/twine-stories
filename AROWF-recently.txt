@@ -39,7 +39,7 @@ This is what you see,**
 
 [[**Change the word "recently" to reference the date of the event.** ->Step 1]]
 
-[[ **Delete the word "recently" and leave the rest as it it.** ->End1]]
+[[ **Delete the word "recently" and leave the rest as it is.** ->End1]]
 
 [[ **Click for more pronunciation evaluation.** ->PronEval]]
 

@@ -431,7 +431,7 @@ def make_option_file(ccline, fname,next_node,num_line,statement):
 
 // Get the button that opens the modal
   var evaluate = document.getElementById("eval");
-  evaluate.onclick = feat;
+  evaluate.onclick = submit;
 
 
 // When the user clicks anywhere outside of the modal, close it
