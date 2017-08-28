@@ -98,38 +98,6 @@ It's better to do a more detailed edit of the article.
 To extract the appropriate phrases the below function is used. The node the user is currently in is passed to the function and then the required options and phrases are returned.
 
 ```Python
-def make_file(node):
-  with open('AROWF-recently.txt', 'r') as f:
-      num_line = 0
-      fname ="Start"
-      #Variables used to signal the start of the parsing
-      start = 0    
-      #Storing the options and the next node
-      next_node = [""]*3
-      ccline = [""]*3
-      node = ":: "+node+"\n"
-      question = 0
-      #For storing the question statement
-      statement = ""
-      for line in f.readlines():
-          alpha = 0
-          if(question):
-              statement += line
-          if(line[0] == ":" and start == 1):
-            break
-          if(line == node):
-            start = 1
-            question = 1
-          elif(start!=1):
-            continue
-          if line[0]!='[':
-              continue
-          question = 0
-          statement = statement[:statement.rfind('\n')]
-          length = len(line)
-          alpha = 0
-          nodes = 0
-          initial = 0
           for i in range (length):
               if (line[i] == '.'):
                   nodes = i
