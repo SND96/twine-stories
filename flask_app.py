@@ -38,6 +38,8 @@ def  next():
 			print(lines)
 			if(lines == 3):
 				return render_template('page.html' , next1 = next_node[0], next2 = next_node[1], next3 = next_node[2], question = question, option1 = option[0], option2 = option[1] , option3 = option[2], choice1 = strings[0], choice2 = strings[1], choice3 = strings[2],wordList = wordList[0], grammarChoices = wordList[1])
+			elif(lines == 0):
+				return render_template('final_page.html', question = question)
 			else:
 				return render_template('end_page.html' , next1 = next_node[0], question = question, option1 = option[0], choice1 = strings[0], wordList = wordList[0], grammarChoices = wordList[1])
 
