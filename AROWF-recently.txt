@@ -9,33 +9,9 @@ AROWF 2
 
 
 :: Start
-**You visit https://tools.wmflabs.org/arowf/answer to check on some
+You visit https://tools.wmflabs.org/arowf/answer to check on some
 article to review.
-This is what you see,**
-
-
-<div class="container">
-
-
-
- <!--  <p><a href="http://mediawiki.org/wiki/Accuracy_review/docs/answer" target="_blank">Help doc</a> -->
-      <h4 clear=all>Question:</h4 clear=all>
-      The article <a target="_blank" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">DJ Felli Fel</a> has the word 'recently' inserted in 2008-01-05. Is it still correctly used? The context is:</br><i>radio DJ for L.A.'s Power 106, record producer, and a recording artist <b>recently</b> signed to So So Def/Island Urban Music. He is also a member of The Heavy</i></br><a target="_blank" style="float:right;" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">https://en.wikipedia.org/wiki/DJ_Felli_Fel</a><iframe src="https://en.wikipedia.org/wiki/DJ_Felli_Fel" style="height: 40%; width: 100%;">[Can not display <a target="_blank" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">https://en.wikipedia.org/wiki/DJ_Felli_Fel</a> inline as an iframe here.]</iframe>
-      <h4 clear=all>How would you proceed:</h4 clear=all>
-     <!-- <textarea name=answer style="width: 80%; height: 15%;" required></textarea>
-      <br/>
-      <h4 clear=all>Optionally add a pertinent web page:</h4 clear=all>
-      <input id=iframeurl type=text name=iframeurl placeholder="Optional URL"
-             style="width: 70%;" />
-      <input type=button value=Preview onclick="LoadIframe(); return False;" />
-      <button type=submit name=response value=a>Answer</button>
-      <input type=hidden name=record value=000000491 />
-
-  </form>
-  <iframe id=iframeobj name=iframeobj
-          style="display: none; height: 40%; width: 100%;"></iframe>
--->
-  </div>
+This is the article where recently has been used. 
 
 [[**Change the word "recently" to reference the date of the event.** ->Step 1]]
 

@@ -1,30 +1,34 @@
  
             <html> 
                 <body> 
-                <p><b><ol>
-                <li>The page records the audio spoken by user, extracts the features and displays them in javascript console. 
-                </li>
-      
+                <p>{{question}}
 
-                <li>A modification of this code is being hosted at a page in Wiktionary. This code will enable wiktionary users to evaluate their pronunciation.
-                </li>
-<li>
-The evaluation service is backed by a word-level neural network model trained using supervised data collected using Amazon's mechanical turk for 87 words. This service is hosted at Wikimedia's tools page at the following URL:<a href="https://tools.wmflabs.org/proneval-gsoc17/">https://tools.wmflabs.org/proneval-gsoc17</a>
+<div class="container">
 
-</li>
-</b>
-<b>
-<li>
-It accepts a POST request with pronunciation features from pocketsphinx.js and the word. It responds with a JSON object containing the intelligibility score. The JSON object is then displayed with the intelligibility for each word then displayed next to it. The score is on a scale from 0.0 to 1.0
-</li>
-</ol>
 
-</b>
-</p>
+
+ <!--  <p><a href="http://mediawiki.org/wiki/Accuracy_review/docs/answer" target="_blank">Help doc</a> -->
+<!--       <h4 clear=all>Question:</h4 clear=all>
+      The article <a target="_blank" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">DJ Felli Fel</a> has the word 'recently' inserted in 2008-01-05. Is it still correctly used? The context is:</br><i>radio DJ for L.A.'s Power 106, record producer, and a recording artist <b>recently</b> signed to So So Def/Island Urban Music. He is also a member of The Heavy</i></br><a target="_blank" style="float:right;" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">https://en.wikipedia.org/wiki/DJ_Felli_Fel</a><iframe src="https://en.wikipedia.org/wiki/DJ_Felli_Fel" style="height: 40%; width: 100%;">[Can not display <a target="_blank" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">https://en.wikipedia.org/wiki/DJ_Felli_Fel</a> inline as an iframe here.]</iframe>
+      <h4 clear=all>How would you proceed:</h4 clear=all>
+ -->     <!-- <textarea name=answer style="width: 80%; height: 15%;" required></textarea>
+      <br/>
+      <h4 clear=all>Optionally add a pertinent web page:</h4 clear=all>
+      <input id=iframeurl type=text name=iframeurl placeholder="Optional URL"
+             style="width: 70%;" />
+      <input type=button value=Preview onclick="LoadIframe(); return False;" />
+      <button type=submit name=response value=a>Answer</button>
+      <input type=hidden name=record value=000000491 />
+
+  </form>
+  <iframe id=iframeobj name=iframeobj
+          style="display: none; height: 40%; width: 100%;"></iframe>
+-->
+  </div></p>
                 <form action="http://localhost:5000/next"  method = "POST">
-                   <p>Return to the previous page.
-                    <button name="option" id="option1" type = "submit"  value="PronEval">Go</button> 
-
+                   <p>{{option1}}
+                    <button name="option" id="option1" type = "submit"  value="{{next1}}">Go</button> 
+                           
             </form>
         
 <body>
@@ -42,11 +46,41 @@ It accepts a POST request with pronunciation features from pocketsphinx.js and t
 </div>
 
 
+    <select id="grammars">Select</select>
+ 
+    <span id="recording-indicator" ></span>
+    <a style="display: inline;">Press to: Record/Stop </a>
+    <button id="startBtn" class="waves-light btn-floating"  disabled ><i class="fa fa-microphone" aria-hidden="true" id="icon"></i>
+</button>
 
 
+    
+
+<!--       <audio id="recordedAudio" controls="controls">
+      </audio><br/><br/> -->
+          <span id="playing-indicator" ></span>
+         <h10> <a style="display: inline;">Play </a></h10>
+      <button  id="play" title="Play" class="waves-light btn-floating"  disabled ><i class="fa fa-play" aria-hidden="true"></i></button>
+      <a style="display: inline;">Evaluate </a>    
+      <button  id="eval" class="waves-light btn-floating"  disabled ><i class="fa fa-question" aria-hidden="true"></i></button>
+      
+
+
+       <a style="display: inline;"></a>
+      
 <!-- The Modal -->
 
- 
+<div class="row"  style="text-align: center;">
+        <div class="col s10 m10 offset-s1 offset-m1">
+          <div class="card brown lighten-4">
+            <div class="card-content">
+            <div id="output" style="height:20px;overflow:auto;" >
+            </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
     <div id="resultymf"></div>
     </div>
           </div>
@@ -63,13 +97,13 @@ It accepts a POST request with pronunciation features from pocketsphinx.js and t
       var recognizer, recorder, callbackManager, audioContext, outputContainer,rec;
       // Only when both recorder and recognizer do we have a ready application
       var choice="ONE"; //To hold the choice of the user
-
+      var selection;
       var isRecorderReady = isRecognizerReady = false;
-      var decode_word = "we drank tea in the afternoon and watched tv";
+      var decode_word = "change the word recently";
       var outputSampleRate = 16000;
       var inSampleRate;
-      // Intelligibility Score
-      var int_score;
+
+
       // A convenience function to post a message to the recognizer and associate
       // a callback to its response
       function postRecognizerJob(message, callback) {
@@ -90,6 +124,7 @@ It accepts a POST request with pronunciation features from pocketsphinx.js and t
       // To display the hypothesis sent by the recognizer
       function updateHyp(hyp) {
         if (outputContainer) outputContainer.innerHTML = hyp;
+        selection = hyp;
 
       };
       // This updates the UI when the app might get ready
@@ -99,7 +134,7 @@ It accepts a POST request with pronunciation features from pocketsphinx.js and t
       };
       // This is just a logging window where we display the  
       function updateStatus(newStatus) {
-        console.log("Status:" +newStatus)
+        console.log("Status: "+newStatus);
       };
      // A not-so-great recording indicator
       function displayRecording(display) {
@@ -167,21 +202,22 @@ It accepts a POST request with pronunciation features from pocketsphinx.js and t
     };
 
     var submit = function(){
-   //     if(choice=="change the word recently to reference the date of the event")
-   //            {
-   //              //document.getElementById("option1").click();
-   //              decode_word = "change the word recently to reference the date of the event"
-   //            }
-      // else if(choice=="delete the word recently and leave the rest as it it")
-   //            {
-   //             // document.getElementById("option2").click();
-   //              decode_word = "delete the word recently and leave the rest as it it"
-   //            }
-      // else if(choice=="delete the claim because it does not have a source")
-   //            {
-   //              //document.getElementById("option3").click();
-   //              decode_word = "delete the claim because it does not have a source"
-   //            }
+      console.log(selection);
+       if(selection=="{{choice1}}")
+              {
+                document.getElementById("option1").click();
+                decode_word = "{{choice1}}";
+              }
+			else if(selection=="{{choice2}}")
+              {
+                document.getElementById("option2").click();
+                decode_word = "{{choice2}}";
+              }
+			else if(selection=="{{choice3}}")
+              {
+                document.getElementById("option3").click();
+                decode_word = "{{choice3}}";
+              }
 
     };
 
@@ -205,34 +241,9 @@ It accepts a POST request with pronunciation features from pocketsphinx.js and t
     });
       
 
-      //recorder.featex(decode_word);
-    }
 
-    function ajax_post(_url, features){
-      console.log(features);
-      updateHyp("Calculating Scores...");  
-      $.ajax({
-        type: 'POST',
-        url: _url, 
-        //data: '{ "feats": [0.04615384712815285, 0.15078403055667877, 0.9285714030265808, 0.9750000238418579, 0.0615384615957737, 0.1498793512582779, 0.1666666716337204, 0.40625, 0.5384615659713745, 0.1136680319905281, 0.8571428656578064, 0.33125001192092896, 0.04615384712815285, 0.16024932265281677, 0.738095223903656, 0.42500001192092896, 0.07692307978868484, 0.14431020617485046, 0.976190447807312, 0.7562500238418579, 0.24475], "word": "because" }',
-         //data: '{ "feats": [0.04615384712815285, 0.14569181203842163,0.13846154510974884, 0.13181662559509277, 0.0923076942563057, 0.14237390458583832], "word":"because" }',
-        //data: '{"feats":[0.04615384712815285,0.14569181203842163,1,0,0.13846154510974884,0.13181662559509277,1,0,0.0923076942563057,0.14237390458583832,1,0,0.07692307978868484,0.14727330207824707,1,0,0.1538461595773697,0.13952766358852386,1,0,0.13846154510974884,0.13386479020118713,1,0,0.04615384712815285,0.1508440524339676,1,0,0.04615384712815285,0.156778484582901,1,0,0.1230769231915474,0.14056876301765442,1,0,0.07692307978868484,0.14457730948925018,1,0,0.0923076942563057,0.14363186061382294,1,0,0.04615384712815285,0.15632499754428864,1,0,0.04615384712815285,0.15007956326007843,1,0,0.3076923191547394,0.12539377808570862,1,0,0.0923076942563057,0.13943779468536377,1,0,0.10769230872392654,0.136068657040596,1,0,0.04615384712815285,0.1427575796842575,1,0,0.1230769231915474,0.13668888807296753,1,0,0.1538461595773697,0.13668888807296753,1,0,0.0923076942563057,0.14655694365501404,1,0,0.0923076942563057,0.1406332105398178,1,0,0.04615384712815285,0.16170373558998108,1,0,0.04615384712815285,0.15724323689937592,1,0,0.0615384615957737,0.15228413045406342,1,0,0.0923076942563057,0.14296232163906097,1,0,0.04615384712815285,0.14053663611412048,1,0,0.04615384712815285,0.14993631839752197,1,0,0.04615384712815285,0.15196092426776886,1,0,0.04615384712815285,0.14402741193771362,1,0,0.0923076942563057,0.13553103804588318,1,0,0.0615384615957737,0.14705514907836914,1,0,0],"word":"we drank tea in the afternoon and watched tv"}',
-        data: features,
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8',
-        success: function(score){
-          console.log(score)
-          console.log(score.pred[0].score);
-          var int_scores = "";
-          for(i = 0; i<9; i++)
-          {
-            int_scores += score.pred[i].word+" : "+score.pred[i].score+" <br>"
-          }      
-          updateHyp(int_scores);  
             
-        }
-                        }
-        );
+      //recorder.featex(decode_word);
     }
       
       var playback = function(e){
@@ -267,10 +278,14 @@ It accepts a POST request with pronunciation features from pocketsphinx.js and t
           grammarIds.unshift({title: g[index].title})
     postRecognizerJob({command: 'addGrammar', data: g[index].g},
                              function(id) {feedGrammar(grammars, index + 1, {id:id});});
-        } else {
+    
+         } 
+        else {
           recognizerReady();
         }
       };
+
+
       // This adds words to the recognizer. When it calls back, we add grammars
       var feedWords = function(words) {
            postRecognizerJob({command: 'addWords', data: words},
@@ -290,6 +305,7 @@ It accepts a POST request with pronunciation features from pocketsphinx.js and t
               function(cbdata) {
                 console.log(cbdata);
                 postRecognizerJob({command: 'featex', data: {array: i16_buf, word: decode_word}});
+                //postRecognizerJob({command: 'stopwordalign', data: {'stage': 0}});
               });
               
             
@@ -375,12 +391,6 @@ It accepts a POST request with pronunciation features from pocketsphinx.js and t
             worker.onmessage = function(e) {
                 if (e.data.hasOwnProperty('feats')) {
                     console.log("feats", e.data);
-                    features = e.data;
-                    features.word = decode_word;
-                    features = JSON.stringify(features);
-                    
-                    int_score = ajax_post('https://tools.wmflabs.org/proneval-gsoc17/pronserv', features);
-                                     
                   }
 
                 // This is the case when we have a callback id to be called
@@ -432,21 +442,37 @@ It accepts a POST request with pronunciation features from pocketsphinx.js and t
  
       play.onclick = playback;
 
-  // Get the button that opens the modal
-      var evaluate = document.getElementById("eval");
-      evaluate.onclick = feat;
       //stopBtn.onclick
       };
 
        // This is the list of words that need to be added to the recognizer
        // This follows the CMU dictionary format
-var wordList = [["we", "W IY"], ["drank", "D R AE NG K"], ["tea", "T IY"], ["in", "IH N"], ["the", "DH AH"], ["afternoon", "AE F T ER N UW N"], ["and", "AH N D"], ["watched", "W AA CH T"], ["tv", "T IY V IY"],];
-
-var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"we"},{from: 1, to:2, word:"drank"},{from: 2, to:3, word:"tea"},{from: 3, to:4, word:"in"},{from: 4, to:5, word:"the"},{from: 5, to:6, word:"afternoon"},{from: 6, to:7, word:"and"},{from: 7, to:8, word:"watched"},{from: 8, to:9, word:"tv"}]};
+       {{wordList|safe}}
+    // var wordList = [["change", "CH EY N JH"], ["the", "DH AH"], ["word", "W ER D"], ["recently", "R IY S AH N T L IY"], ["to", "T UW"], ["reference", "R EH F ER AH N S"], ["date", "D EY T"], ["of", "AH V"], ["event", "IH V EH N T"], ["delete", "D IH L IY T"], ["and", "AH N D"], ["leave", "L IY V"], ["rest", "R EH S T"], ["as", "AE Z"], ["it", "IH T"], ["is", "IH Z"], ["click", "K L IH K"], ["for", "F AO R"], ["more", "M AO R"], ["pronunciation", "P R OW N AH N S IY EY SH AH N"], ["evaluation", "IH V AE L Y UW EY SH AH N"],];
+     var grammarIds = [];
+    //  var grammarChoices = "change date";
+     //var choices2 = "word";
+    
+     {{grammarChoices|safe}}
+      // var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"change"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"to"},{from: 5, to:6, word:"reference"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"date"},{from: 8, to:9, word:"of"},{from: 9, to:10, word:"the"},{from: 10, to:11, word:"event"},{from: 0, to:1, word:"delete"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"and"},{from: 5, to:6, word:"leave"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"rest"},{from: 8, to:9, word:"as"},{from: 9, to:10, word:"it"},{from: 10, to:11, word:"is"},{from: 0, to:1, word:"click"},{from: 1, to:2, word:"for"},{from: 2, to:3, word:"more"},{from: 3, to:4, word:"pronunciation"},{from: 4, to:5, word:"evaluation"}]};
 
 
           var grammars = [ {title: "Choices", g: grammarChoices}];
-      var grammarIds = [];
+          //var grammars1 = [ {title:"Second", g:choices2}];
+
+        
+     
+    </script>
+    <script >
+
+// Get the button that opens the modal
+  console.log(choice)
+  var evaluate = document.getElementById("eval");
+  evaluate.onclick = submit;
+
+
+// When the user clicks anywhere outside of the modal, close it
+  
     </script>
     <!-- These are the two JavaScript files you must load in the HTML,
     The recognizer is loaded through a Web Worker -->
@@ -457,7 +483,7 @@ var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, 
      <script src="static/js/recognizer.js"></script>
      <script src="static/js/materialize.min.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    
-<script src="https://use.fontawesome.com/03f8396175.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://use.fontawesome.com/03f8396175.js"></script>
   </body>
 </html>

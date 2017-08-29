@@ -1,20 +1,17 @@
  
             <html> 
                 <body> 
-                <p>**You visit https://tools.wmflabs.org/arowf/answer to check on some
-article to review.
-This is what you see,**
-
+                <p>{{question}}
 
 <div class="container">
 
 
 
  <!--  <p><a href="http://mediawiki.org/wiki/Accuracy_review/docs/answer" target="_blank">Help doc</a> -->
-      <h4 clear=all>Question:</h4 clear=all>
+<!--       <h4 clear=all>Question:</h4 clear=all>
       The article <a target="_blank" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">DJ Felli Fel</a> has the word 'recently' inserted in 2008-01-05. Is it still correctly used? The context is:</br><i>radio DJ for L.A.'s Power 106, record producer, and a recording artist <b>recently</b> signed to So So Def/Island Urban Music. He is also a member of The Heavy</i></br><a target="_blank" style="float:right;" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">https://en.wikipedia.org/wiki/DJ_Felli_Fel</a><iframe src="https://en.wikipedia.org/wiki/DJ_Felli_Fel" style="height: 40%; width: 100%;">[Can not display <a target="_blank" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">https://en.wikipedia.org/wiki/DJ_Felli_Fel</a> inline as an iframe here.]</iframe>
       <h4 clear=all>How would you proceed:</h4 clear=all>
-     <!-- <textarea name=answer style="width: 80%; height: 15%;" required></textarea>
+ -->     <!-- <textarea name=answer style="width: 80%; height: 15%;" required></textarea>
       <br/>
       <h4 clear=all>Optionally add a pertinent web page:</h4 clear=all>
       <input id=iframeurl type=text name=iframeurl placeholder="Optional URL"
@@ -29,12 +26,12 @@ This is what you see,**
 -->
   </div></p>
                 <form action="http://localhost:5000/next"  method = "POST">
-                   <p>Change the word "recently" to reference the date of the event 
-                    <button name="option" id="option1" type = "submit"  value="Step 1">Go</button> 
-                       <p>Delete the word "recently" and leave the rest as it is 
-                    <button name="option" id="option2" type = "submit"  value="End1">Go</button> 
-                       <p>Click for more pronunciation evaluation 
-                    <button name="option" id="option3" type = "submit"  value="PronEval">Go</button> 
+                   <p>{{option1}}
+                    <button name="option" id="option1" type = "submit"  value="{{next1}}">Go</button> 
+                       <p>{{option2}}
+                    <button name="option" id="option2" type = "submit"  value="{{next2}}">Go</button> 
+                       <p>{{option3}}
+                    <button name="option" id="option3" type = "submit"  value="{{next3}}">Go</button> 
                            
             </form>
         
@@ -54,27 +51,27 @@ This is what you see,**
 
 
     <select id="grammars">Select</select>
- 
+
     <span id="recording-indicator" ></span>
     <a style="display: inline;">Press to: Record/Stop </a>
-    <button id="startBtn" style= ><i class="fa fa-microphone" aria-hidden="true" id="icon"></i>
+    <button id="startBtn" class="waves-light btn-floating"  disabled><i class="fa fa-microphone" aria-hidden="true" id="icon"></i>
 </button>
 
 
-    
+
 
 <!--       <audio id="recordedAudio" controls="controls">
       </audio><br/><br/> -->
           <span id="playing-indicator" ></span>
          <h10> <a style="display: inline;">Play </a></h10>
-      <button  id="play" title="Play" ><i class="fa fa-play" aria-hidden="true"></i></button>
-      <a style="display: inline;">Evaluate </a>    
-      <button  id="eval" ><i class="fa fa-question" aria-hidden="true"></i></button>
-      
+      <button  id="play" title="Play" class="waves-light btn-floating"  disabled><i class="fa fa-play" aria-hidden="true"></i></button>
+      <a style="display: inline;">Evaluate </a>
+      <button  id="eval" class="waves-light btn-floating"  disabled><i class="fa fa-question" aria-hidden="true"></i></button>
+
 
 
        <a style="display: inline;"></a>
-      
+
 <!-- The Modal -->
 
 <div class="row"  style="text-align: center;">
@@ -98,13 +95,13 @@ This is what you see,**
 </div>
 </div>
 </div>
-         
+
     <script>
       // These will be initialized later
       var recognizer, recorder, callbackManager, audioContext, outputContainer,rec;
       // Only when both recorder and recognizer do we have a ready application
       var choice="ONE"; //To hold the choice of the user
-
+      var selection;
       var isRecorderReady = isRecognizerReady = false;
       var decode_word = "change the word recently";
       var outputSampleRate = 16000;
@@ -114,7 +111,7 @@ This is what you see,**
       // A convenience function to post a message to the recognizer and associate
       // a callback to its response
       function postRecognizerJob(message, callback) {
-        var msg = message || {}; 
+        var msg = message || {};
         if (callbackManager) msg.callbackId = callbackManager.add(callback);
         if (recognizer) recognizer.postMessage(msg);
       };
@@ -131,16 +128,20 @@ This is what you see,**
       // To display the hypothesis sent by the recognizer
       function updateHyp(hyp) {
         if (outputContainer) outputContainer.innerHTML = hyp;
+        selection = hyp;
 
       };
       // This updates the UI when the app might get ready
       // Only when both recorder and recognizer are ready do we enable the buttons
       function updateUI() {
+
         if (isRecorderReady && isRecognizerReady) startBtn.disabled = false;
+        updateHyp("Ready!");
       };
-      // This is just a logging window where we display the  
+      // This is just a logging window where we display the
       function updateStatus(newStatus) {
-        console.log("String: "+newStatus);
+         updateHyp("Loading...");
+        console.log("Status: "+newStatus);
       };
      // A not-so-great recording indicator
       function displayRecording(display) {
@@ -148,7 +149,7 @@ This is what you see,**
         // else document.getElementById('recording-indicator').innerHTML = "";
       };
 
-      var audioContext = new AudioContext(); 
+      var audioContext = new AudioContext();
       function startUserMedia(stream) {
         var input = audioContext.createMediaStreamSource(stream);
         // Firefox hack https://support.mozilla.org/en-US/questions/984179
@@ -162,7 +163,7 @@ This is what you see,**
         updateUI();
         updateStatus("Audio recorder ready");
       };
-          
+
   var playbackRecorderAudio = function (recorder, context) {
     recorder.getBuffer(function (buffers) {
       var source = context.createBufferSource();
@@ -186,7 +187,7 @@ This is what you see,**
           id.setAttribute("class","fa fa-microphone");
           stopRecording();
 
-                                   
+
           //document.getElementById('startBtn').checked = false;
         }
       }
@@ -198,30 +199,33 @@ This is what you see,**
       };
       // Stops recording
          function stopRecording() {
-
+        var evaluate = document.getElementById("eval");
+        evaluate.disabled = false;
+        play.disabled = false;
         recorder && recorder.stop();
         rec && rec.stop();
         displayRecording(false);
         updateHyp(choice);
-      
+
 
     };
 
     var submit = function(){
-       if(choice=="change the word recently to reference the date of the event")
+      console.log(selection);
+       if(selection=="{{choice1}}")
               {
-                //document.getElementById("option1").click();
-                decode_word = "change the word recently to reference the date of the event"
+                document.getElementById("option1").click();
+                decode_word = "{{choice1}}";
               }
-			else if(choice=="delete the word recently and leave the rest as it is")
+      else if(selection=="{{choice2}}")
               {
-               // document.getElementById("option2").click();
-                decode_word = "delete the word recently and leave the rest as it is"
+                document.getElementById("option2").click();
+                decode_word = "{{choice2}}";
               }
-			else if(choice=="click for more pronunciation evaluation")
+      else if(selection=="{{choice3}}")
               {
-                //document.getElementById("option3").click();
-                decode_word = "click for more pronunciation evaluation"
+                document.getElementById("option3").click();
+                decode_word = "{{choice3}}";
               }
 
     };
@@ -244,13 +248,13 @@ This is what you see,**
       postRecognizerJob({command: 'featex', data: {array: i16, word: decode_word}});
 
     });
-      
 
 
-            
+
+
       //recorder.featex(decode_word);
     }
-      
+
       var playback = function(e){
           playbackRecorderAudio(rec, audioContext);
       }
@@ -261,6 +265,7 @@ This is what you see,**
            isRecognizerReady = true;
            updateUI();
            updateStatus("Recognizer ready");
+           updateHyp("Ready!");
       };
       // We get the grammars defined below and fill in the input select tag
       var updateGrammars = function() {
@@ -283,10 +288,14 @@ This is what you see,**
           grammarIds.unshift({title: g[index].title})
     postRecognizerJob({command: 'addGrammar', data: g[index].g},
                              function(id) {feedGrammar(grammars, index + 1, {id:id});});
-        } else {
+
+         }
+        else {
           recognizerReady();
         }
       };
+
+
       // This adds words to the recognizer. When it calls back, we add grammars
       var feedWords = function(words) {
            postRecognizerJob({command: 'addWords', data: words},
@@ -300,36 +309,36 @@ This is what you see,**
         console.log(i16_buf.length, i16_buf);
 
         //postRecognizerJob({command: 'testprint'});
-        
-        
+
+
         postRecognizerJob({command: 'lookupWord', data: decode_word},
               function(cbdata) {
                 console.log(cbdata);
                 postRecognizerJob({command: 'featex', data: {array: i16_buf, word: decode_word}});
                 //postRecognizerJob({command: 'stopwordalign', data: {'stage': 0}});
               });
-              
-            
+
+
     }
 
     function process_stage_1(hyp_seg) {
       console.log(hyp_seg);
       var framesc = 160;
       for (var n = 1; n < hyp_seg.length - 1; n++) {
-        
+
         // Extract tri-phone sub segment
         var left = hyp_seg[n-1].word;
         var leftn = hyp_seg[n-1].start;
         var target = hyp_seg[n].word;
         var right = hyp_seg[n+1].word;
         var rightn = hyp_seg[n+1].end;
-        
+
         var sil = Array.apply(null, Array(16000)).map(Number.prototype.valueOf,0);
         var subseg = sil.concat(i16_buf.slice(leftn*framesc, rightn*framesc)).concat(sil);
-        
+
       }
     }
-      
+
     function format_audio(inputArray){
       // Convert the float samples to 16-bit integers
         var output = new Int16Array(inputArray.length);
@@ -338,7 +347,7 @@ This is what you see,**
             //output[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
             output[i] = s * 0xFFFF;
         }
-        
+
         // Downsample audio to 16k
         console.log(inSampleRate, outputSampleRate);
         var outputBufferLength = Math.floor(output.length * outputSampleRate / inSampleRate);
@@ -358,13 +367,13 @@ This is what you see,**
           result[indexIn] = bin / num;
           indexIn++;
       }
-        
+
         return result;
     }
       // This initializes the recognizer. When it calls back, we add words
       var initRecognizer = function() {
           // You can pass parameters to the recognizer, such as : {command: 'initialize', data: [["-hmm", "my_model"], ["-fwdflat", "no"]]}
-         
+
           postRecognizerJob({command: 'initialize',// data: [["-hmm", "my_model"], ["-fwdflat", "no"]]}
                              //callbackId: id,
                                 data: [  //["-jsgf", "wyn-align.jsgf"],
@@ -375,7 +384,7 @@ This is what you see,**
                                 ["-bestpath","yes"]
                                                               ]
                              },
-                             
+
                             function(id) {
                                         if (recorder) recorder.consumers = [recognizer];
                                         feedWords(wordList);}
@@ -412,7 +421,7 @@ This is what you see,**
                     }
                   }
                 }
-  
+
                   // This is the case when we have an error
                 if (e.data.hasOwnProperty('status') && (e.data.status == "error")) {
                   updateStatus("Error in " + e.data.command + " with code " + e.data.code);
@@ -440,7 +449,7 @@ This is what you see,**
       var startBtn = document.getElementById('startBtn');
       startBtn.disabled = true;
       startBtn.onclick = check;
- 
+
       play.onclick = playback;
 
       //stopBtn.onclick
@@ -448,23 +457,32 @@ This is what you see,**
 
        // This is the list of words that need to be added to the recognizer
        // This follows the CMU dictionary format
-    var wordList = [["change", "CH EY N JH"], ["the", "DH AH"], ["word", "W ER D"], ["recently", "R IY S AH N T L IY"], ["to", "T UW"], ["reference", "R EH F ER AH N S"], ["date", "D EY T"], ["of", "AH V"], ["event", "IH V EH N T"], ["delete", "D IH L IY T"], ["and", "AH N D"], ["leave", "L IY V"], ["rest", "R EH S T"], ["as", "AE Z"], ["it", "IH T"], ["is", "IH Z"], ["click", "K L IH K"], ["for", "F AO R"], ["more", "M AO R"], ["pronunciation", "P R OW N AH N S IY EY SH AH N"], ["evaluation", "IH V AE L Y UW EY SH AH N"],];
+       {{wordList|safe}}
+    // var wordList = [["change", "CH EY N JH"], ["the", "DH AH"], ["word", "W ER D"], ["recently", "R IY S AH N T L IY"], ["to", "T UW"], ["reference", "R EH F ER AH N S"], ["date", "D EY T"], ["of", "AH V"], ["event", "IH V EH N T"], ["delete", "D IH L IY T"], ["and", "AH N D"], ["leave", "L IY V"], ["rest", "R EH S T"], ["as", "AE Z"], ["it", "IH T"], ["is", "IH Z"], ["click", "K L IH K"], ["for", "F AO R"], ["more", "M AO R"], ["pronunciation", "P R OW N AH N S IY EY SH AH N"], ["evaluation", "IH V AE L Y UW EY SH AH N"],];
+     var grammarIds = [];
+    //  var grammarChoices = "change date";
+     //var choices2 = "word";
 
-var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"change"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"to"},{from: 5, to:6, word:"reference"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"date"},{from: 8, to:9, word:"of"},{from: 9, to:10, word:"the"},{from: 10, to:11, word:"event"},{from: 0, to:1, word:"delete"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"and"},{from: 5, to:6, word:"leave"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"rest"},{from: 8, to:9, word:"as"},{from: 9, to:10, word:"it"},{from: 10, to:11, word:"is"},{from: 0, to:1, word:"click"},{from: 1, to:2, word:"for"},{from: 2, to:3, word:"more"},{from: 3, to:4, word:"pronunciation"},{from: 4, to:5, word:"evaluation"}]};
+     {{grammarChoices|safe}}
+      // var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"change"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"to"},{from: 5, to:6, word:"reference"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"date"},{from: 8, to:9, word:"of"},{from: 9, to:10, word:"the"},{from: 10, to:11, word:"event"},{from: 0, to:1, word:"delete"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"and"},{from: 5, to:6, word:"leave"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"rest"},{from: 8, to:9, word:"as"},{from: 9, to:10, word:"it"},{from: 10, to:11, word:"is"},{from: 0, to:1, word:"click"},{from: 1, to:2, word:"for"},{from: 2, to:3, word:"more"},{from: 3, to:4, word:"pronunciation"},{from: 4, to:5, word:"evaluation"}]};
 
 
           var grammars = [ {title: "Choices", g: grammarChoices}];
-      var grammarIds = [];
+          //var grammars1 = [ {title:"Second", g:choices2}];
+
+
+
     </script>
     <script >
 
 // Get the button that opens the modal
+  console.log(choice)
   var evaluate = document.getElementById("eval");
   evaluate.onclick = submit;
 
 
 // When the user clicks anywhere outside of the modal, close it
-  
+
     </script>
     <!-- These are the two JavaScript files you must load in the HTML,
     The recognizer is loaded through a Web Worker -->

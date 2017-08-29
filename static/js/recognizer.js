@@ -71,6 +71,9 @@ startup(function(event) {
 	    case 'addGrammar':
 			addGrammar(event.data.data, event.data.callbackId);
 		break;
+		case 'addKeyword':
+			addKeyword(event.data.data, event.data.callbackId);
+		break;
 	    case 'lookupWord':
 			lookupWord(event.data.data, event.data.callbackId);
 		break;
@@ -376,6 +379,21 @@ function featex(data) {
 		post({status: "error", command: "process", code: "js-no-recognizer"});
     }
 }
+
+function addKeyword(data, clbId) {
+    var output;
+    if (recognizer) {
+	if (data.length > 0) {
+	    var id_v = new Module.Integers();
+	    output = recognizer.addKeyword(id_v, data);
+	    if (output != Module.ReturnType.SUCCESS) post({status: "error", command: "addKeyword", code: output});
+	    else post({id: clbId, data: id_v.get(0), status: "done", command: "addKeyword"});
+	    id_v.delete();
+	} else post({status: "error", command: "addKeyword", code: "js-data"});
+	
+    } else post({status: "error", command: "addKeyword", code: "js-no-recognizer"});
+};
+
 
 function stopwordalign(data) {
     if (recognizer) {

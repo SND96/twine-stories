@@ -1,5 +1,4 @@
 from re import compile
-from collections import Counter
 
 regexp = compile(r'\(.*\)')
 CMUDICT = {}
@@ -36,6 +35,7 @@ def make_jsgf_file(ccline, fname,num_line):
     message4 = ''
     wordList = []
     choice_num = 0
+    strings = []
     for i in range(num_line):
         state = 0
         sentence = punct.sub('',ccline[i].strip().lower())
@@ -46,7 +46,6 @@ def make_jsgf_file(ccline, fname,num_line):
                 //document.getElementById("option1").click();
                 decode_word = "'''+sentence+'''"
               }\n\t\t\t'''
-
         elif(i == 1):
             message3 += '''else if(choice=="'''+sentence+'''")
               {
@@ -59,6 +58,7 @@ def make_jsgf_file(ccline, fname,num_line):
                 //document.getElementById("option3").click();
                 decode_word = "'''+sentence+'''"
               }'''
+        strings.append(sentence)
         # if(i == 0):
         #     message3 += '''if(choice=="ONE")
         #       {
@@ -103,9 +103,14 @@ def make_jsgf_file(ccline, fname,num_line):
     message2 += ']};\n\n'
     #message1 = """var wordList = [["ONE", "W AH N"], ["TWO", "T UW"], ["THREE", "TH R IY"], ["FOUR", "F AO R"], ["FIVE", "F AY V"], ["SIX", "S IH K S"], ["SEVEN", "S EH V AH N"], ["EIGHT", "EY T"], ["NINE", "N AY N"], ["ZERO", "Z IH R OW"], ["NEW-YORK", "N UW Y AO R K"], ["NEW-YORK-CITY", "N UW Y AO R K S IH T IY"], ["PARIS", "P AE R IH S"] , ["PARIS(2)", "P EH R IH S"], ["SHANGHAI", "SH AE NG HH AY"], ["SAN-FRANCISCO", "S AE N F R AE N S IH S K OW"], ["LONDON", "L AH N D AH N"], ["BERLIN", "B ER L IH N"], ["SUCKS", "S AH K S"], ["ROCKS", "R AA K S"], ["IS", "IH Z"], ["NOT", "N AA T"], ["GOOD", "G IH D"], ["GOOD(2)", "G UH D"], ["GREAT", "G R EY T"], ["WINDOWS", "W IH N D OW Z"], ["LINUX", "L IH N AH K S"], ["UNIX", "Y UW N IH K S"], ["MAC", "M AE K"], ["AND", "AE N D"], ["AND(2)", "AH N D"], ["O", "OW"], ["S", "EH S"], ["X", "EH K S"],["name", "N EY M"],["sil",  "SIL"],["whats",  "W AH T S"],["your","Y UH R"]];"""
     #message2 = """var grammarDigits = {numStates: 1, start: 0, end: 0, transitions: [{from: 0, to: 0, word: "ONE"},{from: 0, to: 0, word: "TWO"},{from: 0, to: 0, word: "THREE"},{from: 0, to: 0, word: "FOUR"},{from: 0, to: 0, word: "FIVE"},{from: 0, to: 0, word: "SIX"},{from: 0, to: 0, word: "SEVEN"},{from: 0, to: 0, word: "EIGHT"},{from: 0, to: 0, word: "NINE"},{from: 0, to: 0, word: "ZERO"}]};"""
-    f.write(message1)
-    f.write(message2)
-    f1.write(message3)
+    # f.write(message1)
+    wordList = []
+    message1 = str(message1)
+    wordList.append(message1)
+    # f.write(message2)
+    wordList.append(message2)
+    # f1.write(message3)
+    return(strings, wordList)
 
 def make_option_files(node):
     with open('AROWF-recently.txt', 'r') as f:
@@ -139,7 +144,6 @@ def make_option_files(node):
             if line[0]!='[':
               continue
 
-            # print("Starting")
             length = len(line)
 
             for i in range (length):
@@ -150,12 +154,14 @@ def make_option_files(node):
                     ccline[num_line]+=line[i]
 
 
-        # print(next_node)
+
             num_line += 1            
                 
-        make_jsgf_file(ccline,fname,num_line)
+        strings, wordList = make_jsgf_file(ccline,fname,num_line)
+        return(strings, wordList)
 
-# make_option_files("Step 1")
+
+
 
 
     

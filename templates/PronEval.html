@@ -1,8 +1,8 @@
  
             <html> 
                 <body> 
-                <p>Choose one of the three options below, or click the record button and say the sentence "We drank tea in the afternoon and watched tv". Click the evaluate button to then find out the intelligibilty score of your speech recording. 
-
+                <p><b>Choose one of the three options below, or click the record button and say the sentence "We drank tea in the afternoon and watched tv". Click the evaluate button to then find out the intelligibilty score of your speech recording. 
+</b>
 </p>
                 <form action="http://localhost:5000/next"  method = "POST">
                    <p>Return to the previous page.
@@ -49,7 +49,7 @@
         <div class="col s10 m10 offset-s1 offset-m1">
           <div class="card brown lighten-4">
             <div class="card-content">
-            <div id="output" style="height:20px;overflow:auto;" >
+            <div id="output" style="height:500px;overflow:auto;" >
             </div>
             </div>
           </div>
@@ -73,7 +73,7 @@
       var choice="ONE"; //To hold the choice of the user
 
       var isRecorderReady = isRecognizerReady = false;
-      var decode_word = "drank";
+      var decode_word = "we drank tea in the afternoon and watched tv";
       var outputSampleRate = 16000;
       var inSampleRate;
       // Intelligibility Score
@@ -218,16 +218,26 @@
 
     function ajax_post(_url, features){
       console.log(features);
+      updateHyp("Calculating Scores...");  
       $.ajax({
         type: 'POST',
         url: _url, 
         //data: '{ "feats": [0.04615384712815285, 0.15078403055667877, 0.9285714030265808, 0.9750000238418579, 0.0615384615957737, 0.1498793512582779, 0.1666666716337204, 0.40625, 0.5384615659713745, 0.1136680319905281, 0.8571428656578064, 0.33125001192092896, 0.04615384712815285, 0.16024932265281677, 0.738095223903656, 0.42500001192092896, 0.07692307978868484, 0.14431020617485046, 0.976190447807312, 0.7562500238418579, 0.24475], "word": "because" }',
          //data: '{ "feats": [0.04615384712815285, 0.14569181203842163,0.13846154510974884, 0.13181662559509277, 0.0923076942563057, 0.14237390458583832], "word":"because" }',
+        //data: '{"feats":[0.04615384712815285,0.14569181203842163,1,0,0.13846154510974884,0.13181662559509277,1,0,0.0923076942563057,0.14237390458583832,1,0,0.07692307978868484,0.14727330207824707,1,0,0.1538461595773697,0.13952766358852386,1,0,0.13846154510974884,0.13386479020118713,1,0,0.04615384712815285,0.1508440524339676,1,0,0.04615384712815285,0.156778484582901,1,0,0.1230769231915474,0.14056876301765442,1,0,0.07692307978868484,0.14457730948925018,1,0,0.0923076942563057,0.14363186061382294,1,0,0.04615384712815285,0.15632499754428864,1,0,0.04615384712815285,0.15007956326007843,1,0,0.3076923191547394,0.12539377808570862,1,0,0.0923076942563057,0.13943779468536377,1,0,0.10769230872392654,0.136068657040596,1,0,0.04615384712815285,0.1427575796842575,1,0,0.1230769231915474,0.13668888807296753,1,0,0.1538461595773697,0.13668888807296753,1,0,0.0923076942563057,0.14655694365501404,1,0,0.0923076942563057,0.1406332105398178,1,0,0.04615384712815285,0.16170373558998108,1,0,0.04615384712815285,0.15724323689937592,1,0,0.0615384615957737,0.15228413045406342,1,0,0.0923076942563057,0.14296232163906097,1,0,0.04615384712815285,0.14053663611412048,1,0,0.04615384712815285,0.14993631839752197,1,0,0.04615384712815285,0.15196092426776886,1,0,0.04615384712815285,0.14402741193771362,1,0,0.0923076942563057,0.13553103804588318,1,0,0.0615384615957737,0.14705514907836914,1,0,0],"word":"we drank tea in the afternoon and watched tv"}',
         data: features,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         success: function(score){
-          console.log(score);
+          console.log(score)
+          console.log(score.pred[0].score);
+          var int_scores = "";
+          for(i = 0; i<9; i++)
+          {
+            int_scores += score.pred[i].word+" : "+score.pred[i].score+" <br>"
+          }      
+          updateHyp(int_scores);  
+            
         }
                         }
         );

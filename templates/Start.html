@@ -1,133 +1,117 @@
  
             <html> 
                 <body> 
-                <p>**You visit https://tools.wmflabs.org/arowf/answer to check on some
-</p>
+                <p><b>{{question}}</b>
+
+<div class="container">
+
+
+
+ <!--  <p><a href="http://mediawiki.org/wiki/Accuracy_review/docs/answer" target="_blank">Help doc</a> -->
+      <h4 clear=all>Question:</h4 clear=all>
+      The article <a target="_blank" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">DJ Felli Fel</a> has the word 'recently' inserted in 2008-01-05. Is it still correctly used? The context is:</br><i>radio DJ for L.A.'s Power 106, record producer, and a recording artist <b>recently</b> signed to So So Def/Island Urban Music. He is also a member of The Heavy</i></br><a target="_blank" style="float:right;" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">https://en.wikipedia.org/wiki/DJ_Felli_Fel</a><iframe src="https://en.wikipedia.org/wiki/DJ_Felli_Fel" style="height: 40%; width: 100%;">[Can not display <a target="_blank" href="https://en.wikipedia.org/wiki/DJ_Felli_Fel">https://en.wikipedia.org/wiki/DJ_Felli_Fel</a> inline as an iframe here.]</iframe>
+      <h4 clear=all>How would you proceed:</h4 clear=all>
+     <!-- <textarea name=answer style="width: 80%; height: 15%;" required></textarea>
+      <br/>
+      <h4 clear=all>Optionally add a pertinent web page:</h4 clear=all>
+      <input id=iframeurl type=text name=iframeurl placeholder="Optional URL"
+             style="width: 70%;" />
+      <input type=button value=Preview onclick="LoadIframe(); return False;" />
+      <button type=submit name=response value=a>Answer</button>
+      <input type=hidden name=record value=000000491 />
+
+  </form>
+  <iframe id=iframeobj name=iframeobj
+          style="display: none; height: 40%; width: 100%;"></iframe>
+-->
+  </div></p>
                 <form action="http://localhost:5000/next"  method = "POST">
-                   <p>Change the word "recently" to reference the date of the event 
-                    <button name="option" id="option1" type = "submit"  value="Step1">Submit</button> 
-                       <p>Delete the word "recently" and leave the rest as it it 
-                    <button name="option" id="option2" type = "submit"  value="End1">Submit</button> 
-                       <p>Delete the claim because it does not have a source 
-                    <button name="option" id="option3" type = "submit"  value="End0">Submit</button> 
+                   <p>{{option1}}
+                    <button name="option" id="option1" type = "submit"  value="{{next1}}">Go</button> 
+                       <p>{{option2}}
+                    <button name="option" id="option2" type = "submit"  value="{{next2}}">Go</button> 
+                       <p>{{option3}}
+                    <button name="option" id="option3" type = "submit"  value="{{next3}}">Go</button> 
                            
             </form>
-        <style>
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: blue; /* Fallback color */
-    background-color: blue; /* Black w/ opacity */
-}
-.modal-content {
-    background-color: yellow;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #333;
-    width: 80%;
-}
-/* The Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-}
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-</style>
+        
 <body>
 <div class="container">
-<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/materialize.min.css')}}"  media="screen,projection"/>
-
+<link type="text/css" rel="stylesheet" href="static/css/materialize.min.css"  media="screen,projection"/>
 <div class="row">
 <div class="pad-top"></div>
 </div>
 <div class="row"  style="text-align: center;">
         <div class="col s12 m12">
-          <div class="card orange lighten-5">
+          <div>
             <div class="card-content">
 <div class="row">
-<div class="col s3 offset-s9">
+<div class="col s1 offset-s9">
 </div>
 
 
-    <!-- <h2></h2> -->
-    <ul>
-
-      <li><p>Click again to stop the recording. Press the play button to replay the recording </p></li>
-    </ul>
     <select id="grammars">Select</select>
-    <audio controls="controls"></audio>
+
     <span id="recording-indicator" ></span>
     <a style="display: inline;">Press to: Record/Stop </a>
-    <button class="waves-light btn-floating" id="startBtn" style= ><i class="fa fa-microphone" aria-hidden="true" id="icon"></i>
+    <button id="startBtn" class="waves-light btn-floating"  disabled><i class="fa fa-microphone" aria-hidden="true" id="icon"></i>
 </button>
 
 
 
+
+<!--       <audio id="recordedAudio" controls="controls">
+      </audio><br/><br/> -->
           <span id="playing-indicator" ></span>
          <h10> <a style="display: inline;">Play </a></h10>
-      <button class="waves-light btn-floating" id="play" title="Play" ><i class="fa fa-play" aria-hidden="true"></i></button>
-      <a style="display: inline;">Evaluate </a>    
-      <button class="waves-light btn-floating" id="eval" ><i class="fa fa-question" aria-hidden="true"></i></button>
-      
+      <button  id="play" title="Play" class="waves-light btn-floating"  disabled><i class="fa fa-play" aria-hidden="true"></i></button>
+      <a style="display: inline;">Evaluate </a>
+      <button  id="eval" class="waves-light btn-floating"  disabled><i class="fa fa-question" aria-hidden="true"></i></button>
 
-          <a style="display: inline;">Say in phrase </a>
-       <button class="waves-light btn-floating"  id="phrase" onclick="window.location='https://docs.google.com/document/d/1gBc-yf4y8OLW7Pky278H_3FOXMHCNCxfvKMHplmimmU/edit#'"" ><i class="fa fa-link" aria-hidden="true" id="icon"></i>
-       </button>
+
+
        <a style="display: inline;"></a>
-      
+
 <!-- The Modal -->
-<div id="myModal" class="modal">
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Output</h2>
-  </div>
-</div>
+
 <div class="row"  style="text-align: center;">
         <div class="col s10 m10 offset-s1 offset-m1">
           <div class="card brown lighten-4">
             <div class="card-content">
-           <span class="card-title">Recognition Output</span>
-            <div id="output" style="height:150px;overflow:auto;" >
+            <div id="output" style="height:20px;overflow:auto;" >
             </div>
             </div>
           </div>
         </div>
     </div>
-    <span class="card-title">Status</span>
-    <div id="current-status">Loading page</div>
 
+    <div id="resultymf"></div>
+    </div>
+          </div>
+        </div>
+    </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-         
+
     <script>
       // These will be initialized later
       var recognizer, recorder, callbackManager, audioContext, outputContainer,rec;
       // Only when both recorder and recognizer do we have a ready application
-      var isRecorderReady = isRecognizerReady = false;
       var choice="ONE"; //To hold the choice of the user
+      var selection;
+      var isRecorderReady = isRecognizerReady = false;
+      var decode_word = "change the word recently";
+      var outputSampleRate = 16000;
+      var inSampleRate;
+
+
       // A convenience function to post a message to the recognizer and associate
       // a callback to its response
       function postRecognizerJob(message, callback) {
-        var msg = message || {}; 
+        var msg = message || {};
         if (callbackManager) msg.callbackId = callbackManager.add(callback);
         if (recognizer) recognizer.postMessage(msg);
       };
@@ -143,24 +127,29 @@
       };
       // To display the hypothesis sent by the recognizer
       function updateHyp(hyp) {
-        if (outputContainer) 
-          {outputContainer.innerHTML = hyp;
-          }
-          choice = hyp;
+        if (outputContainer) outputContainer.innerHTML = hyp;
+        selection = hyp;
+
       };
       // This updates the UI when the app might get ready
       // Only when both recorder and recognizer are ready do we enable the buttons
       function updateUI() {
-        if (isRecorderReady && isRecognizerReady) startBtn.disabled = false;
-      };
-      // This is just a logging window where we display the  
-      function updateStatus(newStatus) {
-        document.getElementById('current-status').innerHTML += "<br/>" + newStatus;
-      };
-      // A not-so-great recording indicator
-     // A not-so-great recording indicator
 
-      var audioContext = new AudioContext(); 
+        if (isRecorderReady && isRecognizerReady) startBtn.disabled = false;
+        updateHyp("Ready!");
+      };
+      // This is just a logging window where we display the
+      function updateStatus(newStatus) {
+         updateHyp("Loading...");
+        console.log("Status: "+newStatus);
+      };
+     // A not-so-great recording indicator
+      function displayRecording(display) {
+        // if (display) document.getElementById('recording-indicator').innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        // else document.getElementById('recording-indicator').innerHTML = "";
+      };
+
+      var audioContext = new AudioContext();
       function startUserMedia(stream) {
         var input = audioContext.createMediaStreamSource(stream);
         // Firefox hack https://support.mozilla.org/en-US/questions/984179
@@ -174,7 +163,7 @@
         updateUI();
         updateStatus("Audio recorder ready");
       };
-          
+
   var playbackRecorderAudio = function (recorder, context) {
     recorder.getBuffer(function (buffers) {
       var source = context.createBufferSource();
@@ -188,7 +177,6 @@
       var check = function(){
         var id = document.getElementById('icon')
         var img = id.getAttribute('class')
-        
         if( img == "fa fa-microphone")
         {
           id.setAttribute("class","fa fa-stop");
@@ -197,20 +185,9 @@
         else
         {
           id.setAttribute("class","fa fa-microphone");
-          if(choice=="change the word recently to reference the date of the event")
-              {
-                document.getElementById("option1").click();
-              }
-elif(choice=="delete the word recently and leave the rest as it it")
-              {
-                document.getElementById("option2").click();
-              }
-elif(choice=="delete the claim because it does not have a source")
-              {
-                document.getElementById("option3").click();
-              }
           stopRecording();
-         
+
+
           //document.getElementById('startBtn').checked = false;
         }
       }
@@ -222,12 +199,62 @@ elif(choice=="delete the claim because it does not have a source")
       };
       // Stops recording
          function stopRecording() {
+        var evaluate = document.getElementById("eval");
+        evaluate.disabled = false;
+        play.disabled = false;
         recorder && recorder.stop();
         rec && rec.stop();
         displayRecording(false);
+        updateHyp(choice);
+
 
     };
-      
+
+    var submit = function(){
+      console.log(selection);
+       if(selection=="{{choice1}}")
+              {
+                document.getElementById("option1").click();
+                decode_word = "{{choice1}}";
+              }
+      else if(selection=="{{choice2}}")
+              {
+                document.getElementById("option2").click();
+                decode_word = "{{choice2}}";
+              }
+      else if(selection=="{{choice3}}")
+              {
+                document.getElementById("option3").click();
+                decode_word = "{{choice3}}";
+              }
+
+    };
+
+    var feat = function(){
+      context = audioContext
+      var aud;
+      var i16_buf;
+      rec.getBuffer(function (buffers) {
+      var source = context.createBufferSource();
+      source.buffer = context.createBuffer(1, buffers[0].length, 44100);
+      source.buffer.getChannelData(0).set(buffers[0]);
+      source.connect(context.destination);
+      buf = source.buffer.getChannelData(0);
+      console.log(buf);
+      var i16 = format_audio(buf);
+      //console.log(i16);
+
+
+      postRecognizerJob({command: 'featex', data: {array: i16, word: decode_word}});
+
+    });
+
+
+
+
+      //recorder.featex(decode_word);
+    }
+
       var playback = function(e){
           playbackRecorderAudio(rec, audioContext);
       }
@@ -238,6 +265,7 @@ elif(choice=="delete the claim because it does not have a source")
            isRecognizerReady = true;
            updateUI();
            updateStatus("Recognizer ready");
+           updateHyp("Ready!");
       };
       // We get the grammars defined below and fill in the input select tag
       var updateGrammars = function() {
@@ -260,19 +288,92 @@ elif(choice=="delete the claim because it does not have a source")
           grammarIds.unshift({title: g[index].title})
     postRecognizerJob({command: 'addGrammar', data: g[index].g},
                              function(id) {feedGrammar(grammars, index + 1, {id:id});});
-        } else {
+
+         }
+        else {
           recognizerReady();
         }
       };
+
+
       // This adds words to the recognizer. When it calls back, we add grammars
       var feedWords = function(words) {
            postRecognizerJob({command: 'addWords', data: words},
                         function() {feedGrammar(grammars, 0);});
       };
+
+      function decode_buffer_align(decode_word, f32_arr) {
+        //var i16_buf = new Int16Array(f32_arr.buffer);
+        i16_buf = format_audio(f32_arr);
+        console.log(f32_arr);
+        console.log(i16_buf.length, i16_buf);
+
+        //postRecognizerJob({command: 'testprint'});
+
+
+        postRecognizerJob({command: 'lookupWord', data: decode_word},
+              function(cbdata) {
+                console.log(cbdata);
+                postRecognizerJob({command: 'featex', data: {array: i16_buf, word: decode_word}});
+                //postRecognizerJob({command: 'stopwordalign', data: {'stage': 0}});
+              });
+
+
+    }
+
+    function process_stage_1(hyp_seg) {
+      console.log(hyp_seg);
+      var framesc = 160;
+      for (var n = 1; n < hyp_seg.length - 1; n++) {
+
+        // Extract tri-phone sub segment
+        var left = hyp_seg[n-1].word;
+        var leftn = hyp_seg[n-1].start;
+        var target = hyp_seg[n].word;
+        var right = hyp_seg[n+1].word;
+        var rightn = hyp_seg[n+1].end;
+
+        var sil = Array.apply(null, Array(16000)).map(Number.prototype.valueOf,0);
+        var subseg = sil.concat(i16_buf.slice(leftn*framesc, rightn*framesc)).concat(sil);
+
+      }
+    }
+
+    function format_audio(inputArray){
+      // Convert the float samples to 16-bit integers
+        var output = new Int16Array(inputArray.length);
+        for (var i = 0; i < inputArray.length; i++){
+            var s = Math.max(-1, Math.min(1, inputArray[i]));
+            //output[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+            output[i] = s * 0xFFFF;
+        }
+
+        // Downsample audio to 16k
+        console.log(inSampleRate, outputSampleRate);
+        var outputBufferLength = Math.floor(output.length * outputSampleRate / inSampleRate);
+        var result = new Int16Array(outputBufferLength);
+        var bin = 0,
+        num = 0,
+        indexIn = 0,
+        indexOut = 0;
+      while(indexIn < outputBufferLength) {
+          bin = 0;
+          num = 0;
+          while(indexOut < Math.min(output.length, (indexIn + 1) * inSampleRate / outputSampleRate)) {
+          bin += output[indexOut];
+          num += 1;
+          indexOut++;
+          }
+          result[indexIn] = bin / num;
+          indexIn++;
+      }
+
+        return result;
+    }
       // This initializes the recognizer. When it calls back, we add words
       var initRecognizer = function() {
           // You can pass parameters to the recognizer, such as : {command: 'initialize', data: [["-hmm", "my_model"], ["-fwdflat", "no"]]}
-         
+
           postRecognizerJob({command: 'initialize',// data: [["-hmm", "my_model"], ["-fwdflat", "no"]]}
                              //callbackId: id,
                                 data: [  //["-jsgf", "wyn-align.jsgf"],
@@ -283,7 +384,7 @@ elif(choice=="delete the claim because it does not have a source")
                                 ["-bestpath","yes"]
                                                               ]
                              },
-                             
+
                             function(id) {
                                         if (recorder) recorder.consumers = [recognizer];
                                         feedWords(wordList);}
@@ -298,6 +399,10 @@ elif(choice=="delete the claim because it does not have a source")
         spawnWorker("static/js/recognizer.js", function(worker) {
             // This is the onmessage function, once the worker is fully loaded
             worker.onmessage = function(e) {
+                if (e.data.hasOwnProperty('feats')) {
+                    console.log("feats", e.data);
+                  }
+
                 // This is the case when we have a callback id to be called
                 if (e.data.hasOwnProperty('id')) {
                   var clb = callbackManager.get(e.data['id']);
@@ -308,44 +413,16 @@ elif(choice=="delete the claim because it does not have a source")
                 // This is a case when the recognizer has a new hypothesis
                 if (e.data.hasOwnProperty('hyp')) {
                   var newHyp = e.data.hyp;
-                  if (e.data.hasOwnProperty('final') &&  e.data.final) newHyp = String(newHyp);
-                  updateHyp(newHyp);
+                  if (e.data.hasOwnProperty('final') &&  e.data.final) newHyp =newHyp;
+                  choice = newHyp;
+                  if(e.data.hasOwnProperty('data')){
+                    if(e.data.data.stage == 0){
+                      process_stage_1(e.data.hypseg);
+                    }
+                  }
                 }
-                if (e.data.hasOwnProperty('stringer')) {
-                  var newStringer = e.data.stringer;
-                  newStringer =  String(newStringer);
-                  if(e.data.hasOwnProperty('final')) 
-                    { var finalString = [];
-                      var i =0;
-                      var word =[];
-                      while(word!=["word"] && i<600)
-                      {
-                        if(String(newStringer[i])==" " || String(newStringer[i])==",")
-                         { word =[];
-                         }
-                        else
-                         { //console.log(word);
-                          word += newStringer[i];
-                        }
-                        i++;
-                      }
-                      finalString = "word";
-                      for(;String(newStringer[i])!="\v";i++)
-                      { if(String(newStringer[i]) == ",")
-                        { finalString += "<br/>";
-                          continue;
-                        }
-                        if(String(newStringer[i])== " ")
-                        {
-                          finalString += "&nbsp;"
-                        }
-                        finalString += newStringer[i];
-                        
-                      }
-                      // document.getElementById('resultymf').innerHTML += "<br/>" + String(finalString) + '\n';
-                }
-                }
-                // This is the case when we have an error
+
+                  // This is the case when we have an error
                 if (e.data.hasOwnProperty('status') && (e.data.status == "error")) {
                   updateStatus("Error in " + e.data.command + " with code " + e.data.code);
                 }
@@ -359,6 +436,8 @@ elif(choice=="delete the claim because it does not have a source")
           navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
           window.URL = window.URL || window.webkitURL;
           audioContext = new AudioContext();
+
+          inSampleRate = audioContext.sampleRate;
         } catch (e) {
           updateStatus("Error initializing Web Audio browser");
         }
@@ -368,10 +447,9 @@ elif(choice=="delete the claim because it does not have a source")
         else updateStatus("No web audio support in this browser");
       // Wiring JavaScript to the UI
       var startBtn = document.getElementById('startBtn');
-      //var stopBtn = document.getElementById('stopBtn');
       startBtn.disabled = true;
       startBtn.onclick = check;
- 
+
       play.onclick = playback;
 
       //stopBtn.onclick
@@ -379,56 +457,43 @@ elif(choice=="delete the claim because it does not have a source")
 
        // This is the list of words that need to be added to the recognizer
        // This follows the CMU dictionary format
+       {{wordList|safe}}
+    // var wordList = [["change", "CH EY N JH"], ["the", "DH AH"], ["word", "W ER D"], ["recently", "R IY S AH N T L IY"], ["to", "T UW"], ["reference", "R EH F ER AH N S"], ["date", "D EY T"], ["of", "AH V"], ["event", "IH V EH N T"], ["delete", "D IH L IY T"], ["and", "AH N D"], ["leave", "L IY V"], ["rest", "R EH S T"], ["as", "AE Z"], ["it", "IH T"], ["is", "IH Z"], ["click", "K L IH K"], ["for", "F AO R"], ["more", "M AO R"], ["pronunciation", "P R OW N AH N S IY EY SH AH N"], ["evaluation", "IH V AE L Y UW EY SH AH N"],];
+     var grammarIds = [];
+    //  var grammarChoices = "change date";
+     //var choices2 = "word";
 
-
-    var wordList = [["change", "CH EY N JH"], ["the", "DH AH"], ["word", "W ER D"], ["recently", "R IY S AH N T L IY"], ["to", "T UW"], ["reference", "R EH F ER AH N S"], ["date", "D EY T"], ["of", "AH V"], ["event", "IH V EH N T"], ["delete", "D IH L IY T"], ["and", "AH N D"], ["leave", "L IY V"], ["rest", "R EH S T"], ["as", "AE Z"], ["it", "IH T"], ["claim", "K L EY M"], ["because", "B IH K AO Z"], ["does", "D AH Z"], ["not", "N AA T"], ["have", "HH AE V"], ["a", "AH"], ["source", "S AO R S"],];
-
-var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"change"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"to"},{from: 5, to:6, word:"reference"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"date"},{from: 8, to:9, word:"of"},{from: 9, to:10, word:"the"},{from: 10, to:11, word:"event"},{from: 0, to:1, word:"delete"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"and"},{from: 5, to:6, word:"leave"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"rest"},{from: 8, to:9, word:"as"},{from: 9, to:10, word:"it"},{from: 10, to:11, word:"it"},{from: 0, to:1, word:"delete"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"claim"},{from: 3, to:4, word:"because"},{from: 4, to:5, word:"it"},{from: 5, to:6, word:"does"},{from: 6, to:7, word:"not"},{from: 7, to:8, word:"have"},{from: 8, to:9, word:"a"},{from: 9, to:10, word:"source"}]};
+     {{grammarChoices|safe}}
+      // var grammarChoices = {numStates: 15, start: 0, end: 14, transitions: [{from: 0, to:1, word:"change"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"to"},{from: 5, to:6, word:"reference"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"date"},{from: 8, to:9, word:"of"},{from: 9, to:10, word:"the"},{from: 10, to:11, word:"event"},{from: 0, to:1, word:"delete"},{from: 1, to:2, word:"the"},{from: 2, to:3, word:"word"},{from: 3, to:4, word:"recently"},{from: 4, to:5, word:"and"},{from: 5, to:6, word:"leave"},{from: 6, to:7, word:"the"},{from: 7, to:8, word:"rest"},{from: 8, to:9, word:"as"},{from: 9, to:10, word:"it"},{from: 10, to:11, word:"is"},{from: 0, to:1, word:"click"},{from: 1, to:2, word:"for"},{from: 2, to:3, word:"more"},{from: 3, to:4, word:"pronunciation"},{from: 4, to:5, word:"evaluation"}]};
 
 
           var grammars = [ {title: "Choices", g: grammarChoices}];
-      var grammarIds = [];
+          //var grammars1 = [ {title:"Second", g:choices2}];
+
+
+
     </script>
     <script >
-            // Get the modal
-  var modal = document.getElementById('myModal');
+
 // Get the button that opens the modal
-  var btn = document.getElementById("eval");
-// Get the <span> element that closes the modal
-  var span = document.getElementsByClassName("close")[0];
-// When the user clicks the button, open the modal 
-  btn.onclick = function() {
-    modal.style.display = "block";
-}
-// When the user clicks on <span> (x), close the modal
-  span.onclick = function() {
-    modal.style.display = "none";
-}
+  console.log(choice)
+  var evaluate = document.getElementById("eval");
+  evaluate.onclick = submit;
+
+
 // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function(event) {
-      if (event.target == modal) {
-          modal.style.display = "none";
-    }
-}
+
     </script>
     <!-- These are the two JavaScript files you must load in the HTML,
     The recognizer is loaded through a Web Worker -->
+<script src="static/js/audioRecorder.js"></script>
+     <script src="static/js/callbackManager.js"></script>
+     <script src="static/js/audioRecorderWorker.js"></script>
+     <script src="static/js/recorder.js"></script>
+     <script src="static/js/recognizer.js"></script>
+     <script src="static/js/materialize.min.js"></script>
 
-    <!-- These are the two JavaScript files you must load in the HTML,
-    // The recognizer is loaded through a Web Worker -->
-     <script src="{{url_for('static', filename='js/audioRecorder.js')}}"></script>
-     <script src="{{url_for('static', filename='js/callbackManager.js')}}"></script>
-     <script src="{{url_for('static', filename='js/audioRecorderWorker.js')}}"></script>
-     <script src="{{url_for('static', filename='js/recorder.js')}}"></script>
-     <script src="{{url_for('static', filename='js/recognizer.js')}}"></script>
-     <script src="{{url_for('static', filename='js/materialize.min.js')}}"></script>
-
-
-     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-
-     <script src="https://use.fontawesome.com/03f8396175.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://use.fontawesome.com/03f8396175.js"></script>
   </body>
 </html>
-
-
-    
